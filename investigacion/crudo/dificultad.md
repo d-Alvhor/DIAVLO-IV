@@ -97,7 +97,8 @@ Reducción de daño % = Valor / (Valor × 10/9 + Constante)
 **Implicaciones prácticas para vuestro nigromante:**
 
 - **No hay un "tope" duro al que llegar y parar.** El término `10/9` crea un techo asintótico del **90% de reducción de daño**: os acercáis pero nunca lo alcanzáis. Cada punto extra vale menos que el anterior.
-- La constante de Resistencias (1136) es **exactamente 1/5** de la de Armadura (5678). Traducción: **necesitáis 5 veces menos Resistencia que Armadura para la misma reducción de daño.** Punto por punto, la Resistencia es 5× más eficiente. Esto es enorme para el min-max: no ignoréis los afijos de resistencia.
+- La constante de Resistencias (1136) es **exactamente 1/5** de la de Armadura (5678). Cita literal de Maxroll: *"we need 1/5th the amount of Resistance to get the same DR%"*. ✅ **Verificado palabra por palabra.**
+- ⚠️ **PERO — matiz crítico que la versión original de este informe se dejó (añadido por el verificador):** ese "5× más eficiente" es **por elemento**, y no significa que debáis priorizar Resistencias sobre Armadura. Maxroll confirma que **las Resistencias están divididas en 6 tipos de daño separados** (Frío/Cold, Fuego/Fire, Rayo/Lightning, Físico/Physical, Veneno/Poison, Sombra/Shadow), cada uno con su propio valor y su propia reducción, mientras que **la Armadura se aplica a los 6 tipos simultáneamente**. O sea: 1136 de Resistencia al Fuego solo os protege del fuego; 5678 de Armadura os protege de todo. Para cubrir los seis elementos hacen falta ~6 inversiones distintas, con lo que la ventaja del 5× se **diluye casi por completo** en la práctica. Maxroll **no recomienda priorizar una sobre otra**: dice textualmente que *"un buen reparto de Resistencias es una parte importante de aumentar vuestra supervivencia"* y aboga por invertir en **ambas capas defensivas de forma equilibrada**. Tratad el "5×" como *"no ignoréis los afijos de resistencia"*, **no** como *"pasad de la armadura"*.
 - El viejo **tope del 70% de resistencias** es de la era *Season of Blood* (parche 1.2) y ya **no aplica**.
 - La **Armadura ahora reduce TODO el daño**, físico y no físico. Antes solo físico.
 - Existe una estadística nueva y dedicada de **Resistencia al Daño Físico** (Physical Damage Resistance).
@@ -148,7 +149,7 @@ El Foso sí escala piso a piso, y con tramos de pendiente distinta:
 
 **Lectura de min-maxer:** el tramo 4–10 es brutalmente empinado (+17,4% daño por piso) — es el muro que os vais a comer justo al desbloquear T1. A partir del piso 11 la pendiente de daño se aplana muchísimo (+4,74%), así que **si superáis Pit 10, los siguientes 20-30 pisos llegan mucho más rápido de lo que esperáis**. Y a partir de 111 el daño casi no sube pero la vida se dispara a +32%: ahí el juego pasa de ser un test de supervivencia a un test de DPS puro.
 
-Cada intento de Foso tiene **cuenta atrás de 10 minutos**: hay que matar suficientes monstruos, invocar al jefe y matarlo dentro del tiempo. Terminar con tiempo sobrante **desbloquea pisos extra de golpe** (no solo el siguiente), lo cual acelera mucho la escalada de Torment.
+Cada intento de Foso tiene **cuenta atrás de 15 minutos** ✅ *(corregido por el verificador: la versión original de este informe decía 10 minutos; la guía del Foso de Maxroll, act. 16 jul 2026, dice literalmente "15-minute timer")*: hay que matar suficientes monstruos, invocar al jefe y matarlo dentro del tiempo. Terminar con tiempo sobrante **desbloquea pisos extra de golpe** (no solo el siguiente), lo cual acelera mucho la escalada de Torment.
 
 ---
 
@@ -194,8 +195,8 @@ Esto es lo que pedíais: criterios medibles, no sensaciones.
 
 | Señal | Umbral concreto |
 |---|---|
-| **Tiempo de run del Foso** | Limpiáis el Pit asociado a vuestro Torment actual **en menos de 3 minutos** (Maxroll dice 3–5 min). |
-| **Tiempo de jefe de piso** | El jefe del Foso muere en **≤ 30 segundos**. |
+| **Tiempo de run del Foso** | Limpiáis el Pit asociado a vuestro Torment actual **en 5 minutos o menos**. ✅ *(corregido: la cita literal de Maxroll es "the clears should last a maximum of 5 minutes to stay efficient". El "menos de 3 minutos" de la versión original NO aparece en Maxroll — procede de mtmmo.com, sitio de boosting.)* |
+| **Tiempo de jefe de piso** | El jefe del Foso muere en **≤ 30 segundos**. ⚠️ *Umbral de fuente secundaria (mtmmo.com), no confirmado en Maxroll ni Icy Veins. Orientativo.* |
 | **Regla maestra de Maxroll** | *"Solo cambiad a Torment superior cuando podáis hacer los pisos del Foso asociados a esa dificultad."* El Foso **es** el test de aptitud, por diseño. |
 | **Salto de potencia** | Acabáis de desbloquear una habilidad clave, os ha caído un legendario/aspecto que cambia la build, o habéis completado un **nodo legendario de Paragón** (60–100% daño). Maxroll: *"usad los saltos de potencia para subir la dificultad"*. Subid inmediatamente. |
 | **Hito de equipo** | Todo el equipo por encima de 850 de poder de objeto / habéis completado un set de Amuletos de Conjunto. |
@@ -205,8 +206,8 @@ Esto es lo que pedíais: criterios medibles, no sensaciones.
 
 | Señal | Umbral concreto |
 |---|---|
-| **Run del Foso** | Las runs se alargan **más de 3 minutos** → NO subáis. |
-| **Jefe de piso** | El jefe tarda **bastante más de 30 segundos** → NO subáis. |
+| **Run del Foso** | Las runs se alargan **más de 5 minutos** → NO subáis. *(umbral de Maxroll, corregido)* |
+| **Jefe de piso** | El jefe tarda **bastante más de 30 segundos** → NO subáis. *(orientativo, fuente secundaria)* |
 | **Muertes** | Morir repetidamente. Cada muerte es tiempo de viaje perdido; en un ARPG el coste real de morir es el *downtime*, no la penalización. |
 | **"Slugfest"** | Icy Veins describe el síntoma del escalón demasiado alto como *"peleas de 5 minutos contra jefes"* sin mejora proporcional en la calidad del equipo. Si un jefe normal os lleva minutos, estáis quemando XP/hora. |
 | **Sensación de goteo** | Maxroll: si el progreso se ralentiza de forma notable, **volver a una dificultad inferior es aceptable y correcto**. No hay orgullo en el escalón. |
@@ -250,7 +251,13 @@ Tres tipos:
 
 Matar al jefe **Caminante del Reino (Realmwalker)** dentro de una ruptura abre la **Cámara del Doblar de Muerte (Deathtoll Chamber)**, una mini-mazmorra de una sala con recompensas mejoradas.
 
-**Relevante para la dificultad:** el parche 3.1.3 **ajustó la dificultad de las Rupturas para jugadores de nivel bajo en dificultad Normal**, y **aumentó la tasa de aparición de monstruos élite en las Rupturas**. Ambos cambios os benefician directamente como principiantes. También aumentó la XP en **Torment 8 y superior**.
+**Relevante para la dificultad:** 🔴 **CORREGIDO POR EL VERIFICADOR.** La versión original atribuía estos cambios al parche **3.1.3**. Es falso: al abrir la URL de Blizzard que el propio informe citaba (`news.blizzard.com/.../24287406`) resulta ser el parche **3.1.0, build 72592, del 30 de junio de 2026** — no el 3.1.3 build 73224 del 12 de agosto. Los cambios reales que dicen esas notas, y su parche correcto, son:
+
+- *(parche **3.1.0**)* "The overall difficulty for Ruptures has been decreased in normal difficulty, so lower-level players can more confidently clear them." → os beneficia como principiantes. ✅
+- *(parche **3.1.0**)* "The spawn rate for elite monsters in Ruptures has been increased." → os beneficia. ✅
+- *(parche **3.1.0**)* "Increased experience rewards in Torment 8 and up" — 🔒 **pero OJO: esta línea está dentro de la sección de actividades de PLANES DE GUERRA (War Plan), que es contenido de *Lord of Hatred*.** No es un aumento global de XP en T8+. **A vosotros, con juego base, NO os aplica.** La versión original lo presentaba como una mejora general; era un error de lectura.
+
+⚠️ **No he podido verificar el contenido del parche 3.1.3 (build 73224, 12 ago 2026) en ninguna fuente primaria**: el índice de noticias de Blizzard y los agregadores (Wowhead, Icy Veins) no me devolvieron el artículo. Todo lo que este informe atribuya específicamente a 3.1.3 debe considerarse **sin confirmar**.
 
 **Modo Solo Self-Found (SSF):** nuevo, exclusivo de temporada. Impide agrupar y comerciar, con alijo y progresión separados y leaderboards dedicados. ⚠️ **Para vuestro caso concreto: SSF es incompatible con jugar en dúo.** Si vuestro objetivo es leaderboard *y* jugar juntos, tenéis que ir por la vía estándar, no SSF.
 
@@ -362,8 +369,8 @@ Reporto todo lo que no he podido cerrar, sin promediar.
 4. **Nivel 70 ≠ Torment.** Quedaos en Penitente farmeando Helltides (y los gusanos/Hellwyrms) hasta tener **40–50 puntos de Paragón** y vuestro primer **nodo legendario**. Esto es lo que separa a quien progresa de quien se atasca.
 5. **Completad el Rango II del Recorrido de Temporada** ("Descenso Infernal") para abrir El Foso.
 6. **Pit 10 → Torment I.** Sustituid todo lo que esté por debajo de 850 de poder de objeto.
-7. **A partir de ahí, el Foso es vuestro termómetro.** Regla única: *si limpiáis el Foso de vuestro Torment en menos de 3 minutos y el jefe cae en menos de 30 segundos, subid. Si no, no.*
-8. **Invertid en Resistencias antes que en Armadura** punto por punto (5× más eficientes), y mirad siempre el **desglose de Dureza por tipo de daño**, nunca el promedio. Vuestro tipo de daño más débil es el que os mata.
+7. **A partir de ahí, el Foso es vuestro termómetro.** Regla única: *si limpiáis el Foso de vuestro Torment en 5 minutos o menos, subid. Si no, no.* (El jefe en ≤30 s es un indicador extra, de fuente secundaria.)
+8. **No descuidéis las Resistencias** — punto por punto son 5× más eficientes que la Armadura — **pero no las prioricéis por encima de la Armadura.** ⚠️ *(corregido por el verificador, ver §2.2bis)*: las Resistencias están **divididas en 6 elementos** (Frío, Fuego, Rayo, Físico, Veneno, Sombra) y cada una solo mitiga su propio tipo de daño, mientras que la **Armadura reduce los 6 a la vez**. Cubrir los 6 elementos cuesta ~6 inversiones separadas, así que la ventaja de "5×" se diluye casi por completo en la práctica. Maxroll recomienda literalmente **un buen reparto de ambas**, no priorizar una. Y mirad siempre el **desglose de Dureza por tipo de daño**, nunca el promedio: vuestro tipo de daño más débil es el que os mata.
 9. **Compensad la falta de Mercenarios** con defensas propias y con el hecho de ser dos. Agrupaos siempre (+10% XP) y usad hogueras (+15%).
 10. **Recordad:** de T7 a T8 solo ganáis un **+10% relativo de XP**. Los Torment altos se persiguen por **botín**, no por experiencia. No os matéis por subir escalones que no os rinden.
 

@@ -1,6 +1,6 @@
 # Diseño — Guía y agente de Diablo IV para nigromante
 
-**Fecha:** 2026-08-18 · **Revisión:** v2 (tras revisión adversarial de Sol/GPT-5.2)
+**Fecha:** 2026-08-18 · **Revisión:** v3 (tras dos rondas de revisión adversarial de Sol/GPT-5.2)
 **Estado:** propuesto
 
 ## 1. Problema
@@ -50,8 +50,8 @@ DIAVLO-IV/
 ├─ contenido/
 │   ├─ nucleo/      00-empezar · 01-ajustes-pc · 02-ajustes-ps5
 │   │               03-como-funciona · 04-duo-cross-play · 05-glosario
-│   ├─ version/     10-dificultad · 11-itemizacion · 12-paragon
-│   │               13-builds · 14-endgame · 15-muro-expansion · 16-minmax
+│   ├─ version/     10-dificultad · 11-nigromante · 12-leveling · 13-itemizacion
+│   │               14-paragon · 15-builds · 16-endgame · 17-muro · 18-minmax
 │   ├─ temporada/   20-s14-mecanica · 21-s14-ruta · 22-s14-cierre
 │   └─ archivo/
 ├─ construir.mjs    # markdown -> index.html
@@ -72,7 +72,7 @@ Cada `.md` empieza con:
 titulo: Dificultades y cuándo subir
 capa: version
 parche: "3.1.3"
-temporada: 14
+temporada: 14          # número | todas   <- gobierna la caducidad, no la carpeta
 estado: vivo          # vivo | ptr | caducado | archivado
 entitlement: base     # base | voh | loh  (mínimo requerido)
 verificado: 2026-08-18
@@ -80,9 +80,43 @@ revisar_despues: 2026-10-01
 ---
 ```
 
-`validar.mjs` rechaza cualquier fichero sin frontmatter completo o con `revisar_despues`
-vencido sin que nadie lo haya renovado. **La guía caduca sola y lo dice**, en vez de mentir
-en silencio.
+**`temporada` manda sobre la carpeta.** Las dimensiones parche y temporada son combinables,
+no excluyentes: una build del parche 3.1.3 puede depender además de la mecánica de la S14.
+Vivir en `version/` no la hace sobrevivir a la S15. Cualquier fichero con `temporada: 14`
+caduca con la S14 **esté donde esté**; `temporada: todas` es lo único neutral.
+
+**Manifiesto de publicación** en `manifiesto.json`:
+
+```json
+{ "parche_actual": "3.1.3", "temporada_actual": 14 }
+```
+
+El generador publica sólo contenido compatible con el manifiesto. Si no hay cobertura para la
+temporada actual, escribe **"sin cobertura vigente"**; **nunca** rescata en silencio la
+temporada anterior haciéndola pasar por actual.
+
+**Matriz de enlaces** (la valida la build):
+
+| Desde | No puede enlazar a |
+|---|---|
+| `nucleo/` | `temporada/` |
+| Contenido vivo | `archivo/` |
+| Contenido con `temporada: todas` | Cualquier temporada concreta |
+| Navegación y buscador vivos | Contenido en estado `ptr` o `archivado` |
+
+Los enlaces a "la temporada actual" apuntan a un **alias lógico estable**, nunca a `s14-*`.
+
+### 3.1.1 Caducidad: dos comportamientos distintos
+
+Aquí la v2 se contradecía. Son dos cosas separadas y ambas hacen falta:
+
+- **En publicación:** `validar.mjs` **falla** si se intenta publicar un fichero con
+  `revisar_despues` vencido. No se publica contenido caduco.
+- **En pantalla:** el HTML ya publicado compara `revisar_despues` con el **reloj del
+  navegador** y muestra el aviso de caducidad por sí solo. La guía envejece en manos del
+  lector y lo confiesa sin que nadie la regenere.
+
+El reloj es inyectable para poder probar ambos comportamientos.
 
 ### 3.2 Evidencia: qué significa "verificado"
 
@@ -98,8 +132,17 @@ consecuente lleva un nivel de evidencia visible:
 | **En disputa** | Las fuentes se contradicen. Se muestran **ambas versiones**. |
 | **Sin confirmar** | No se pudo fechar ni contrastar. Se marca; no se presenta como hecho. |
 
-**Prohibición explícita:** ninguna afirmación numérica puede publicarse en nivel
-"sin confirmar" sin llevar el aviso visible al lado. Nada de números huérfanos.
+**Para que esto sea lintable y no prosa piadosa**, el nivel de evidencia es un bloque del
+dialecto, no una convención de redacción:
+
+```markdown
+::: evidencia nivel=corroborado fuentes=maxroll-necro-s14,icyveins-necro-s14
+El glifo X alcanza su umbral relevante a nivel 46.
+:::
+```
+
+Así el validador puede comprobar de verdad que el número tiene detrás el nivel declarado y las
+fuentes que dice tener. **Ninguna cifra consecuente puede vivir fuera de un bloque `evidencia`.**
 
 **La refutación se conserva.** El verificador adversarial **no edita** el informe original:
 escribe `investigacion/refutacion/<dominio>.md`. Cuando dos agentes discrepan, el desacuerdo
@@ -119,6 +162,26 @@ al siguiente:
 
 **Nada de listas de objetos sin ruta de adquisición.**
 
+Igual que la evidencia, la build es un **bloque estructurado** con su entitlement declarado,
+para que el validador pueda auditarla sin adivinar dónde empieza y acaba:
+
+```markdown
+::: build nombre="Esbirros" estado=arranque entitlement=base evidencia=corroborado
+...
+:::
+```
+
+### 3.3.1 Invariante de la ruta base-only
+
+Más importante para este jugador que cualquier etiqueta de capítulo:
+
+> **Todo paso obligatorio del recorrido "Haz esto ahora" debe apuntar a contenido, objeto y
+> actividad con `entitlement: base`. Lo bloqueado sólo puede aparecer como alternativa
+> opcional y marcada como tal.**
+
+Etiquetar honestamente cada paso no impide mandar al jugador por cinco pasos que no puede
+hacer. El invariante sí. Lo valida la build recorriendo la ruta entera.
+
 ### 3.4 Sesgos de investigación prohibidos
 
 El propio spec v1 introdujo preguntas que presuponían su respuesta ("las 3 builds viables",
@@ -134,8 +197,10 @@ Si la realidad es decepcionante, se publica decepcionante.
 
 El objetivo declarado es min-max de nivel leaderboard. **Sin expansiones eso puede ser
 literalmente inalcanzable**, y el capítulo de min-max debe abrir diciéndolo si la
-investigación lo confirma. Lo que sí se promete y se puede medir: **el tier de Pit más alto
-alcanzable con juego base**, con la build, el equipo y el parche declarados.
+investigación lo confirma. Y como no se prueba nada en el juego, **el lenguaje no puede fingir que sí**: se dice
+"el mayor tier de Pit **documentado** con juego base por fuentes fechadas", no "el techo real";
+"horas **reportadas**", no "coste real en horas"; "techo **estimado**", no "techo real".
+Queda prohibido en toda la guía el vocabulario de medición propia.
 
 ## 4. El generador (`construir.mjs`)
 
@@ -143,13 +208,20 @@ Node puro, **cero dependencias de runtime**. La objeción de Sol —un parser ca
 markdown es un riesgo— se acepta y se neutraliza con sus propias tres condiciones:
 
 1. **Dialecto cerrado.** Sólo: encabezados, párrafos, listas, tablas, énfasis, código,
-   enlaces, citas al pie y bloques de aviso. Nada más.
+   enlaces, citas al pie, bloques de aviso y los bloques estructurados `::: evidencia :::`
+   y `::: build :::`. Nada más.
 2. **Sintaxis desconocida = build rota.** No se renderiza "como se pueda": falla y lo dice.
-3. **Escapado por defecto y fixtures hostiles.** Todo texto se escapa antes de insertarse.
-   **HTML crudo en el markdown está prohibido**, no sanitizado: prohibido. Hay fixtures con
-   `<script>`, `javascript:`, `onerror=` y URLs malformadas, y la build falla si alguno se
-   cuela. El contenido lo redacta un agente desde texto copiado de internet y se publica en
-   una URL pública: tratarlo como no confiable no es paranoia, es lo correcto.
+3. **Escapado por defecto, HTML crudo siempre fatal, y protocolos en lista blanca.**
+   Todo texto se escapa antes de insertarse. **HTML crudo está prohibido**, no sanitizado:
+   encontrarlo **falla la build siempre** — nunca "falla o escapa", que era la ambigüedad de
+   la v2. Y escapar texto **no** neutraliza `[pincha aquí](javascript:...)`: el destino de
+   todo enlace se valida contra una lista blanca de protocolos (`https:`, `http:`, anclas `#`
+   y rutas relativas); cualquier otro rompe la build. Los fixtures hostiles son
+   **contextuales** —el payload dentro de un enlace, de una tabla, de un atributo, de una cita—
+   no cadenas sueltas buscadas en la salida.
+
+   El contenido lo redacta un agente a partir de texto copiado de internet y se publica en una
+   URL pública. Tratarlo como no confiable no es paranoia: es la única postura defendible.
 
 **Salida:** un solo `index.html`, CSS y JS inline, sin CDN ni fuentes externas.
 
@@ -192,9 +264,15 @@ Es el modo de uso real: el móvil al lado del teclado, buscando a mitad de parti
 6. **Gate** — `node validar.mjs`. Si falla, **no hay build, no hay commit, no hay publicación**.
 7. **Publicación** — build, commit y `push` explícito. Commit local no es publicar.
 
-**Fail-closed.** Si 3 de 13 investigaciones fallan, el agente lo dice y no publica los
-capítulos afectados; no rellena el hueco con lo que había antes fingiendo que está vigente.
-**Reanudable:** una ejecución interrumpida se retoma sin repetir lo ya hecho.
+**Fail-closed, sin umbrales arbitrarios.** La v2 decía tres cosas incompatibles. La regla es
+una: **cada dominio se declara de antemano obligatorio u opcional**. Si falla **cualquier
+dominio obligatorio**, se aborta la ejecución entera — sin build, sin commit, sin push, sin
+publicación parcial. Nada de "3 de 13". Y jamás se rellena un hueco con el contenido anterior
+fingiendo que sigue vigente: eso es exactamente el fallo del ecosistema que este proyecto
+existe para no cometer.
+
+**Sobre la reanudación:** sería cómodo retomar una ejecución interrumpida, pero **no se promete**
+porque no se va a probar. Queda como aspiración declarada, no como garantía.
 
 **Sobre la periodicidad:** una skill local sólo actúa cuando se la invoca. No se promete
 detección automática de cambios. Lo que sí hace la guía es **declarar su propia caducidad**
@@ -211,12 +289,14 @@ detección automática de cambios. Lo que sí hace la guía es **declarar su pro
 | núcleo | 04 | Dúo y cross-play | Battle.net, invitaciones, campaña desincronizada, loot, reparto de roles. |
 | núcleo | 05 | Glosario ES↔EN | Tabla buscable. Alimenta el buscador bidireccional. |
 | versión | 10 | Dificultad | Tiers reales, a cuál jugar en cada franja, la señal de "ya puedo subir". |
-| versión | 11 | Itemización | Afijos mayores, Mythic 3.0, temple, maestría. En qué orden gastar materiales. |
-| versión | 12 | Paragon y glifos | Tableros en orden, glifos por build, breakpoints. |
-| versión | 13 | Builds | Tier list + las viables sin expansión, en tres presupuestos cada una. |
-| versión | 14 | Endgame | Pit, Hordas, jefes. Tabla "qué actividad según lo que necesites". |
-| versión | 15 | Muro de expansión | Qué se degrada sin VoH, dónde, y si compensa comprarla. |
-| versión | 16 | Min-max | Techo real de Pit con juego base. Breakpoints, topes, rotaciones. |
+| versión | 11 | **Nigromante de cero** | Esencia, cadáveres, esbirros, Libro de los Muertos. Cómo funciona la clase. |
+| versión | 12 | **Subida 1 → 60** | Personaje estacional vs Eterno, campaña o salto, **orden exacto de habilidades**, cuándo cambiar de dificultad, cómo mantener sincronizado al dúo, y el enganche exacto con la build de arranque. |
+| versión | 13 | Itemización | Afijos mayores, Mythic 3.0, temple, maestría. En qué orden gastar materiales. |
+| versión | 14 | Paragon y glifos | Tableros en orden, glifos por build, breakpoints. |
+| versión | 15 | Builds | Tier list + las viables sin expansión, en tres presupuestos cada una. |
+| versión | 16 | Endgame | Pit, Hordas, jefes. Tabla "qué actividad según lo que necesites". |
+| versión | 17 | Muro de expansión | Qué se degrada sin VoH, dónde, y si compensa comprarla. |
+| versión | 18 | Min-max | Mayor tier de Pit documentado con juego base. Breakpoints, topes, rotaciones. |
 | temporada | 20 | Mecánica S14 | Pandemonium Ruptures, journey, pase, Corrupted Reaper. |
 | temporada | 21 | Ruta S14 | Qué hacer y en qué orden esta temporada. |
 | temporada | 22 | Cierre de temporada | Qué merece la pena en las semanas que quedan, qué sobrevive al pasar a Eterno. |
@@ -239,24 +319,33 @@ El glosario lo indexa en ambos sentidos.
 
 ## 8. Criterios de aceptación (ejecutables)
 
-Todos son comprobaciones que corren en `validar.mjs` o a mano de forma inequívoca.
+Todos corren en `validar.mjs` o son comprobaciones manuales inequívocas. Ninguno admite
+interpretación: o pasa o rompe la build.
 
 | # | Gate | Cómo se comprueba |
 |---|---|---|
 | 1 | Build determinista | Dos builds seguidas ⇒ ficheros idénticos byte a byte. |
 | 2 | Sintaxis desconocida rompe la build | Fixture con sintaxis no soportada ⇒ salida distinta de cero. |
-| 3 | Sin XSS | Fixtures con `<script>`, `javascript:`, `onerror=` ⇒ build falla o escapa; comprobado en la salida. |
-| 4 | Frontmatter completo | Todo `.md` con los 8 campos válidos, si no falla. |
-| 5 | Invariante de capas | Ningún enlace de `nucleo/` apunta a `temporada/`. |
-| 6 | Citas resolubles | Toda cita al pie resuelve a una URL presente en `investigacion/`. |
-| 7 | Sin anclas rotas | Todo enlace interno apunta a un ancla existente. |
-| 8 | Entitlement declarado | Todo capítulo y toda build llevan `base`/`voh`/`loh`. |
-| 9 | Sin números huérfanos | Ninguna cifra en nivel "sin confirmar" sin aviso visible al lado. |
-| 10 | Caducidad visible | Capítulo con `revisar_despues` vencido ⇒ aviso en pantalla. |
-| 11 | Offline por `file://` | Se abre el fichero local con la red cortada: sin errores de consola ni peticiones salientes. |
-| 12 | Búsqueda con tildes y bidireccional | "critico"→"crítico" y "esbirros"→"minions" devuelven resultados con capítulo y ancla. |
-| 13 | Móvil sin scroll horizontal | 360 px de ancho: el `body` no desborda. |
-| 14 | `/d4-recon` es fail-closed | Con una investigación forzada a fallar, no se produce commit ni publicación. |
+| 3 | HTML crudo **siempre** fatal | Fixture con `<script>` en cualquier contexto ⇒ build falla. Nunca escapa y continúa. |
+| 4 | Protocolos en lista blanca | `[x](javascript:...)`, `data:`, `vbscript:` ⇒ build falla. Sólo `https:`, `http:`, `#`, rutas relativas. |
+| 5 | Payloads contextuales | Payload dentro de enlace, tabla, cita y bloque estructurado ⇒ ninguno alcanza la salida ejecutable. |
+| 6 | Frontmatter completo y válido | Todo `.md` con los 8 campos; `temporada` es número o `todas`. |
+| 7 | Matriz de enlaces | Se comprueban las 4 reglas de §3.1, no sólo núcleo↛temporada. |
+| 8 | Sin contaminación del buscador | Ningún documento `ptr` o `archivado` aparece en el índice de búsqueda vivo. |
+| 9 | Citas ligadas a su afirmación | Toda `fuentes=` de un bloque `evidencia` resuelve a una fuente registrada en `investigacion/`, y el recuento cumple el mínimo del nivel declarado (`corroborado` ⇒ ≥2 independientes). |
+| 10 | Sin anclas rotas | Todo enlace interno apunta a un ancla existente. |
+| 11 | Entitlement estructurado | Todo bloque `build` y todo capítulo declaran `base`/`voh`/`loh`. |
+| 12 | **Ruta base-only íntegra** | Se recorre "Haz esto ahora" entera: ningún paso obligatorio toca contenido, objeto o actividad con entitlement ≠ `base`. |
+| 13 | Sin cifras huérfanas | Ninguna cifra consecuente fuera de un bloque `evidencia`; las de nivel `sin confirmar` llevan aviso renderizado. |
+| 14 | Caducidad, dos comportamientos | (a) Publicar con `revisar_despues` vencido ⇒ falla. (b) Con reloj inyectado al futuro, el HTML publicado muestra el aviso. |
+| 15 | Offline por `file://` | Se abre el fichero local con la red cortada: cero errores de consola y cero peticiones salientes. |
+| 16 | Búsqueda: tildes, bidireccional y rápida | "critico"→"crítico", "esbirros"→"minions", con capítulo y ancla, y la función de búsqueda responde en **< 100 ms** sobre la guía real. |
+| 17 | Móvil sin scroll horizontal | 360 px de ancho: el `body` no desborda. |
+| 18 | `/d4-recon` fail-closed de verdad | En repo temporal con `push` simulado: con un dominio **obligatorio** forzado a fallar, `HEAD` queda inalterado y hay cero intentos de publicación. |
+| 19 | **Ensayo de relevo de temporada** | Se mueve la S14 a `archivo/`, se regenera y se comprueba: cero resultados de S14 en la búsqueda viva, cero enlaces rotos, cero documentos `temporada: 14` fuera del archivo. |
+
+**El gate 19 es el que decide si el diseño de capas funciona o es decorativo.** Se ejecuta antes
+de dar el proyecto por bueno, no cuando llegue la Season 15 y ya sea tarde.
 
 ## 9. Riesgos
 
