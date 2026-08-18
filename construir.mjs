@@ -94,7 +94,51 @@ const ETIQ = {
 }
 const ENT_ETIQ = { base: ['\u2705', 'Juego base'], voh: ['\uD83D\uDD12', 'Vessel of Hatred'], loh: ['\uD83D\uDD12', 'Lord of Hatred'] }
 
-function render(cuerpo, rel, meta) {
+
+// ---------------------------------------------------------------- diagramas
+// SVG generado aqui, no escrito en el markdown: asi el dialecto sigue cerrado
+// y el contenido nunca puede inyectar marcado.
+const CLUSTERS = [
+  { n: 'Basicas',       es: 'Básicas',       hab: 'Segar',                 p: [1, 5, 9, 14, 30] },
+  { n: 'Fundamentales', es: 'Fundamentales', hab: 'Mago Esquelético',      p: [3, 6, 10, 15, 32] },
+  { n: 'Cadaver',       es: 'Cadáver',       hab: 'Guerrero Esquelético',  p: [4, 7, 11, 16, 34] },
+  { n: 'Macabras',      es: 'Macabras',      hab: 'Gólem',                 p: [8, 12, 17, 20, 36] },
+  { n: 'Maldiciones',   es: 'Maldiciones',   hab: 'Doncella de Hierro',    p: [13, 18, 21, 23, 38] },
+  { n: 'Definitivas',   es: 'Definitivas',   hab: 'Ejército de los Muertos', p: [19, 22, 24, 25, 40] },
+]
+
+function diagramaArbol() {
+  const L = 176, R = 24, T = 46, F = 42, W = 940, H = T + CLUSTERS.length * F + 46
+  const x = (n) => L + ((n - 1) / 39) * (W - L - R)
+  let g = ''
+  for (const n of [1, 5, 10, 15, 20, 25, 30, 35, 40]) {
+    g += `<line x1="${x(n).toFixed(1)}" y1="${T - 14}" x2="${x(n).toFixed(1)}" y2="${T + CLUSTERS.length * F - 18}" class="dg-r"/>` +
+         `<text x="${x(n).toFixed(1)}" y="${T - 20}" class="dg-n">${n}</text>`
+  }
+  CLUSTERS.forEach((c, i) => {
+    const y = T + i * F
+    g += `<text x="0" y="${y + 1}" class="dg-c">${esc(c.es)}</text>` +
+         `<text x="0" y="${y + 14}" class="dg-h">${esc(c.hab)}</text>` +
+         `<line x1="${x(c.p[0]).toFixed(1)}" y1="${y}" x2="${x(c.p[4]).toFixed(1)}" y2="${y}" class="dg-l"/>`
+    c.p.forEach((n, j) => {
+      const bloq = j === 4
+      g += `<circle cx="${x(n).toFixed(1)}" cy="${y}" r="${j === 0 ? 7 : 5}" class="dg-p${j === 0 ? ' dg-p1' : ''}${bloq ? ' dg-pb' : ''}"/>` +
+           `<text x="${x(n).toFixed(1)}" y="${y - 11}" class="dg-v">${n}</text>`
+    })
+  })
+  return `<figure class="dg"><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Arbol de habilidades del nigromante por nivel de personaje">` +
+    `<style>.dg-r{stroke:currentColor;opacity:.13}.dg-l{stroke:currentColor;opacity:.28;stroke-width:2}` +
+    `.dg-p{fill:var(--pa)}.dg-p1{fill:var(--pa);stroke:var(--bg);stroke-width:2}.dg-pb{fill:var(--mut);opacity:.5}` +
+    `.dg-c{font:600 14px ui-sans-serif,system-ui,sans-serif;fill:currentColor}` +
+    `.dg-h{font:11px ui-sans-serif,system-ui,sans-serif;fill:currentColor;opacity:.6}` +
+    `.dg-v{font:10px ui-sans-serif,system-ui,sans-serif;fill:currentColor;opacity:.75;text-anchor:middle}` +
+    `.dg-n{font:600 11px ui-sans-serif,system-ui,sans-serif;fill:currentColor;opacity:.45;text-anchor:middle}</style>` +
+    g + `</svg><figcaption>Cada fila es un clúster. El punto grande es cuando aparece la habilidad; los tres siguientes, sus mejoras; el gris del final es la tercera variante, que requiere expansión. Busca tu nivel arriba y baja la vista.</figcaption></figure>`
+}
+
+const DIAGRAMAS = { arbol: diagramaArbol }
+
+function render(cuerpo, rel, meta, enBloque = false) {
   const lineas = cuerpo.split('\n')
   const out = []; const indice = []; const busca = []
   let i = 0, cifrasFuera = 0
@@ -113,8 +157,10 @@ function render(cuerpo, rel, meta) {
       while (i < lineas.length && lineas[i].trim() !== ':::') buf.push(lineas[i++])
       if (i >= lineas.length) { fallo(rel, ln, `bloque ::: ${tipo} sin cerrar`); break }
       i++
-      const dentro = buf.map((x) => inline(x, rel, ln)).filter(Boolean).join('<br>')
-      busca.push(plano(buf.join(' ')))
+      const sub = render(buf.join('\n'), rel, meta, true)
+      const dentro = sub.html
+      indice.push(...sub.indice)
+      busca.push(sub.texto)
 
       if (tipo === 'evidencia') {
         const nivel = at.nivel || 'sinconfirmar'
@@ -123,9 +169,12 @@ function render(cuerpo, rel, meta) {
         if (!fs.length && nivel !== 'sinconfirmar') fallo(rel, ln, `bloque evidencia nivel=${nivel} sin fuentes=`)
         if (nivel === 'corroborado' && fs.length < 2) fallo(rel, ln, 'nivel=corroborado exige 2 o mas fuentes')
         const [et, tit] = ETIQ[nivel] || ETIQ.sinconfirmar
-        out.push(`<div class="ev ev-${esc(nivel)}"><div class="ev-h"><span class="ev-b" title="${esc(tit)}">${esc(et)}</span>` +
-          (fs.length ? `<span class="ev-f">${fs.map(esc).join(' \u00b7 ')}</span>` : '') +
-          `</div><div class="ev-c">${dentro}</div></div>`)
+        const marca = `<span class="fu" tabindex="0" role="button" title="${esc(tit)}${fs.length ? ' \u2014 ' + esc(fs.join(', ')) : ''}">${esc(et)}</span>`
+        if (nivel === 'disputa' || nivel === 'sinconfirmar') {
+          out.push(`<div class="ev ev-${esc(nivel)}"><div class="ev-h">${marca}</div><div class="ev-c">${dentro}</div></div>`)
+        } else {
+          out.push(`<div class="ok ok-${esc(nivel)}">${dentro}${marca}</div>`)
+        }
       } else if (tipo === 'build') {
         const ent = at.entitlement || 'base'
         if (!ENTS.includes(ent)) fallo(rel, ln, `entitlement invalido en build: ${ent}`)
@@ -144,6 +193,10 @@ function render(cuerpo, rel, meta) {
         out.push(`<div class="ps${obl ? '' : ' ps-opt'}"><div class="ps-n">${esc(at.n || '\u00b7')}</div>` +
           `<div class="ps-c">${dentro}${obl ? '' : ' <span class="ps-o">opcional</span>'}` +
           (ent === 'base' ? '' : ` <span class="ent">${ic} ${esc(tt)}</span>`) + '</div></div>')
+      } else if (tipo === 'diagrama') {
+        const d = DIAGRAMAS[at.nombre]
+        if (!d) fallo(rel, ln, `diagrama desconocido: ${at.nombre}`)
+        else out.push(d())
       } else if (tipo === 'aviso') {
         const t = ['peligro', 'ojo', 'truco'].includes(at.tipo) ? at.tipo : 'ojo'
         out.push(`<div class="av av-${esc(t)}">${dentro}</div>`)
@@ -209,7 +262,7 @@ function render(cuerpo, rel, meta) {
     // ("50% de sus espinas", "275% de daño", "60%[x]"). Esas no pueden ir sueltas.
     // Limitación asumida y declarada: un entero pelado en prosa SÍ pasa el gate.
     const desnudo = parrafo.replace(/`[^`]*`/g, '').replace(/\[[^\]]*\]\([^)]*\)/g, '')
-    cifrasFuera += (desnudo.match(/\d+(?:[.,]\d+)?\s*%|\d+\s*\[?x\]?(?![\w])/gi) || []).length
+    if (!enBloque) cifrasFuera += (desnudo.match(/\d+(?:[.,]\d+)?\s*%|\d+\s*\[?x\]?(?![\w])/gi) || []).length
     busca.push(plano(parrafo))
     out.push(`<p>${inline(parrafo, rel, ln)}</p>`)
   }
@@ -333,15 +386,18 @@ tr:last-child td{border-bottom:0}
 code{background:var(--sur2);padding:.1rem .3rem;border-radius:3px;font:.85em ui-monospace,Menlo,monospace}
 pre{background:var(--sur2);padding:.8rem;border-radius:7px;overflow-x:auto;border:1px solid var(--bd)}
 pre code{background:none;padding:0}
-.ev{margin:1rem 0;border-left:3px solid var(--bd);background:var(--sur);border-radius:0 7px 7px 0;padding:.6rem .85rem}
-.ev-h{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;margin-bottom:.3rem;font-family:ui-sans-serif,system-ui,sans-serif}
-.ev-b{font-size:.63rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;padding:.12rem .45rem;border-radius:3px;background:var(--sur2)}
-.ev-f{font:.66rem ui-monospace,monospace;color:var(--mut)}
-.ev-oficial{border-left-color:var(--ok)}.ev-oficial .ev-b{color:var(--ok)}
-.ev-corroborado{border-left-color:var(--az)}.ev-corroborado .ev-b{color:var(--az)}
-.ev-unica{border-left-color:var(--am)}.ev-unica .ev-b{color:var(--am)}
-.ev-disputa{border-left-color:var(--na)}.ev-disputa .ev-b{color:var(--na)}
-.ev-sinconfirmar{border-left-color:var(--pa)}.ev-sinconfirmar .ev-b{color:var(--pa)}
+.ok{margin:0}
+.ok>p:first-child{margin-top:0}
+.fu{display:inline-block;vertical-align:super;font:600 .58rem/1 ui-sans-serif,system-ui,sans-serif;text-transform:uppercase;letter-spacing:.06em;padding:.14rem .3rem;margin-left:.25rem;border-radius:3px;border:1px solid var(--bd);color:var(--mut);cursor:help;white-space:nowrap;opacity:.55}
+.fu:hover,.fu:focus{opacity:1;border-color:currentColor}
+.ok-oficial .fu{color:var(--ok)}
+.ok-corroborado .fu{color:var(--az)}
+.ok-unica .fu{color:var(--am)}
+.ev{margin:1.1rem 0;border-left:3px solid var(--na);background:var(--sur);border-radius:0 7px 7px 0;padding:.6rem .85rem}
+.ev-h{margin-bottom:.3rem}
+.ev .fu{opacity:1;vertical-align:baseline;margin-left:0;font-size:.63rem;padding:.16rem .45rem}
+.ev-disputa{border-left-color:var(--na)}.ev-disputa .fu{color:var(--na);border-color:var(--na)}
+.ev-sinconfirmar{border-left-color:var(--pa)}.ev-sinconfirmar .fu{color:var(--pa);border-color:var(--pa)}
 .bd{margin:1.1rem 0;border:1px solid var(--bd);border-radius:8px;overflow:hidden}
 .bd-h{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;padding:.5rem .8rem;background:var(--sur2);border-bottom:1px solid var(--bd);font-family:ui-sans-serif,system-ui,sans-serif}
 .bd-n{font-weight:700;color:var(--pa)}
@@ -353,6 +409,9 @@ pre code{background:none;padding:0}
 .ps-opt .ps-n{background:var(--sur2);color:var(--mut);border:1px solid var(--bd)}
 .ps-c{padding-top:.1rem}
 .ps-o{font-size:.66rem;color:var(--mut);border:1px solid var(--bd);border-radius:3px;padding:.05rem .35rem}
+.dg{margin:1.4rem 0;padding:0;overflow-x:auto}
+.dg svg{width:100%;min-width:620px;height:auto;color:var(--fg)}
+.dg figcaption{font:.78rem/1.5 ui-sans-serif,system-ui,sans-serif;color:var(--mut);margin-top:.5rem}
 .av{margin:1rem 0;padding:.65rem .85rem;border-radius:7px;border-left:3px solid var(--mut);background:var(--sur)}
 .av-peligro{border-left-color:var(--pa)}
 .av-truco{border-left-color:var(--ok)}

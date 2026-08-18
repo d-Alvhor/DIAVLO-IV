@@ -45,16 +45,31 @@ El salto solo existe si ya completasteis esa campaña en la cuenta. Vosotros no:
 Se afirma que el estado del mundo y el progreso de campaña en grupo son los del **líder de la partida**: el que no lidera no avanzaría su propia campaña. No está atribuido a fuente fechada. Comprobadlo en el diario del que no lleva el grupo; mientras tanto, id siempre en la misma misión y turnaos de líder.
 :::
 
-## La escalera va por NIVEL, no por puntos
+## Cómo funciona el árbol de habilidades
 
-Esto es lo que rompe casi todas las guías.
+Antes de nada, el vocabulario. La pantalla del árbol tiene tres niveles de zoom y las guías los mezclan sin explicarlos:
 
-::: evidencia nivel=corroborado fuentes=datos-juego-3-1-0,maxroll-skill-trees,icyveins-necro-skills
-El campo de requisito del árbol se llama literalmente `requiredLevel` (2.409 apariciones en el fichero de datos del juego, versión 3.1.0.72698). Campos de «puntos gastados»: **cero**. Los seis clústeres del Nigromante abren a nivel **1 · 3 · 4 · 8 · 13 · 19**. La tabla de Maxroll coincide dígito a dígito y los encabezados de Icy Veins dan los mismos números.
+- **Clúster.** Un grupo de habilidades del mismo tipo. El nigromante tiene **seis**: Básicas, Fundamentales, Cadáver, Macabras, Maldiciones y Definitivas. Se abren de uno en uno según subes de nivel.
+- **Habilidad.** Lo que pones en la barra y pulsas. Cada una admite **15 rangos**: cada punto extra la hace un poco más fuerte.
+- **Mejoras y variantes.** Colgando de cada habilidad hay cuatro nodos que se abren más tarde: dos parejas de **modificadores** (eliges uno de cada pareja) y luego las **variantes**, que la transforman. Las dos primeras variantes son tuyas ✅; **la tercera requiere expansión** 🔒.
+
+Y lo que rompe casi todas las guías que vas a encontrar:
+
+**Todo eso se abre por tu NIVEL de personaje, no por cuántos puntos hayas gastado.**
+
+::: diagrama nombre=arbol
 :::
 
+Busca tu nivel en la fila de arriba y baja la vista: eso es lo que tienes disponible ahora mismo.
+
+### Lo que se lee de ahí
+
+Los seis clústeres aparecen en los niveles **1 · 3 · 4 · 8 · 13 · 19**. Tus tres esbirros llegan pronto y en este orden: **Mago Esquelético** al 3, **Guerrero Esquelético** al 4, **Gólem** al 8. Las **Maldiciones** al 13, y el **Ejército de los Muertos** al 19.
+
+**A partir del nivel 40 el árbol ya no abre nada más.** Los cincuenta niveles restantes son solo puntos para repartir en lo que ya tienes.
+
 ::: evidencia nivel=corroborado fuentes=datos-juego-3-1-0,maxroll-skill-trees,icyveins-necro-skills
-Escalera completa de desbloqueos, por nivel de personaje:
+El campo de requisito del árbol se llama literalmente `requiredLevel` en el fichero de datos del juego (versión 3.1.0.72698): 2.409 apariciones, y cero campos de «puntos gastados». Escalera completa por nivel:
 
 | Clúster | Habilidad | Modif. A | Modif. B | Variantes 1 y 2 ✅ | 3.ª variante 🔒 |
 |---|---:|---:|---:|---:|---:|
@@ -65,13 +80,19 @@ Escalera completa de desbloqueos, por nivel de personaje:
 | Maldiciones (*Curse*) | 13 | 18 | 21 | 23 | 38 |
 | Definitivas (*Ultimate*) | 19 | 22 | 24 | 25 | 40 |
 
-**Mago Esquelético** (*Skeleton Mage*) vive en Fundamentales, nivel 3; **Guerrero Esquelético** (*Skeleton Warrior*) en Cadáver, nivel 4; **Gólem** en Macabras, nivel 8. Cada habilidad activa tiene **15 rangos**. Las pasivas ya no están en el árbol y la Pasiva Clave (*Key Passive*) fue eliminada. La última columna es 🔒 *Lord of Hatred*: **a partir de nivel 40 el árbol ya no os abre nada más**.
+Las pasivas ya no están en el árbol y la Pasiva Clave (*Key Passive*) fue eliminada; ese poder se movió a aspectos legendarios y únicos.
 :::
 
-Los esbirros ya no se invocan desde el Libro de los Muertos, sino desde el árbol. Y como el gate es el nivel, **guardar puntos sin gastar no os retrasa nada**: podéis subir varios niveles sin tocar el árbol y los clústeres se abren igual.
+::: aviso tipo=truco
+**Consecuencia práctica que te ahorra disgustos: guardar puntos sin gastar no te retrasa nada.** Puedes subir tres niveles sin tocar el árbol y los clústeres se abren igual. Si no tienes claro dónde meter un punto, no lo metas.
 
-::: evidencia nivel=corroborado fuentes=datos-juego-3-1-0,game8-2024,maxroll-necro-overview
-Detector de guía muerta: si dice nivel máximo **60**, **71** puntos totales, **5 rangos** por habilidad, Pasiva Clave, mejoras *Enhanced / Paranormal / Supernatural*, o «el Gólem se desbloquea a nivel **25** con una misión», es texto de 2023-2024. La fecha de la página no acredita nada: hay una guía de primera línea con sello de julio de 2026 que sigue diciendo 5 rangos.
+Y hay **respec gratis**: reembolsar puntos y recolocarlos no cuesta nada mientras subes. No hay ninguna decisión irreversible en esta pantalla.
+:::
+
+::: aviso tipo=peligro
+**Detector de guía muerta.** Si una guía dice nivel máximo **60**, **71 puntos** totales, **5 rangos** por habilidad, menciona la **Pasiva Clave**, habla de mejoras *Enhanced / Paranormal / Supernatural*, o dice que el Gólem se desbloquea a **nivel 25 con una misión** — es texto de 2023 o 2024. Ciérrala.
+
+La fecha de la página no acredita nada: hay una guía de primera línea con sello de julio de 2026 que sigue diciendo 5 rangos.
 :::
 
 ## El orden de gasto de puntos
