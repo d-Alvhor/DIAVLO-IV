@@ -1,6 +1,6 @@
 # Diseño — Guía y agente de Diablo IV para nigromante
 
-**Fecha:** 2026-08-18 · **Revisión:** v3 (tras dos rondas de revisión adversarial de Sol/GPT-5.2)
+**Fecha:** 2026-08-18 · **Revisión:** v4 (tras tres rondas de revisión adversarial de Sol/GPT-5.2)
 **Estado:** propuesto
 
 ## 1. Problema
@@ -40,9 +40,12 @@ gobierna todo lo demás.
 | `archivo/` | Ya caducó | Temporadas pasadas, conservadas y marcadas como históricas |
 
 **Invariante de capas:** `nucleo/` **no puede enlazar** a `temporada/`. Lo valida el
-generador y falla la build si se incumple. Consecuencia práctica: cuando llegue la Season 15,
-archivar la S14 es mover una carpeta, no reescribir la guía. Sin esta regla, el proyecto
-nace caducado.
+generador y falla la build si se incumple. Consecuencia práctica: cuando llegue la Season 15, el relevo es una operación mecánica y
+acotada en vez de una reescritura. **Pero no es "mover una carpeta"** —eso era una simplificación
+falsa de la v3, y contradecía al propio spec—: el relevo consiste en actualizar el manifiesto,
+mover `temporada/` a `archivo/`, y **marcar `estado: archivado` en todo documento con
+`temporada: 14` viva donde viva, incluidos los que están en `version/`**. Un capítulo de builds
+puede estar atado al parche *y* a la mecánica estacional a la vez; la carpeta no lo salva.
 
 ```
 DIAVLO-IV/
@@ -71,7 +74,7 @@ Cada `.md` empieza con:
 ---
 titulo: Dificultades y cuándo subir
 capa: version
-parche: "3.1.3"
+parche: "3.1.3"       # versión | todas   <- `todas` sobrevive a 3.1.3→3.1.4
 temporada: 14          # número | todas   <- gobierna la caducidad, no la carpeta
 estado: vivo          # vivo | ptr | caducado | archivado
 entitlement: base     # base | voh | loh  (mínimo requerido)
@@ -79,6 +82,10 @@ verificado: 2026-08-18
 revisar_despues: 2026-10-01
 ---
 ```
+
+**Ambos campos son ámbitos, no etiquetas.** `parche: todas` significa que el contenido
+sobrevive a un cambio de versión (3.1.3 → 3.1.4 no debe tumbar `nucleo/`); un número concreto
+significa que caduca al cambiar. Igual con `temporada`.
 
 **`temporada` manda sobre la carpeta.** Las dimensiones parche y temporada son combinables,
 no excluyentes: una build del parche 3.1.3 puede depender además de la mecánica de la S14.
@@ -144,6 +151,13 @@ El glifo X alcanza su umbral relevante a nivel 46.
 Así el validador puede comprobar de verdad que el número tiene detrás el nivel declarado y las
 fuentes que dice tener. **Ninguna cifra consecuente puede vivir fuera de un bloque `evidencia`.**
 
+**Registro de fuentes.** Para que el gate 9 pueda resolver de verdad una cita, las fuentes no
+pueden ser prosa: viven en `investigacion/fuentes.json`, una por entrada, con
+`id` · `url` · `tipo` (`oficial` | `secundaria`) · `grupo` (marca de independencia: dos fuentes
+del mismo grupo **no** cuentan como corroboración) · `fecha` · `parche`. El campo `grupo` es lo
+que impide que cinco wikis copiándose entre sí pasen por "corroborado". No es un registro de
+afirmaciones: es una tabla de fuentes.
+
 **La refutación se conserva.** El verificador adversarial **no edita** el informe original:
 escribe `investigacion/refutacion/<dominio>.md`. Cuando dos agentes discrepan, el desacuerdo
 es el dato más valioso que hay; borrarlo es destruir evidencia.
@@ -158,7 +172,7 @@ al siguiente:
 |---|---|---|
 | **Arranque** | Nivel 60 recién hecho, sin únicos, aspectos del códice | Con qué se juega mientras cae lo bueno |
 | **Intermedia** | Aspectos clave y algún único conseguidos | Qué objeto concreto desbloquea el salto y **dónde se farmea** |
-| **Aspiracional** | Equipo optimizado | Coste real en horas y si es alcanzable sin expansión |
+| **Aspiracional** | Equipo optimizado | **Horas reportadas** por fuentes fechadas y si es alcanzable sin expansión |
 
 **Nada de listas de objetos sin ruta de adquisición.**
 
@@ -180,7 +194,21 @@ Más importante para este jugador que cualquier etiqueta de capítulo:
 > opcional y marcada como tal.**
 
 Etiquetar honestamente cada paso no impide mandar al jugador por cinco pasos que no puede
-hacer. El invariante sí. Lo valida la build recorriendo la ruta entera.
+hacer. El invariante sí. Y para poder recorrerlo, **el recorrido es sintaxis, no prosa**:
+
+```markdown
+::: paso n=7 obligatorio=si entitlement=base
+Coge la línea estacional en Kyovashad.
+:::
+```
+
+Sin `::: paso :::` el validador no puede distinguir un paso obligatorio de una sugerencia, y el
+gate sería decorativo.
+
+**Y sobre las cifras (gate 13):** "cifra consecuente" no es lintable. La regla ejecutable es la
+contraria y es dura: **toda cifra del cuerpo que viva fuera de un bloque `evidencia` rompe la
+build**, salvo una lista cerrada de excepciones declaradas en la configuración (números de
+capítulo, versiones de parche, fechas, y los números dentro de bloques de código).
 
 ### 3.4 Sesgos de investigación prohibidos
 
@@ -209,7 +237,7 @@ markdown es un riesgo— se acepta y se neutraliza con sus propias tres condicio
 
 1. **Dialecto cerrado.** Sólo: encabezados, párrafos, listas, tablas, énfasis, código,
    enlaces, citas al pie, bloques de aviso y los bloques estructurados `::: evidencia :::`
-   y `::: build :::`. Nada más.
+   `::: build :::` y `::: paso :::`. Nada más.
 2. **Sintaxis desconocida = build rota.** No se renderiza "como se pueda": falla y lo dice.
 3. **Escapado por defecto, HTML crudo siempre fatal, y protocolos en lista blanca.**
    Todo texto se escapa antes de insertarse. **HTML crudo está prohibido**, no sanitizado:
@@ -342,7 +370,7 @@ interpretación: o pasa o rompe la build.
 | 16 | Búsqueda: tildes, bidireccional y rápida | "critico"→"crítico", "esbirros"→"minions", con capítulo y ancla, y la función de búsqueda responde en **< 100 ms** sobre la guía real. |
 | 17 | Móvil sin scroll horizontal | 360 px de ancho: el `body` no desborda. |
 | 18 | `/d4-recon` fail-closed de verdad | En repo temporal con `push` simulado: con un dominio **obligatorio** forzado a fallar, `HEAD` queda inalterado y hay cero intentos de publicación. |
-| 19 | **Ensayo de relevo de temporada** | Se mueve la S14 a `archivo/`, se regenera y se comprueba: cero resultados de S14 en la búsqueda viva, cero enlaces rotos, cero documentos `temporada: 14` fuera del archivo. |
+| 19 | **Ensayo de relevo de temporada** | Se actualiza el manifiesto a S15, se marca `archivado` todo `temporada: 14` **esté en la carpeta que esté**, se regenera y se comprueba: cero resultados de S14 en la búsqueda viva, cero enlaces rotos, y ningún documento `temporada: 14` sirviéndose como vigente. |
 
 **El gate 19 es el que decide si el diseño de capas funciona o es decorativo.** Se ejecuta antes
 de dar el proyecto por bueno, no cuando llegue la Season 15 y ya sea tarde.

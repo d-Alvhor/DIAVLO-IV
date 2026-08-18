@@ -13,11 +13,13 @@
 
 ## 0. TL;DR brutal para vosotros dos
 
-1. **La mala noticia gorda:** el **Cubo Horadrim (Horadric Cube)** —que es DONDE vive todo el crafteo determinista de la Season 14, incluida la receta "Upgrade to Mythic"— **🔒 requiere expansión** (Maxroll dice *Lord of Hatred*; otras webs dicen *Vessel of Hatred*; en cualquier caso vosotros no la tenéis). Sin él **no podéis craftear Mythics con Fragmentos de Pandemónium, ni Add/Remove Affix, ni Focused/Chaotic Reroll, ni Transfiguración, ni prismas de sintonización**. Esto es *el* techo de vuestro min-max esta temporada y hay que asumirlo desde el minuto uno.
+1. **La mala noticia gorda:** el **Cubo Horadrim (Horadric Cube)** —que es DONDE vive todo el crafteo determinista de la Season 14, incluida la receta "Upgrade to Mythic"— **🔒 requiere expansión** (**Lord of Hatred**: verificado en DOS fuentes primarias independientes — Maxroll *Horadric Cube* y la *Horadric Cube Overview* de Icy Veins para S14; solo webs de reventa lo atribuyen a *Vessel of Hatred*. En cualquier caso vosotros no la tenéis). Sin él **no podéis craftear Mythics con Fragmentos de Pandemónium, ni Add/Remove Affix, ni Focused/Chaotic Reroll, ni Transfiguración, ni prismas de sintonización**. Esto es *el* techo de vuestro min-max esta temporada y hay que asumirlo desde el minuto uno.
 2. **La buena noticia:** **todo el núcleo del sistema de items sigue siendo juego base ✅**: rarezas, Ancestral, Greater Affixes, Codex of Power/aspectos, Tempering, Masterworking, Enchanting en el Ocultista, gemas, y las dos vías de Mythic que sí os quedan (drop natural + caché del Herrero con Resplendent Sparks).
 3. **Ojo, dato que corregir de partida:** el Masterworking **ya NO va de "golpes críticos en 4/8/12"**. Ese sistema es de temporadas viejas. Ahora es **Calidad (Quality) 0→25**, +1% por rango a todo, y **un único Capstone Bonus al llegar a 25** que da +50% a un afijo aleatorio. Si leéis una guía que hable de crits en 4/8/12, está caducada.
 4. **Tempering también cambió:** ahora se añade **1 afijo temperado**, no 2.
-5. **Regla de 3 segundos:** ¿Es **Ancestral**? → ¿Cuántos **Greater Affixes** tiene y son de **mis** stats? → si la respuesta es "0 útiles", **desguazar** (salvage), no vender.
+5. **CORRECCIÓN GRANDE (verificador): SÍ podéis pasaros items.** Maxroll *Multiplayer* (act. 26 jun 2026, "Updated for S14") lista como **comerciables**: comunes, mágicos, raros, oro, gemas, elixires, **Legendarios y Uniques**. Y como **NO comerciables**: **Mythic Uniques**, **items encantados (Enchanted)**, **items masterworkeados**, el resto de monedas y objetos de misión. Traducción: si a uno le cae un Unique/Legendario que le sirve al otro, **pasádselo ANTES de tocarlo en el Ocultista o en el Masterworking**, porque el primer clic de Enchant o de Calidad lo deja pegado a esa cuenta para siempre.
+6. **El modo Solo Self-Found (SSF) queda descartado para vosotros, confirmado.** Icy Veins (guía de temporada S14): *"This mode makes players entirely reliant on themselves by disabling features such as Trading and Grouping"*. No es solo que aísle la economía: **desactiva el grupo**. Si jugáis en dúo, SSF es incompatible. Tiene **leaderboards separados** y existe en Normal y en Hardcore.
+7. **Regla de 3 segundos:** ¿Es **Ancestral**? → ¿Cuántos **Greater Affixes** tiene y son de **mis** stats? → si la respuesta es "0 útiles", **desguazar** (salvage), no vender.
 
 ---
 
@@ -53,11 +55,11 @@ Son la moneda real del min-max. Todo lo demás es multiplicador de esto.
 
 - **Qué son:** la versión máxima de un afijo. Un Greater Affix (GA) rolea **la tirada máxima del stat × 1.5** (es decir, máximo + 50%). No hay término medio: un GA no puede rolear "bajo".
 - **Dónde aparecen:** solo en **Legendarios Ancestrales y Uniques**, y solo a partir de **Torment 1**. Cada item Ancestral trae **como mínimo 1 GA**.
-- **Cuántos caben:** ⚠️ contradicción entre fuentes. Icy Veins dice **hasta 4 en cualquier Ancestral Legendario o Unique**. Game8/Fextralife dicen **hasta 3 en Legendario Ancestral y hasta 4 en Unique**. Ver sección de contradicciones.
+- **Cuántos caben:** ⚠️ contradicción entre fuentes. Icy Veins dice **hasta 4 en cualquier Ancestral Legendario o Unique**. Game8/Fextralife dicen **hasta 3 en Legendario Ancestral y hasta 4 en Unique**. **Evidencia indirecta a favor del 4 (verificador):** la guía de Tempering de Maxroll dice que las cargas suben "una por cada Greater Affix, **máximo 4 Greater Affixes**" — es decir, el propio sistema de temple asume un techo de 4. No he encontrado ninguna fuente primaria que confirme el matiz 3-en-Legendario/4-en-Unique. Ver sección de contradicciones.
 - **No se pueden fabricar.** Solo salen de drops o del **Purveyor of Curiosities** (mercader de rarezas, ✅ juego base). **No puedes convertir un afijo normal en GA con el Ocultista.**
 - **REGLA DE ORO:** si haces **Enchant a un Greater Affix, lo destruyes** — se convierte en afijo normal. Nunca toques un GA en el Ocultista.
 - **Efecto secundario crítico:** cada GA en el item **te da +1 carga de Tempering** (ver §4). Un item con 4 GA es además un item muchísimo más craftable.
-- ⚠️ **Contradicción numérica:** la guía de "Item Crafting" de Maxroll describe el bonus del GA como **+25%**, mientras que Icy Veins, Game8 y Fextralife lo describen como **×1.5 / +50%**. Lo reporto sin promediar. La lectura mayoritaria y la histórica es **×1.5**.
+- ⚠️ **Contradicción numérica (re-verificada, sigue en pie):** la guía de "Item Crafting" de Maxroll dice **literalmente**: *"This bonus is separate from the **+25%** gained from an affix being a Greater Affix, meaning both the Capstone and Greater Affix bonuses stack"*. Icy Veins, Game8 y Fextralife lo describen como **×1.5 / +50%**. Lo reporto sin promediar. La lectura mayoritaria y la histórica es **×1.5**; Maxroll es la única que dice +25% y lo dice de forma inequívoca. **No lo resuelvo.**
 
 ---
 
@@ -122,7 +124,7 @@ Guía de Icy Veins actualizada explícitamente **para Season 14**.
 
 - **Calidad (Quality) de 0 a 25.**
 - **Cada rango de Calidad = +1%** a Daño base, Armadura, Resistencias **y a TODOS los afijos del item**. Al llegar a 25 → **+25% a todo**.
-- **Cada "upgrade" te da hasta 5 rangos de Calidad de golpe** (o sea, no son 25 clics).
+- **Cada "upgrade" te da entre 2 y 5 rangos de Calidad, aleatorio** (Icy Veins, guía de Masterworking S14: *"a random amount between 2 and 5"*). O sea: ni son 25 clics ni el número de clics es fijo — de media salen ~7 upgrades para llegar a 25.
 - **Capstone Bonus:** al completar el rango 25, se aplica **un bonus final de +50% a UN afijo aleatorio**.
   - **Puede caer en un afijo de Tempering.**
   - **Se acumula (stack) con el bonus de Greater Affix.** Un GA que además recibe el Capstone es el jackpot.
@@ -144,6 +146,8 @@ Guía de Icy Veins actualizada explícitamente **para Season 14**.
 | Arma 2 manos | 200 Obducita + 10 M oro |
 | Item **Ancestral** | 200 Obducita + **1 Neathiron** + 10 M oro |
 | Ancestral 2 manos | 400 Obducita + **2 Neathiron** + 10 M oro |
+
+> ⚠️ **Contradicción NUEVA que el informe original no recogía (la encuentra el verificador):** la guía de Masterworking de **Icy Veins (S14)** da para el re-roll del Capstone **1.000 Obducita + 1.000.000 de oro + 1 Neathiron**, es decir 5× más Obducita y 10× menos oro que Maxroll. Las dos son guías vivas de S14. **No lo resuelvo: comprobadlo en el yunque antes de pulsar.**
 
 **De dónde sale la Obducita (ranking de eficiencia según Maxroll), marcado por expansión:**
 
@@ -214,14 +218,21 @@ Estructura de afijos: **2 afijos garantizados** (los que definen la identidad de
 - Quitada la posibilidad (bug) de aplicar el modificador Mythic a **Unique Charms y Seals** en el Cubo.
 - Los desarrolladores avisaron de que en **Season 15** el Cubo **quitará el re-roll de Mythics** y meterá un sistema de upgrade que **conserva el Unique original**.
 
-**Parches 3.1.2 (28 jul) y 3.1.3 (12 ago, build 73224):** solo bugfixes; nada de itemización estructural. 3.1.3 arregla, entre otras cosas, que **las habilidades de Sombra del Nigromante tapaban visualmente al Corrupted Reaper** y que Petrify deformaba las alas del jefe.
+**Parches 3.1.2 (28 jul) y 3.1.3 (12 ago, build 73224):** **verificado — solo bugfixes, cero cambios de itemización.** El contenido completo de 3.1.3 (build #73224, 12 ago 2026, todas las plataformas) es:
+- Objetivo de temporada: *"Set Fire to the Beacons"* ya cuenta las **Nightmare Dungeons de Escalación con el afijo Ruptures**.
+- **Nigromante:** arreglado que las habilidades de **Sombra** tapaban visualmente al Corrupted Reaper.
+- **Druida:** arreglado que **Petrify** (habilidad de Druida, **no** de Nigromante — el informe original lo dejaba ambiguo) deformaba las alas del Corrupted Reaper.
+- **Brujo (Warlock):** arreglada la transparencia de la variante Chain Aura de Dark Prison en multijugador.
+- **War Plans:** arreglado el teleport a Infernal Hordes en dificultades pre-Torment.
+- **Eco de Mefisto:** quien se une a un encuentro ya empezado puede usar un portal para llegar a la fase 3.
+- **Corrupted Reaper:** al reinvocarlo se limpia el cadáver del anterior.
 
 ### 7.3 Cómo se consiguen Mythics AHORA — y cuáles podéis usar vosotros
 
 | Vía | Coste | ¿Juego base? |
 |---|---|---|
 | **Drop natural** (cualquier Unique Ancestral puede salir Mythic) | — | ✅ Sí |
-| **Corrupted Reaper** (lair boss de S14) — mejores odds | llaves de guarida | ✅ Sí |
+| **Corrupted Reaper** (lair boss de S14, en **Zarbinzet**, requiere **Torment 1+**) — mejores odds | **Betrayer's Husk** para invocarlo (salen de las **Deathtoll Chambers**) + **2 Superior Lair Keys** para abrir su **Hoard**, que es lo que suelta el Mythic | ✅ Sí |
 | **Belial** y otros jefes en Torment 1+ | materiales de invocación | ✅ Sí |
 | **Season Journey / rangos de temporada** (cachés de Mythic) | jugar | ✅ Sí |
 | **Herrero (Blacksmith): caché de Iconic Mythic aleatorio** | **2 Resplendent Sparks + 50.000.000 oro** | ✅ Sí |
@@ -233,7 +244,7 @@ Estructura de afijos: **2 afijos garantizados** (los que definen la identidad de
 ### 7.4 Resplendent Sparks — el recurso a no malgastar ✅
 
 - **De dónde salen (juego base):** el **Season Journey**. Página 6 → 1 Spark. Página 8 → 1 Spark + 1 Mythic. Página 9 → **3 Sparks + 1 Mythic**, pero exige matar a **Mefisto en Torment 12 y Lilith en Torment 12**.
-- Total del track: ⚠️ una fuente dice **hasta 7 Sparks + 5 cachés de Mythic Unique**; otra dice **hasta 14 Sparks por temporada**. Contradicción sin resolver.
+- Total del track: ⚠️ el informe original recogía "7 Sparks + 5 cachés" vs "14 Sparks". **El verificador añade una tercera fuente que apoya el 7:** ConquestCapped (guía de crafteo de Mythics, S14) dice *"the Season 14 rank track hands out up to 7 Sparks as you clear its objectives"*. **Trabajad con 7 como número realista**; el 14 no lo respalda ninguna fuente primaria. Ojo también al matiz: ConquestCapped lo atribuye al **track de rango de temporada**, no al *Season Journey* — puede ser la misma cosa con dos nombres, no lo he podido separar.
 - **Consejo explícito de Icy Veins:** **no gastéis Sparks a lo loco**. Con el sistema nuevo, una vez tienes el Mythic que tu build necesita, los Sparks sobrantes valen poco.
 - **Regla práctica:** guardad los Sparks hasta que tengáis claro el build. Y **abrid siempre las cachés de Mythic con vuestro personaje principal**, porque **el item se genera para la clase que abre la caché**.
 
@@ -257,7 +268,9 @@ Estos son la capa superior. En S14 **todos han sido reworkeados** y varios han r
 | 12 | Ahavarion, Spear of Lycander | Bastón |
 | 13 | Nesekem, the Herald | Glaive |
 
-> **La receta del Cubo con Fragmentos NO produce Iconics** — solo Mythics estándar. Los Iconics solo caen del suelo o salen de la caché del Herrero (2 Sparks + 50 M).
+> **La receta del Cubo con Fragmentos NO produce Iconics** — solo Mythics estándar. Los Iconics solo caen del suelo o salen de la caché del Herrero (**2 Resplendent Sparks + 50.000.000 de oro**, confirmado literalmente por ConquestCapped).
+
+> ⚠️ **Aviso de min-max que el informe original no daba (lo añade el verificador):** la caché del Herrero da un Iconic **aleatorio de los 13**, y **hay 3 que un Nigromante no puede ni equipar**: **Nesekem, the Herald** (Glaive — tipo de arma de **Spiritborn**, que además es 🔒 VoH), **Ahavarion, Spear of Lycander** (Bastón — Druida/Hechicera) y **Shattered Vow** (Arma de asta / Polearm — también arma de Spiritborn). Nexttier describe explícitamente el Glaive como "Spiritborn" y el Bastón como cosa de "Druid and Sorcerer". Es decir: **~3 de 13 tiradas (≈23%) de vuestros 50 M de oro son un ladrillo garantizado**. ⚠️ Que la caché no filtre por clase es una **inferencia mía** a partir de la lista de 13 y de los tipos de arma; ninguna fuente dice explícitamente si el pool se filtra por la clase que abre la caché. **Comprobadlo antes de gastar 50 M.**
 
 ### 7.6 El problema de diseño (contexto útil para no frustrarse)
 
@@ -269,7 +282,7 @@ Icy Veins documenta la queja principal de la comunidad en S14: **el pool de Myth
 
 Lo documento entero para que sepáis exactamente cuál es el techo, y porque si algún día compráis la expansión esto es lo primero que hay que aprender.
 
-**Requisito:** Maxroll (actualizado 16 julio 2026) afirma que **requiere *Lord of Hatred*** y se desbloquea completando su campaña, accesible en **Temis**. ⚠️ Otras webs lo atribuyen a *Vessel of Hatred*. Irrelevante en vuestro caso: no tenéis ninguna de las dos.
+**Requisito:** **CONFIRMADO por dos fuentes primarias independientes.** Maxroll (act. 16 julio 2026): *"The Horadric Cube becomes available by playing through the **Lord of Hatred** campaign and is located in **Temis** afterwards"*. Icy Veins (*Horadric Cube Overview*, S14) también lo encuadra dentro de **Lord of Hatred** y añade que se desbloquea *"after completing the campaign, and doing a short introduction quest"*. Solo webs secundarias/de reventa lo atribuyen a *Vessel of Hatred*. **Contradicción prácticamente cerrada a favor de Lord of Hatred.** Irrelevante en vuestro caso: no tenéis ninguna de las dos.
 
 **Materiales exclusivos del Cubo:**
 - **Polvo Primordial (Primordial Dust)** en 7 grados: Raw, Coarse, Refined, Volatile, Pure, Attuned, Enhanced.
@@ -286,11 +299,13 @@ Lo documento entero para que sepáis exactamente cuál es el techo, y porque si 
 | Chaotic Reroll | item + 1 Refined + 15 Raw + Prisma (opcional) |
 | Upgrade to Unique | item común + 1 Enhanced + 10 Raw |
 | Upgrade to Legendary | item Raro + 1 Pure + 10 Raw + Prisma (opcional) |
-| **Upgrade to Mythic** | **Unique 850+ IP + 4 Pandemonium Fragments** (era 5 antes de 3.1.1) |
+| **Upgrade to Mythic** | **Unique 850+ IP + 4 Pandemonium Fragments** (era 5 antes de 3.1.1) ⚠️ **la propia página de Maxroll, actualizada el 16 jul 2026 —dos días DESPUÉS del parche—, sigue diciendo 5. Manda la nota oficial de 3.1.1: *"Reduced the cost of the Upgrade to Mythic recipe on the Horadric Cube from 5 to 4 Pandemonium Fragments"*.** |
 | Transfiguración | Legendario/Unique/Mythic + 1 Volatile Dust + Prisma (opcional) |
 | Reroll de Poder Único | Unique Ancestral + 1 Attuned + 100 Raw |
 | Runas legendarias | runa rara específica + 5 runas raras + 5 runas legendarias |
 | Transmutación 3→1 | 3 items/talismanes/runas idénticos → 1 aleatorio |
+
+> **Añadido por el verificador:** la *Horadric Cube Overview* de Icy Veins (S14) cuenta **19 recetas**, no las 11-12 que listaba el informe original. Faltaban al menos: **Recycle Unique**, **Amalgamation**, **Reroll Set Charm**, **Craft Unique Charm** y las recetas de runas separadas por tipo (**Ritual: Bac, Igni, Tam, Yul** + cinco recetas de runas de **Invocación**). Todas 🔒.
 
 **Transfiguración** (paso final, hace el item **permanentemente inmodificable**): puede dar estado *Indestructible*, subir afijos a Greater Affix, añadir afijos de transfiguración, o dar **1-15 rangos de Calidad** (2-30 en armas a 2 manos). El **Entropic Tuning Prism** elimina los resultados malos.
 
@@ -391,7 +406,7 @@ Builds vivos según Maxroll para Season 14 – Death Awakening: **Blood Wave** (
 
 **Blood Wave — objetivos de item:**
 - Unique: **Kessime's Legacy** (pantalones) — duplica la ola partiéndola en dos. ✅ (drop normal)
-- Mythics objetivo: **Ring of Starless Skies** (arregla el recurso) → **Banished Lord's Talisman** ⚠️ → **Blood-Mad Idol** (variante de push).
+- Mythics objetivo: **Ring of Starless Skies** (arregla el recurso) → ~~Banished Lord's Talisman~~ 🔒 → **Blood-Mad Idol** (variante de push). **CORRECCIÓN del verificador: "Banished Lord's Talisman" NO es un amuleto Mythic, es un Charm del sistema Talismán** (verificado en la propia guía Blood Wave de Maxroll, act. 17 jul 2026, y confirmado también en la de Bone Spirit, act. 12 ago 2026, donde aparece en la sección de **Charms** junto a Berú of Desecration y Red Blessing). Por tanto es **🔒 Lord of Hatred** y está fuera de vuestro alcance: es la prioridad **nº 2** del build oficial y vosotros no podéis tenerla.
 - Umbrales de stats: *early* → Vida máxima, **Regeneración de Esencia 10-12**, **Reducción de Coste de Recurso >18%**. *Mid* → Ess. Regen >15, RCR >25%, **Crítico >60%**. *End* → Ess. Regen >15, RCR >15%, **Crítico >70%**. Variante push: **100% de Bloqueo**.
 - Temple recomendado: **3× "Lucky Hit Chance: Restore Resource" en la joyería** ✅.
 - Aspectos: **Juggernaut's** (pecho), **Hardened Bones** (casco), **Tidal** (botas o amuleto vía prisma Kullean 🔒), **Deluge** (recurso temprano), **Embattled** (endgame).
@@ -404,16 +419,31 @@ Builds vivos según Maxroll para Season 14 – Death Awakening: **Blood Wave** (
 
 **🔒 Lo que tenéis que tachar de estas guías:** mercenarios (**Subo, Aldkin, Raheir** — VoH), **charms/talismán** (Banished Lord's, Red Blessing — LoH), **runewords**, **prisma Kullean** y cualquier paso que pase por el **Cubo**.
 
-⚠️ **Sin resolver:** si "Banished Lord's Talisman" es un Mythic amuleto clásico ✅ o una pieza del sistema Talismán 🔒 — las fuentes lo usan de las dos maneras. También me queda por confirmar qué es exactamente el stat **"resolve"** que la guía de Bone Spirit pide temperar en casco/pecho/pantalones para el Aspecto de Glynn's Anvil.
+✅ **RESUELTO por el verificador:** "Banished Lord's Talisman" es un **Charm del sistema Talismán 🔒 LoH**, no un amuleto Mythic (ver arriba).
+
+⚠️ **Sigue sin resolver:** qué es exactamente el stat **"resolve"**. Lo que sí queda confirmado es **dónde** va: la guía de Bone Spirit de Maxroll (act. **12 ago 2026**, S14) habla de *"stacking resolve tempers"* en **casco, pecho y pantalones** como fuente principal de defensa vía **Aspect of Glynn's Anvil** — pero **la propia guía no define qué es Resolve**. No me lo invento: miradlo en el manual de temple en el juego.
+
+> **Dato de vigencia (bueno):** las dos guías de Nigromante consultadas están vivas para 3.1.x — Blood Wave act. **17 jul 2026** y Bone Spirit act. **12 ago 2026**, el mismo día del parche 3.1.3. No son material de temporadas viejas.
 
 ---
 
 ## 13. Notas de dúo y cross-play
 
 - El **cross-play PC ↔ consola** es funcionalidad de juego base ✅.
-- Season 14 añade un **modo Solo Self-Found (SSF)** nuevo. ⚠️ **No lo elijáis si jugáis en dúo**: por definición SSF aísla la economía y normalmente impide comerciar/cooperar en loot. No he podido verificar sus reglas exactas en 3.1.x.
-- ⚠️ **Comercio de Uniques/Mythics entre vosotros dos:** históricamente los Uniques y Mythic Uniques **no son comerciables**. No he podido confirmarlo para 3.1.x. **Asumidlo como "no comerciable" hasta comprobarlo en el juego** — es la asunción segura.
-- Consecuencia práctica del punto anterior: si los dos vais de Nigromante, **cada uno tiene que farmear su propio equipo**. Lo que sí podéis compartir es la **eficiencia de farmeo**: matar jefes juntos multiplica los intentos de drop por dos, y los dos podéis usar las llaves de guarida/Superior Lair Keys.
+- **Modo Solo Self-Found (SSF), nuevo en S14 — CONFIRMADO y descartado para vosotros.** Icy Veins (guía de temporada S14) lo describe así: *"This mode makes players entirely reliant on themselves by disabling features such as **Trading and Grouping**"*. No es solo que aísle la economía: **desactiva el grupo**, así que en SSF **no podríais jugar juntos**. Tiene **leaderboards propios y separados** y existe tanto en Normal como en Hardcore. Si vuestro objetivo es leaderboard **en dúo**, el sitio es el reino normal, no SSF.
+- ✅ **CORRECCIÓN IMPORTANTE del verificador — SÍ podéis pasaros equipo.** El informe original asumía "nada es comerciable" y de ahí sacaba que cada uno debía farmear lo suyo. **Es falso.** La guía *Multiplayer* de Maxroll (act. **26 jun 2026**, "Updated for S14") lista explícitamente:
+
+| Comerciable ✅ | NO comerciable ❌ |
+|---|---|
+| Items Comunes, Mágicos y Raros | **Mythic Unique Items** |
+| **Oro** | **Items Encantados (Enchanted)** |
+| **Gemas** y **Elixires** | **Items Masterworkeados** |
+| **Items Legendarios** | Todas las monedas/materiales salvo el oro |
+| **Items Únicos (Unique)** | Objetos de misión |
+
+- **Consecuencia táctica enorme para un dúo de dos Nigromantes:** jugando los dos la misma clase, **todo lo que le caiga a uno le sirve al otro**. La regla operativa es: **primero se reparte, después se craftea**. En cuanto le das el primer clic al Ocultista (Enchant) o al Masterworking, ese item **se queda pegado a esa cuenta para siempre**. Con dos Nigromantes esto significa que podéis **especializar**: uno persigue Blood Wave y otro Bone Spirit, y os pasáis los Uniques cruzados en crudo.
+- ⚠️ **Lo que NO se puede pasar:** los **Mythic Uniques** (ni los que caen ni los que salen de la caché del Herrero). Ahí sí, cada uno el suyo.
+- Y sigue en pie lo obvio: matar jefes juntos multiplica los intentos de drop, y los dos podéis usar Betrayer's Husks y Superior Lair Keys.
 
 ---
 
@@ -431,7 +461,9 @@ Guía de defensas de Maxroll, **actualizada el 16 de agosto de 2026** (es decir,
 | **Esquiva (Dodge)** | Aditiva desde Destreza (0,6% por cada 100 puntos) e inversa-multiplicativa desde afijos |
 | **Toughness** | Es un stat *comparativo* (media de seis categorías de resistencia), **no un tope**. No lo useis como métrica real |
 
-⚠️ **Contradicción:** una web secundaria (u4gm) afirma **"todas las resistencias tienen tope del 85%"** y **"velocidad de ataque capada al 200%, en dos topes de 100%"**. Maxroll no habla de un tope duro del 85% sino de una asíntota del 90% vía fórmula. **Me quedo con Maxroll** (fecha 16/08/2026, fórmulas explícitas) y marco lo de u4gm como no verificado.
+⚠️ **Contradicción:** una web secundaria (u4gm) afirma **"todas las resistencias tienen tope del 85%"** y **"velocidad de ataque capada al 200%, en dos topes de 100%"**. Maxroll no habla de un tope duro del 85% sino de una asíntota del 90% vía fórmula. **Me quedo con Maxroll** (fecha 16/08/2026, fórmulas explícitas) y marco lo de u4gm como no verificado. **El verificador tampoco ha encontrado ninguna fuente primaria que respalde el 85% ni el 200%.**
+
+> **Dato añadido por el verificador (contexto, no cambia nada hoy):** Icy Veins publicó que los jugadores detectaron en la **PTR 3.2.0 de la Season 15** un cambio de resistencias **no anunciado**: los afijos de resistencia individual pasan de un tope de **630** en el juego vivo a **hasta 3.000** en la PTR, y los charms podrán rolar resistencias y rangos de habilidad a la vez. **Ojo a dos cosas:** (a) esto es **PTR de S15, NO está vivo en 3.1.3** — no planifiquéis con ello; (b) el número **630 sí es el tope actual del afijo de resistencia individual** en 3.1.x, que es un dato útil y que el informe original no tenía. No confundir "tope del afijo" (630 puntos) con "tope de reducción de daño" (la asíntota del 90% de la fórmula de Maxroll): son cosas distintas.
 
 ---
 
@@ -452,8 +484,10 @@ Guía de defensas de Maxroll, **actualizada el 16 de agosto de 2026** (es decir,
 | **Herrero: caché Iconic (2 Sparks + 50 M oro)** | ✅ Base |
 | **Resplendent Sparks del Season Journey** | ✅ Base |
 | **Pandemonium Ruptures** (mecánica estacional S14) | ✅ Base (el contenido estacional es para todos) |
-| **Corrupted Reaper** (lair boss) + Superior Lair Keys + Deathtoll Chambers | ✅ Base ⚠️ (no encontré nota de restricción, pero no está confirmado explícitamente) |
-| **Solo Self-Found** | ✅ Base ⚠️ |
+| **Corrupted Reaper** (lair boss, en **Zarbinzet**) + Betrayer's Husks + Superior Lair Keys + Deathtoll Chambers + **Realmwalkers** | ✅ Base ⚠️ (ninguna fuente menciona restricción de expansión; **refuerzo del verificador:** el jefe está en **Zarbinzet**, zona de **Hawezar** del juego base, no en Nahantu/Kurast 🔒 ni en Temis 🔒 — es una inferencia fuerte, pero sigue siendo inferencia) |
+| **Solo Self-Found** | ✅ Base — **pero desactiva Trading Y Grouping**: incompatible con jugar en dúo (confirmado) |
+| **Comerciar Legendarios y Uniques entre vosotros** | ✅ Base — **siempre que el item no esté Encantado ni Masterworkeado** |
+| **Comerciar Mythic Uniques** | ❌ Imposible para nadie (no es tema de expansión) |
 | **Horadric Cube** y TODAS sus recetas | 🔒 **Expansión** (Maxroll: LoH; otras fuentes: VoH) |
 | **Fragmentos de Pandemónium → Upgrade to Mythic** | 🔒 (la receta vive en el Cubo) |
 | **Polvo Primordial / Tuning Prisms / Transfiguración** | 🔒 |
@@ -470,26 +504,35 @@ Guía de defensas de Maxroll, **actualizada el 16 de agosto de 2026** (es decir,
 
 **Contradicciones entre fuentes (las reporto, no las promedio):**
 
-1. **Magnitud del Greater Affix:** Icy Veins / Game8 / Fextralife → **×1.5 (máximo +50%)**. La guía "Item Crafting" de Maxroll → **+25%**. Mayoría y tradición apuntan a ×1.5.
-2. **Cuántos Greater Affixes caben:** Icy Veins → hasta **4** en cualquier Ancestral Legendario o Unique. Game8/Fextralife → **3** en Legendario Ancestral, **4** en Unique.
+1. **Magnitud del Greater Affix:** Icy Veins / Game8 / Fextralife → **×1.5 (máximo +50%)**. La guía "Item Crafting" de Maxroll → **+25%**. *Re-verificado por el verificador pidiendo cita literal:* Maxroll dice textualmente *"This bonus is separate from the +25% gained from an affix being a Greater Affix"*. **La contradicción es real y sigue abierta.** Mayoría y tradición apuntan a ×1.5.
+2. **Cuántos Greater Affixes caben:** Icy Veins → hasta **4** en cualquier Ancestral Legendario o Unique. Game8/Fextralife → **3** en Legendario Ancestral, **4** en Unique. *Aporte del verificador:* la guía de **Tempering de Maxroll** dice "+1 carga por Greater Affix, **máximo 4 Greater Affixes**", lo que apoya el techo de 4. **No he podido verificar el matiz 3-vs-4 por rareza en ninguna fuente primaria.**
 3. **Cargas de Tempering:** Maxroll → **3 base + 1 por GA (máx 7)**, sin distinguir rareza. Icy Veins → **Raro 1 / Legendario 3 / Ancestral 3 + 1 por GA**.
 4. **Costes de Tempering:** Icy Veins y Maxroll dan cifras distintas (15 Veiled + 5 salvage vs 25 básico + 10 Veiled para legendario 850).
 5. **Chaotic / Focused Reroll en Uniques:** el artículo de IGGM afirma que **se AÑADIERON** a todos los Uniques y Mythics en S14; las **notas oficiales de 3.1.0 dicen lo contrario: fueron RETIRADOS** para Uniques y Mythic Uniques. **Me quedo con las notas oficiales.**
-6. **Límite de Mythics crafteados equipados:** varias guías (nexttier, timesaver) siguen diciendo **"solo 1 crafteado a la vez"**. El **hotfix 3.1.1a del 16/17 de julio de 2026 lo ELIMINÓ**. Esas guías están desactualizadas.
+6. **Límite de Mythics crafteados equipados:** varias guías (nexttier, timesaver) siguen diciendo **"solo 1 crafteado a la vez"**. El **hotfix 3.1.1a del 16/17 de julio de 2026 lo ELIMINÓ** (Icy Veins, cita literal: *"Removed the 'one-crafted Mythic' equipment restriction on Mythic items"*). *Agravante que encuentra el verificador:* **la propia guía de temporada S14 de Icy Veins sigue diciendo "players can craft one Mythic per character"**, contradiciendo su propio artículo de hotfix. Es decir, el error de vigencia está incluso dentro de la misma web. **Manda el hotfix.**
 7. **Coste de la receta del Joyero:** nexttier → **2 Sparks + 18 runas + 5.000 oro**. ConquestCapped → **3 Sparks + 5.000.000 oro + 3 runas**. Icy Veins → **3 Sparks + runas**. IGGM → **2 Sparks + runas**. Sin resolver (🔒 en cualquier caso).
-8. **Sparks por temporada:** una fuente dice **hasta 7 Sparks + 5 cachés de Mythic**; otra dice **hasta 14 Sparks**.
-9. **Qué expansión trae el Cubo Horadrim:** Maxroll dice **Lord of Hatred**; mmogah/overgear dicen **Vessel of Hatred**. Irrelevante para este jugador (no tiene ninguna), pero es una contradicción real.
+8. **Sparks por temporada:** una fuente dice **hasta 7 Sparks + 5 cachés de Mythic**; otra dice **hasta 14 Sparks**. *Desempate parcial del verificador:* ConquestCapped (S14) dice *"up to 7 Sparks"*. **2 fuentes a favor del 7, 1 del 14 → trabajad con 7.**
+9. **Qué expansión trae el Cubo Horadrim:** ✅ **PRÁCTICAMENTE RESUELTO por el verificador a favor de *Lord of Hatred***. Dos fuentes primarias independientes coinciden: **Maxroll** (*"...by playing through the Lord of Hatred campaign and is located in Temis afterwards"*) e **Icy Veins** (*Horadric Cube Overview*, S14, que lo encuadra en Lord of Hatred). mmogah/overgear (webs de reventa) dicen VoH y no hay ninguna fuente primaria que las respalde. **Sigue siendo irrelevante para este jugador: no tiene ninguna de las dos.**
+
 10. **Topes defensivos:** u4gm afirma **85% de tope de resistencias** y **200% de tope de velocidad de ataque**; Maxroll describe asíntotas del 90% con fórmula y no menciona esos topes. Prevalece Maxroll por fecha (16/08/2026) y por dar la fórmula.
+
+11. **Coste de re-rolear el Capstone del Masterworking (NUEVA, la encuentra el verificador):** Maxroll → **100 Obducita + 10 M oro** (estándar) / **200 + 1 Neathiron + 10 M** (Ancestral). Icy Veins (Masterworking, S14) → **1.000 Obducita + 1.000.000 oro + 1 Neathiron**. Son órdenes de magnitud distintos en los dos materiales. **Sin resolver.**
+
+12. **Coste de "Upgrade to Mythic" en la página de Maxroll (NUEVA):** la página del Horadric Cube de Maxroll, **actualizada el 16 jul 2026**, sigue diciendo **5 Pandemonium Fragments** cuando el parche **3.1.1 del 14 jul 2026** ya lo había bajado a **4**. **Manda la nota oficial: 4.** Sirve de aviso general: incluso Maxroll arrastra datos caducados dos días después de un parche.
+
+13. **Fuentes del Scroll of Restoration (NUEVA):** Maxroll → Dark Citadel 🔒 + **Infernal Hordes ✅** + **jefes mundiales ✅**. Icy Veins → solo Dark Citadel 🔒 + **Infernal Hordes ✅**. **Da igual para la conclusión práctica:** con cualquiera de las dos versiones, **Infernal Hordes os da acceso con juego base**.
+
+14. **Rangos de Calidad por upgrade de Masterworking (NUEVA):** Icy Veins dice **"a random amount between 2 and 5"**; Maxroll da la fórmula de coste pero el informe original lo había traducido como "hasta 5". Corregido a **2-5 aleatorio**.
 
 **Cosas que NO he podido confirmar y que no invento:**
 
-- **Comerciabilidad de Uniques y Mythic Uniques entre los dos jugadores** en 3.1.x. Asunción segura: **no son comerciables**.
-- **Reglas exactas del modo Solo Self-Found** de S14 y si afecta a drops/crafteo.
+- ~~**Comerciabilidad de Uniques y Mythic Uniques entre los dos jugadores** en 3.1.x. Asunción segura: no son comerciables.~~ → ✅ **RESUELTO por el verificador (y la asunción original era ERRÓNEA):** Maxroll *Multiplayer*, act. 26 jun 2026 para S14 — **Legendarios y Uniques SÍ son comerciables**; **Mythic Uniques, items Encantados e items Masterworkeados NO**. Ver §13 reescrito.
+- ~~**Reglas exactas del modo Solo Self-Found** de S14 y si afecta a drops/crafteo.~~ → ✅ **RESUELTO en lo que importa:** SSF **desactiva Trading y Grouping** y tiene leaderboards separados (Icy Veins, guía de temporada S14). Sigue sin confirmar si además modifica tasas de drop o crafteo.
 - **Sistema de gemas y sockets en 3.1.x**: solo he confirmado que 3.1.0 subió mucho los **Gem Fragments en Torment X+**. No he verificado la lista de gemas, sus valores ni el número de sockets por slot esta temporada.
 - **Materiales exactos que da desguazar un Unique / Mythic** en 3.1.x.
 - **Probabilidades numéricas de drop** de Mythics e Iconics: ninguna fuente da porcentajes; solo "aumentado" y anécdotas (Wudijo, 2.000+ lair bosses sin Iconic).
-- **Restricción de expansión del Corrupted Reaper, Deathtoll Chambers y Superior Lair Keys**: ninguna fuente dice que requieran expansión (el contenido estacional históricamente es gratis para todos), pero **no lo he visto afirmado explícitamente**.
-- **Qué es el stat "resolve"** que la guía de Bone Spirit Necromancer pide temperar, y si **"Banished Lord's Talisman"** es un Mythic amuleto ✅ o una pieza del sistema Talismán 🔒.
+- **Restricción de expansión del Corrupted Reaper, Deathtoll Chambers y Superior Lair Keys**: ninguna fuente dice que requieran expansión (el contenido estacional históricamente es gratis para todos), pero **no lo he visto afirmado explícitamente**. *Refuerzo del verificador:* Icy Veins sitúa al Corrupted Reaper en **Zarbinzet** (Hawezar, zona del **juego base**) y solo exige **Torment 1+**, y describe la cadena **Pandemonium Rupture → Realmwalker → Deathtoll Chamber → Betrayer's Husk → jefe**, toda ella en mundo abierto y Nightmare Dungeons del juego base. **Sigue siendo inferencia, pero muy sólida.**
+- **Qué es el stat "resolve"** que la guía de Bone Spirit Necromancer pide temperar (confirmado el dónde: **casco, pecho y pantalones**, para el Aspect of Glynn's Anvil; sin confirmar el qué). ✅ **"Banished Lord's Talisman" RESUELTO: es un Charm del sistema Talismán → 🔒 Lord of Hatred**, no un amuleto Mythic.
 - **Cuánto poder exacto perdéis** por no tener runewords ni talismán. No hay número publicado y no me lo invento.
 - La guía de Masterworking de Maxroll mezcla materiales (**Abstruse Sigil** para 850 IP, **Forgotten Soul** para 900 IP, **Neathiron** para re-rolls Ancestrales). No he podido verificar las fuentes de **Abstruse Sigil** ni de **Neathiron** ni si alguna de ellas es exclusiva de expansión. **Verificadlo en el juego antes de planificar.**
 - **Cambios de itemización en la PTR 3.2.0 (Season 15)**: solo he confirmado el aviso de los desarrolladores de que el **Cubo quitará el re-roll de Mythics** y meterá un upgrade que conserva el Unique original.
@@ -522,6 +565,94 @@ Páginas realmente abiertas y leídas con WebFetch:
 - https://diablo4.wiki.fextralife.com/Runewords
 - https://us.forums.blizzard.com/en/d4/t/mercenaries-and-runewords/186186
 
-Páginas que devolvieron error y NO se pudieron leer (mencionadas para transparencia): mobalytics.gg/diablo-4/guides/season-14-overview (403), diablobytes.com/diablo-iv/lord-of-hatred/mythic-uniques/ (403), sportskeeda (405), maxroll.gg/d4/resources/runewords-guide (404), icy-veins.com/d4/guides/runes-and-runewords-guide/ (404).
+Páginas que devolvieron error y NO se pudieron leer (mencionadas para transparencia): mobalytics.gg/diablo-4/guides/season-14-overview (403), diablobytes.com/diablo-iv/lord-of-hatred/mythic-uniques/ (403), sportskeeda (405), maxroll.gg/d4/resources/runewords-guide (404). *Corrección del verificador:* la guía de runewords de Icy Veins **sí existe**, en `https://www.icy-veins.com/d4/guides/runewords-guide/` (la URL que probó el informe original estaba mal). Se ha abierto y verificado.
+
+**Páginas abiertas ADICIONALMENTE por el verificador (18 ago 2026):**
+
+- https://maxroll.gg/d4/resources/multiplayer — *reglas de comercio, act. 26 jun 2026 "Updated for S14"* (fuente de la corrección grande)
+- https://maxroll.gg/d4/getting-started (índice de guías)
+- https://www.icy-veins.com/d4/guides/diablo-4-latest-season/ — *Season 14 Overview: SSF, Ruptures, Realmwalkers, Deathtoll Chambers, Corrupted Reaper en Zarbinzet*
+- https://www.icy-veins.com/d4/guides/horadric-cube-overview/ — *segunda fuente primaria del requisito Lord of Hatred*
+- https://www.icy-veins.com/d4/guides/runewords-guide/ — *"Runewords are only available to players who have purchased the Vessel of Hatred expansion"*
+- https://www.icy-veins.com/d4/guides/masterworking-guide/ — *Quality 0-25, "random amount between 2 and 5", coste de re-roll del Capstone en conflicto con Maxroll*
+- https://www.icy-veins.com/d4/news/diablo-4-3-1-3-patch-notes-easier-season-objectives-and-echo-of-mephisto-portal-fix/ — *contenido íntegro de 3.1.3, build #73224, 12 ago 2026*
+- https://www.icy-veins.com/d4/news/diablo-4-players-found-a-resistance-change-blizzard-never-announced/ — *tope 630 en vivo, 3.000 en PTR de S15*
+- https://www.icy-veins.com/d4/news/ y https://www.icy-veins.com/d4/guides/ (índices, para descubrir URLs reales)
+- https://www.icy-veins.com/d4/ (portada, para descubrir URLs reales)
+- https://maxroll.gg/d4/getting-started/first-steps-in-diablo-4, https://maxroll.gg/d4/getting-started/powering-up-in-diablo-4 — *buscando (sin éxito) una fuente primaria del número máximo de Greater Affixes*
+
+**Intentos fallidos del verificador (transparencia):** WebSearch agotado por presupuesto de sesión (0 búsquedas disponibles), así que **toda la verificación se ha hecho por acceso directo a URLs**. Devolvieron error: icy-veins.com/d4/guides/greater-affixes-guide/ (404), maxroll.gg/d4/resources/itemization (404), maxroll.gg/d4/resources/greater-affixes (404), maxroll.gg/d4/resources/gems y gems-guide (404), maxroll.gg/d4/getting-started/season-14-guide (404), wowhead.com/diablo-4/guide/items/greater-affixes-explained (404), diablo.fandom.com/wiki/Greater_Affix (402), news.blizzard.com/en-us/diablo4 y diablo4.blizzard.com (renderizado por JS / 404). DuckDuckGo y Mojeek devolvieron CAPTCHA/403 (no se resuelven CAPTCHAs).
 
 Fuentes vistas solo en resultados de búsqueda (no abiertas — usadas únicamente para señalar contradicciones, nunca como dato duro): game8.co, u4gm.com, mmogah.com, overgear.com, aoeah.com, blizzardwatch.com, games.gg, ezg.com.
+
+---
+
+## Nota del verificador
+
+**Quién y cuándo:** revisión adversarial independiente del 18 de agosto de 2026. Objetivo: **refutar** el informe, no confirmarlo. Restricción real de la sesión: **el presupuesto de WebSearch estaba agotado (200/200)**, así que la verificación se hizo **abriendo URLs directamente con WebFetch** — 25 páginas abiertas, de las cuales 15 devolvieron contenido útil.
+
+### Veredicto: **PARCIAL — el informe es sólido en su núcleo, pero tiene un error grande y varios ajustes**
+
+El eje del informe **resiste el ataque**: el Horadric Cube requiere expansión, el Masterworking es Calidad 0-25 con Capstone (y no crits en 4/8/12), el Tempering añade 1 afijo, el Mythic 3.0 es real y el 3.1.3 es solo bugfixes. Todo eso queda **confirmado con fuente primaria**. Lo que falla es un supuesto que el propio informe marcaba como no verificado y del que, sin embargo, sacaba consejo práctico.
+
+### 1. El error grave: el comercio entre los dos jugadores
+
+El informe asumía que **ni Uniques ni Mythics son comerciables** y de ahí concluía que *"cada uno tiene que farmear su propio equipo"*. **Es falso.** Maxroll *Multiplayer* (act. **26 jun 2026, "Updated for S14"**) lista **Legendary Items y Unique Items como COMERCIABLES**, y como no comerciables **Mythic Uniques, items Encantados e items Masterworkeados**.
+
+Para un dúo de **dos Nigromantes** esto no es un detalle: cambia la estrategia entera. Todo drop sirve a los dos, y la regla operativa pasa a ser **"primero se reparte, después se craftea"** — porque el primer clic de Enchant o de Masterworking deja el item pegado a esa cuenta para siempre. §13 ha sido reescrito.
+
+### 2. Correcciones aplicadas al fichero
+
+| # | Qué | Antes | Ahora |
+|---|---|---|---|
+| 1 | Comercio de Uniques/Legendarios | "no comerciables (asunción segura)" | **Comerciables**; Mythics/Encantados/Masterworkeados no |
+| 2 | Solo Self-Found | "⚠️ probablemente aísla la economía" | **Confirmado: desactiva Trading Y Grouping** → incompatible con dúo |
+| 3 | Banished Lord's Talisman | "⚠️ ¿Mythic amuleto o Charm?" | **Charm del sistema Talismán → 🔒 Lord of Hatred** |
+| 4 | Requisito del Cubo Horadrim | "Maxroll dice LoH, otros VoH" | **Dos primarias (Maxroll + Icy Veins) → Lord of Hatred** |
+| 5 | Rangos por upgrade de Masterworking | "hasta 5" | **entre 2 y 5, aleatorio** |
+| 6 | Acceso al Corrupted Reaper | "llaves de guarida" | **Betrayer's Husk (de Deathtoll Chambers) para invocar + 2 Superior Lair Keys para el Hoard**; en **Zarbinzet**, T1+ |
+| 7 | Petrify en 3.1.3 | ambiguo (parecía de Nigromante) | **Petrify es de Druida**; el fix del Nigromante son las habilidades de **Sombra** |
+| 8 | Sparks por temporada | "7 vs 14, sin resolver" | **2 fuentes dicen 7 → usad 7** |
+| 9 | Iconics del Herrero | "13 aleatorios" | **13, pero 3 son inequipables por un Nigromante** (Glaive/Bastón/Polearm) ⚠️ inferencia |
+| 10 | Re-roll del Capstone | solo cifras de Maxroll | **contradicción NUEVA**: Icy Veins da 1.000 Obducita + 1 M oro |
+| 11 | Coste de Upgrade to Mythic | 4 fragmentos | **4 confirmado por nota oficial**; se avisa de que la página de Maxroll sigue diciendo 5 |
+| 12 | Nº máximo de Greater Affixes | contradicción abierta | sigue abierta, pero **Maxroll (Tempering) dice "máximo 4 Greater Affixes"** |
+| 13 | Tope de resistencias | Maxroll 90% asintótico vs u4gm 85% | se mantiene Maxroll; se **añade** el dato del **tope 630 del afijo** (y el 3.000 de la PTR de S15, que **NO está vivo**) |
+| 14 | Recetas del Cubo | 11-12 listadas | **19 según Icy Veins**; añadidas las que faltaban |
+| 15 | URL de runewords de Icy Veins | "404" | **existe**: `/d4/guides/runewords-guide/`, verificada |
+
+### 3. Lo que INTENTÉ refutar y NO pude (el informe acierta)
+
+- **Masterworking = Calidad 0-25 + Capstone +50%.** Confirmado por **dos** guías vivas de S14 (Maxroll act. 23 may 2026, Icy Veins S14). El sistema de crits en 4/8/12 está efectivamente muerto. La corrección al brief de partida era correcta.
+- **Tempering añade 1 afijo, no 2.** Cita literal de Maxroll: *"Rare, Legendary, Unique, and Mythic Unique items can have 1 Tempering Affix applied to them"*. Confirmado también por Icy Veins.
+- **Cargas de temple 3 + 1 por GA, máx 7.** Confirmado en Maxroll; Icy Veins añade el matiz de Raro = 1. La contradicción que reportaba el informe es real y está bien reportada.
+- **Scroll of Restoration devuelve 1 carga y no tiene límite de usos.** Cita de Icy Veins: *"no limit to the number of times you can use a Scroll of Restoration"*. Y **es accesible con juego base** vía Infernal Hordes.
+- **Costes exactos de Masterworking** (fórmula `floor(3,75×Calidad+10)`, 492/1.366 Obducita, 7,25/11,25 M oro, Abstruse Sigil a 850 y Forgotten Soul a 900). Reproducidos **exactamente** en Maxroll. El informe no se los inventó.
+- **Ranking de fuentes de Obducita** y el hecho de que 4 de 6 son juego base, con NMD + Treasure Breach en el nº1. Confirmado.
+- **Runewords = Vessel of Hatred.** Cita literal de Icy Veins: *"Runewords are only available to players who have purchased the Vessel of Hatred expansion"*.
+- **Mercenarios = Vessel of Hatred.** Las dos guías de Nigromante de Maxroll lo dicen: *"Mercenaries are unlocked during the Vessel of Hatred campaign"*.
+- **Todos los cambios de 3.1.0, 3.1.1 y el hotfix 3.1.1a** que citaba el informe: verificados uno a uno contra las notas de parche (5→4 fragmentos, Glints of Hope, El'Druin en la caché del Herrero, Deathtoll Chambers → Superior Lair Key, Forgotten Souls de Whisper Caches, bug de Lair Bosses, eliminación del límite de 1 Mythic crafteado, Charms/Seals fuera del Cubo, aviso de S15).
+- **3.1.3 (build 73224, 12 ago 2026) es solo bugfixes.** Verificado el listado completo.
+- **Los 13 Iconic Mythics y sus slots.** Lista idéntica en la fuente.
+- **Caché del Herrero = 2 Resplendent Sparks + 50.000.000 de oro.** Cita literal de ConquestCapped.
+- **Mythic 3.0 = +30% al Poder Único, Ancestral garantizado, afijos al máximo.** Confirmado en la guía de temporada de Icy Veins.
+- **Vigencia de las guías de Nigromante:** Blood Wave act. **17 jul 2026**, Bone Spirit act. **12 ago 2026**. No son de temporadas viejas.
+
+### 4. Lo que sigue sin poder verificarse (y no se inventa)
+
+- **Número máximo de Greater Affixes por item y si difiere entre Legendario Ancestral y Unique.** Ninguna fuente primaria accesible lo afirma. La única pista es el "máximo 4 Greater Affixes" de la guía de Tempering de Maxroll.
+- **La magnitud del Greater Affix (+25% de Maxroll vs ×1.5 del resto).** Contradicción real entre fuentes de primer nivel. **No se promedia.**
+- **A partir de qué Torment aparecen los Greater Affixes y si Ancestral garantiza uno.** El informe lo afirma (Torment 1, mínimo 1 GA por Ancestral) pero **no he encontrado ninguna página abierta que lo diga con esas palabras**. Es lo más citado del informe que menos respaldo directo tiene. **Trátese como probable, no como verificado.**
+- **Coste real del re-roll del Capstone** (Maxroll vs Icy Veins difieren 5× y 10×).
+- **Si la caché de Iconic del Herrero filtra por clase.** De ello depende que 3 de los 13 sean tiradas muertas para un Nigromante.
+- **Sistema de gemas y sockets en 3.1.x.** Todas las URLs de guías de gemas devolvieron 404. Sigue siendo el hueco más grande del informe.
+- **Qué es el stat "Resolve".**
+- **Materiales exactos que da desguazar un Unique.**
+
+### 5. Aviso de método para el lector
+
+Tres avisos que salen de esta verificación y que valen más que cualquier dato concreto:
+
+1. **Incluso Maxroll e Icy Veins arrastran datos caducados.** Maxroll actualizó su página del Cubo el 16 de julio y seguía diciendo "5 fragmentos" cuando el parche del 14 de julio ya lo había bajado a 4. Icy Veins mantiene "un Mythic crafteado por personaje" en su guía de temporada mientras su propio artículo de hotfix dice que se eliminó.
+2. **Cuando dos guías buenas se contradicen, mandan las notas de parche oficiales.** Es la regla que ha resuelto la mitad de los conflictos de este documento.
+3. **El único conflicto que este documento NO puede resolver por fuentes es el numérico** (+25% vs ×1.5 del Greater Affix, y el coste del re-roll del Capstone). Eso se mira en el juego, pasando el ratón por encima del afijo.

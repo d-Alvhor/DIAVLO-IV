@@ -28,7 +28,9 @@ Existen dos expansiones y **Season 14 salió el mismo día que la segunda**:
 | **Vessel of Hatred** (VoH) | oct. 2024 | Clase Spiritborn, **Mercenarios**, **Runewords/Runas**, región Nahantu/Kurast, Undercity, Dark Citadel |
 | **Lord of Hatred** (LoH) | 30 jun. 2026 (con S14) | Clases **Paladin** y **Warlock**, región Skovos, **War Plans**, **Echoing Hatred**, **Horadric Cube**, **Talismanes y Amuletos-charm**, tercera variante de habilidad, pesca |
 
-Nota comercial verificada: **Lord of Hatred incluye Vessel of Hatred sin coste extra** (39,99 $). Es decir, si algún día compráis una sola cosa, comprad LoH y os llegan los dos paquetes de sistemas de golpe.
+Nota comercial verificada: **Lord of Hatred incluye Vessel of Hatred sin coste extra** (39,99 $). Es decir, si algún día compráis una sola cosa, comprad LoH y os llegan los dos paquetes de sistemas de golpe. *(Verificado en la página oficial: comprar LoH "instantly unlock[s] Diablo IV's first expansion", con Spiritborn y Nahantu. El precio de 39,99 $ no aparece en la página oficial; procede de la fuente secundaria.)*
+
+> ⚠️ **Aviso de marketing añadido en verificación — no os dejéis engañar al decidir la compra.** La **página oficial de Lord of Hatred lista como "features" de la expansión** cosas que en realidad son **gratuitas para vosotros** en el parche 3.0: el *rework del árbol de habilidades*, la *subida de nivel máximo* y el *nuevo filtro de botín*. Están en la página de venta porque llegaron con la expansión, **no porque haya que pagarlas**. Lo que de verdad se paga está en la tabla §1.2. Si algún día compráis, que sea por **runas, mercenarios, charms/talismán, Cubo Horadric, War Plans y Echoing Hatred**, no por el árbol de habilidades.
 
 ### 1.2 Tabla dura: gratis vs. de pago (parche 3.0 / 3.1)
 
@@ -76,9 +78,11 @@ El rework "Mythic Unique 3.0" de S14 cambia el paradigma: **mítico ya no es una
 - Horadric Cube con **Fragmentos de Pandemónium** → 🔒 LoH (el Cubo es de la expansión).
 - Joyero con **Runas** + Chispas Resplandecientes → 🔒 VoH (las runas son de la expansión).
 
-Y un hotfix del 16 de julio (3.1.1a) **eliminó el límite de un mítico crafteado equipado**, así que ahora se pueden llevar varios crafteados a la vez.
+~~Y un hotfix del 16 de julio (3.1.1a) eliminó el límite de un mítico crafteado equipado.~~ ❌ **Retirado en verificación:** no existe tal entrada en las notas oficiales (ver §2.4).
 
-**Conclusión operativa:** los míticos **os caen del suelo** ✅ (los drops y los alijos no tienen límite), pero **el farmeo dirigido/crafteo de míticos os está cerrado** 🔒. Para vosotros los míticos son lotería pura. Esto es una **contradicción real entre fuentes** y está anotada en §8.
+**Corregido y reforzado en verificación —** lo que sí dicen las notas oficiales de **3.1.1** es que se arregló *"certain sources of Uniques from dropping as Mythic, **including Lair Bosses**"*. Los **jefes de guarida son juego base** ✅ con llaves universales desde 3.0, así que **tenéis una vía de míticos dirigida y funcional sin expansión**: farmear jefes de guarida. Esto **mejora** la conclusión original del informe, que era más pesimista.
+
+**Conclusión operativa (actualizada):** los míticos **os caen** ✅, tanto del suelo como de **jefes de guarida** (vía dirigida y repetible, contenido base). Lo que os está cerrado es el **crafteo/targeting por Horadric Cube** 🔒 LoH y **por Runas** 🔒 VoH. Es decir: no es lotería pura como decía el informe original — es lotería con un grifo que podéis abrir a voluntad. Ver §8.
 
 ---
 
@@ -91,6 +95,8 @@ El nigromante está **en A a nivel de clase** en S14: dos builds A de endgame, u
 ### 2.2 Cambios de nigromante en el parche 3.1.0 (inicio de S14)
 
 Verificados en el desglose de notas de 3.1.0:
+
+> ⚠️ **Contradicción de fuentes sobre el parche exacto (detectada en verificación).** Kami-labs, en su artículo dedicado a 3.1.0, atribuye a **3.1.0** los cambios de Gloom Ward, Bone Graft y Aspect of Serration con cita casi literal. Una lectura del documento acumulado de notas oficiales de Blizzard los situó en **3.1.1** (build #72836, 14 jul. 2026). **No he podido cerrar cuál de los dos es el correcto.** Para vosotros es indiferente en la práctica —los cambios están vivos hoy en cualquiera de los dos casos—, pero no doy la fecha por firme.
 
 | Cambio | Efecto |
 |---|---|
@@ -109,16 +115,17 @@ Verificados en el desglose de notas de 3.1.0:
 Este es el titular de la temporada para un nigromante sin expansión, porque **mueve poder desde los items hacia el árbol de habilidades**:
 
 - "Ahora puedes cultivar directamente un ejército de no-muertos completo a través del árbol de habilidades, **sin depender ya de poderes legendarios ni de drops de equipo específicos**."
-- Los esbirros llegan mucho antes: **Esqueletos Guerreros nivel 4**, **Libro de los Muertos (Book of the Dead) nivel 6**, **Gólem nivel 8** (antes nivel 25).
-- **Army of the Dead (Ejército de los Muertos) gana "Unyielding Commander"**, que en Season 13 era un **aspecto legendario** y ahora está **integrado en el árbol**.
+- Los esbirros llegan mucho antes: **Esqueletos Guerreros nivel 4**, **Libro de los Muertos (Book of the Dead) nivel 6**, **Gólem nivel 8** (antes nivel 25). *(Añadido en verificación: los **Magos Esqueléticos** antes pedían **nivel 15**; la fuente afirma que a **nivel 20** ya tenéis un ejército de **15 esbirros**.)*
+- **Army of the Dead (Ejército de los Muertos) gana "Unyielding Commander"**, que en Season 13 era un **aspecto legendario** y ahora está **integrado en el árbol**. *(Añadido en verificación: se desbloquea al **nivel 25**, dato que faltaba. Da a los esbirros supervivencia muy alta y sube mucho el daño del ejército.)*
 - Automatización: los esbirros **consumen cadáveres solos** y **aplican maldiciones** vía equipo, reduciendo casi a cero la microgestión.
 
 **Por qué importa:** es exactamente el tipo de cambio que reduce la dependencia de expansión. Si el poder está en el árbol y el árbol es gratis, vuestro suelo sube.
 
 ### 2.4 Cambios de 3.1.1 / 3.1.1a / 3.1.3
 
-- **3.1.1**: Blood Wave vuelve a considerarse build meta de máximo nivel ("T0") según una fuente secundaria.
-- **3.1.1a** (16 jul.): quitado el límite de un mítico crafteado equipado; arreglos de míticos que reordenan la fuerza de varias clases.
+- **3.1.1** (build #72836, **14 jul. 2026**): Blood Wave vuelve a considerarse build meta de máximo nivel ("T0") según una fuente secundaria. **Corregido en verificación —** lo que sí figura en las notas oficiales de 3.1.1 es: *"Fixed an issue that was preventing certain sources of Uniques from dropping as Mythic, **including Lair Bosses**"*. **Esto es una noticia excelente para vosotros** y estaba ausente del informe: los **jefes de guarida son contenido de juego base** (llaves universales desde 3.0), así que esa vía de míticos os funciona.
+- ~~**3.1.1a** (16 jul.): quitado el límite de un mítico crafteado equipado.~~ ❌ **NO VERIFICADO — retirado.** En el documento oficial acumulado de notas de parche **no aparece ningún hotfix "3.1.1a"** ni ninguna entrada que elimine el límite de míticos crafteados equipados. Las versiones que sí lista Blizzard son **3.1.0 (#72592, 30 jun.)**, **3.1.1 (#72836, 14 jul.)**, **3.1.2 (#73020, 28 jul.)** y **3.1.3 (#73224, 12 ago.)**. Tratad como **no confirmado** que se pueda llevar más de un mítico crafteado a la vez.
+- **3.1.2** (build #73020, **28 jul. 2026**) — **parche que el informe original omitía por completo.** Contiene arreglos de temporada y de expansión, entre ellos *"Fixed an issue where Mythic Unique items could not be recycled"* (los míticos ya se pueden reciclar).
 - **3.1.3** (12 ago., build 73224): **parche de mantenimiento, sin cambios de balance**. Lo relevante:
   - Los Nightmare Dungeons de Escalation con el afijo **Ruptures** ya cuentan para el objetivo "Set Fire to the Beacons" (Rango III de temporada).
   - Arreglado: **las habilidades de Sombra del nigromante ocultaban al Corrupted Reaper** (mejora de visibilidad en ese jefe — os afecta si jugáis Blight/Shadow).
@@ -201,9 +208,9 @@ No los promedio: os los doy los tres. Ver §8.
 
 **Golem** (act. 9 jul. 2026) — Daño principal: **Iron Golem** (Gólem de Hierro). Apoyo: Sever/Blood Mist intercambiables, Bone Storm, Blight. Bone Storm + **Lidless Wall** = multiplicador enorme, reducción de daño y generación de barrera. Míticos: **Pact of Bone → Mace of King Leoric → Crown of Lucion → Blood Moon Breeches → Lidless Wall**. Aspectos: **Glynn's Anvil** (defensa), **Reanimation** (90% multiplicador), Blood Moon Breeches (maldiciones). Objetivos: 100% velocidad de ataque, 100% crítico, 30k+ vida. Glifos: **Golem → Essence → Exploit → Deadraiser → Abyssal**. Mercenario Subo o Aldkin 🔒. **Mejor para jefes; peor para farmeo rápido; buena para empujar Pit por lo tanque.**
 
-**Blood Surge** (act. 13 ago. 2026) — Barra: **Blood Surge** (spam), Bone Storm, Corpse Tendrils, Bone Prison, Sever, Hemorrhage (Esencia), Blood Mist (imparable), Life Tap (orbes de sangre). **Book of the Dead: Skeletal Warriors – Defenders** (orbes de sangre + vulnerable) y **Skeletal Mages – Cold** (utilidad pasiva + regeneración de Esencia). Míticos por orden: **Ring of Starless Skies → Blood Moon Breeches → Cruor's Embrace → Crown of Lucion**. Aspectos: Juggernaut's (pecho), Tidal (botas), Exploiter's (amuleto vía cubo 🔒). Runas Gar/Teb/Wat 🔒. Objetivos: **15% RCR, 10 Esencia regen, 70% velocidad de ataque con Ferocity, 85% crítico**. Glifos: **Dominate → Corporeal → Essence (nivel 50 antes) → Imbiber → Amplify**. Mercenario Subo 🔒. **Sobresale en farmeo rápido de densidad alta, en especial Infernal Hordes ✅.**
+**Blood Surge** (act. 13 ago. 2026) — Barra: **Blood Surge** (spam), Bone Storm, Corpse Tendrils, Bone Prison, Sever, Hemorrhage (Esencia), Blood Mist (imparable), Life Tap (orbes de sangre). **Book of the Dead: Skeletal Warriors – Defenders** (orbes de sangre + vulnerable) y **Skeletal Mages – Cold** (utilidad pasiva + regeneración de Esencia). Míticos por orden: **Ring of Starless Skies → Blood Moon Breeches → Cruor's Embrace → Crown of Lucion**. Aspectos: Juggernaut's (pecho), Tidal (botas), Exploiter's (amuleto vía cubo 🔒). Runas **Teb y Wat** 🔒 *(corregido en verificación: la guía de Maxroll solo lista Teb —automatiza Iron Maiden— y Wat —automatiza Decrepify—; **no lista Gar** para esta build, como decía el informe original)*. Objetivos *(verificados uno a uno, son mínimos, no cifras exactas)*: **>15% RCR, >10 Esencia regen, >70% velocidad de ataque con Ferocity, >85% crítico con Bone Storm**. Glifos: **Dominate → Corporeal → Essence (nivel 50 antes) → Imbiber → Amplify**. Mercenario Subo 🔒. **Sobresale en farmeo rápido de densidad alta, en especial Infernal Hordes ✅.**
 
-**Minion / Reaper Summoner** (Maxroll act. 22 jul. 2026; Icy Veins S14) — Tres variantes: **Warrior**, **Mages**, **Hybrid**. Barra Warrior: Decrepify, Comando de Esqueletos Guerreros (multiplicador 25%), Golem (activa Imparable + acumula Ferocity), hueco flexible (Blood Mist o Sever), Army of the Dead (bonus pasivo estando activa). Barra Mages: Blight, Skeleton Mages – Shadow Command, Golem, flex, AotD. Híbrida: Decrepify, Blood Wave (apila Overpower a 20 → multiplicador Bloodbath), Comando de Guerreros, Golem, flex. Book of the Dead (versión Icy Veins): **Guerreros = Reapers (+50% daño)**, **Magos = Shadow (genera barrera)**, **Gólem = Iron sacrificado (+15% daño crítico)**. Únicos clave: **Deathgrip / The Hand of Naz** (guerrero extra, efecto de área, multiplicador), **The Undercrown** (guerreros y magos extra, multiplicador; ojo, **se menciona un bug de escalado**), **Blood Moon Breeches** (sistema de entrega de maldiciones), **Pact of Bone** ("esencialmente te da 6 afijos más un multiplicador, 40+ de ataque y crítico"), **Bloodless Scream** (guadaña, multiplicador de daño de congelación 200–250%). Aspectos: Exploiter's (manos), Reanimation (pecho), Heavenly Strength (pecho, 30–40% reducción con arma a dos manos), Hewed Flesh (botas), Hellbent Commander, Glynn's Anvil, Tidal. Charms: **6 huecos, mínimo un multiplicador o crítico; set Black Shroud a 5 piezas** 🔒. Mercenario: Subo o Aldkin (Maxroll) / **Varyana + Raheir** (Icy Veins) 🔒. Objetivos: **100% velocidad de ataque, 100% crítico, 30.000 vida mínimo, 40+ acumulaciones de Resolve** en la híbrida. Glifos Warrior: Warrior → Mage → Essence → Eliminator → Abyssal. Mages: Mage → Essence → Deadraiser → Eliminator → Abyssal. Híbrida: Dominate → Mage → Essence → Warrior → Abyssal. Tableros (Icy Veins): **Starter → Frailty → Cult Leader → Flesh Eater → Wither**, glifos a nivel 51. Cita: "ya sean hordas, pits o bossing casual, esta build gestiona todo el contenido de endgame increíblemente bien".
+**Minion / Reaper Summoner** (Maxroll act. 22 jul. 2026; Icy Veins S14) — Tres variantes: **Warrior**, **Mages**, **Hybrid**. Barra Warrior: Decrepify, Comando de Esqueletos Guerreros (multiplicador 25%), Golem (activa Imparable + acumula Ferocity), hueco flexible (Blood Mist o Sever), Army of the Dead (bonus pasivo estando activa). Barra Mages: Blight, Skeleton Mages – Shadow Command, Golem, flex, AotD. Híbrida: Decrepify, Blood Wave (apila Overpower a 20 → multiplicador Bloodbath), Comando de Guerreros, Golem, flex. Book of the Dead (versión Icy Veins): **Guerreros = Reapers (+50% daño)**, **Magos = Shadow (genera barrera)**, **Gólem = Iron sacrificado (+15% daño crítico)**. Únicos clave: **Deathgrip / The Hand of Naz** (guerrero extra, efecto de área, multiplicador), **The Undercrown** (guerreros y magos extra, multiplicador; ojo, **se menciona un bug de escalado**), **Blood Moon Breeches** (sistema de entrega de maldiciones), **Pact of Bone** ("esencialmente te da 6 afijos más un multiplicador, 40+ de ataque y crítico"), **Bloodless Scream** (guadaña, multiplicador de daño de congelación 200–250%). Aspectos: Exploiter's (manos), Reanimation (pecho), Heavenly Strength (pecho, 30–40% reducción con arma a dos manos), Hewed Flesh (botas), Hellbent Commander, Glynn's Anvil, Tidal. Charms: **6 huecos, mínimo un multiplicador o crítico; set Black Shroud a 5 piezas** 🔒. Mercenario: **Subo (por el "maphack") con Aldkin como refuerzo** para reducción de daño (Maxroll — *matizado en verificación: es Subo **con** Aldkin de refuerzo, no "Subo **o** Aldkin"*) / **Varyana + Raheir** (Icy Veins) 🔒. Objetivos: **100% velocidad de ataque, 100% crítico, 30.000 vida mínimo, 40+ acumulaciones de Resolve** en la híbrida. Glifos Warrior: Warrior → Mage → Essence → Eliminator → Abyssal. Mages: Mage → Essence → Deadraiser → Eliminator → Abyssal. Híbrida: Dominate → Mage → Essence → Warrior → Abyssal. Tableros (Icy Veins): **Starter → Frailty → Cult Leader → Flesh Eater → Wither**, glifos a nivel 51. Cita: "ya sean hordas, pits o bossing casual, esta build gestiona todo el contenido de endgame increíblemente bien".
 
 **Sever** (act. 28 jul. 2026) — Bone Storm antes de entrar, luego spam de Sever; Blood Mist para movilidad y supervivencia; los esbirros llevan maldiciones y control. Únicos: **Bloodless Scream** (multiplicador principal), set **Berú of the Black Shroud** 🔒, **Signet of Pelghain** (escalado por congelación). **Arma a dos manos obligatoria** para Aspect of Heavenly Strength. Objetivos: ~100% velocidad de ataque con Bone Storm, ~100% crítico con buffs, **14–28 de regeneración de Esencia**, **+10 acumulaciones máximas de Resolve en dos templados**. Mercenario Raheir + Aldkin 🔒. Pros: movilidad, rotación simple. Contras: **AoE limitada, pico de daño bajo, escalado dependiente del temporizador de congelación**.
 
@@ -326,10 +333,11 @@ Criterio de selección: **cuánto del poder de la build sobrevive** al quitar ru
 4. **Crown of Lucion** — "gran subida de daño".
 
 **Estadísticas objetivo:**
-- **Reducción de coste de recurso (RCR): 15%**
-- **Regeneración de Esencia: 10**
-- **Velocidad de ataque: 70% con acumulaciones de Ferocity**
-- **Probabilidad de crítico: 85%**
+*(Cifras reverificadas contra la guía: son **mínimos** —la guía usa ">"—, no valores exactos.)*
+- **Reducción de coste de recurso (RCR): >15%**
+- **Regeneración de Esencia: >10**
+- **Velocidad de ataque: >70% con acumulaciones de Ferocity**
+- **Probabilidad de crítico: >85% con Bone Storm**
 - 3× templado "Lucky Hit Chance: Restore Resource" en joyería
 
 **Paragón:** orden de subida de tableros/glifos: **Dominate → Corporeal → Essence (requiere llegar a nivel 50 antes) → Imbiber → Amplify**.
@@ -342,7 +350,7 @@ Criterio de selección: **cuánto del poder de la build sobrevive** al quitar ru
 5. **Sever** para saltar al siguiente grupo.
 6. **Decrepify manual** (vuestro añadido) cuando toque élite/jefe.
 
-**Lo que perdéis:** las runas **Gar** (hasta **25% de crítico**), `Teb` e `Wat` 🔒, y a **Subo** (+25% daño crítico) 🔒. Traducción: vuestro objetivo de **85% de crítico** es más difícil de alcanzar sin `Gar`; compensadlo con crítico en joyería, gemas y el nodo de Bone Storm.
+**Lo que perdéis:** las runas `Teb` e `Wat` 🔒 (las dos que la guía sí usa aquí, para automatizar Iron Maiden y Decrepify) y a **Subo** (+25% multiplicador de daño crítico) 🔒. *(Corregido en verificación: la guía de Blood Surge **no** usa `Gar`, aunque `Gar` —hasta 25% de crítico— sigue siendo una pérdida general de la clase, y de hecho la usan otras builds como Blood Wave.)* Traducción: vuestro objetivo de **>85% de crítico** es más difícil sin acceso a runas; compensadlo con crítico en joyería, gemas y el nodo de Bone Storm.
 
 **Planner / guías:** https://maxroll.gg/d4/build-guides/blood-surge-necromancer-guide (act. 13 ago. 2026, la guía de nigro **más reciente** del catálogo) · leveling: https://maxroll.gg/d4/build-guides/blood-surge-necromancer-leveling-guide · planner base: https://maxroll.gg/d4/planner
 
@@ -352,7 +360,13 @@ Criterio de selección: **cuánto del poder de la build sobrevive** al quitar ru
 
 **Por qué está aquí y por qué lleva un condicional.** Es **la única A en la tier list de push**, fuentes secundarias la llaman la mejor build del nigro en S14 y "T0" tras 3.1.1, y la guía dice textualmente que **"puedes jugar esta build literalmente pulsando solo Blood Wave"**. Es decir: **máximo techo con mínimo pilotaje**, el sueño de un principiante que quiere leaderboard.
 
-**El condicional:** toda la build **pivota sobre un único item, Kessime's Legacy** (pantalón), que transforma Blood Wave en olas convergentes que **atraen y explotan** a los enemigos. **No he podido verificar si Kessime's Legacy cae para jugadores sin expansión.** Si cae ✅, es vuestra build de empuje. Si está bloqueada 🔒, esta build no existe para vosotros y pasáis directamente al Plan B (§5.4). **Comprobadlo en el juego antes de invertir**: mirad si el item aparece en vuestra colección/códice de únicos de nigromante.
+**El condicional:** toda la build **pivota sobre un único item, Kessime's Legacy** (pantalón), que transforma Blood Wave en olas convergentes que **atraen y explotan** a los enemigos.
+
+> ✅ **ACTUALIZADO EN VERIFICACIÓN — el condicional se relaja mucho.** Icy Veins documenta que **Kessime's Legacy cae de Andariel**, que es un **jefe de guarida del juego base** (accesible con llaves universales desde el rework de 3.0). Además, **ninguna** de las fuentes consultadas afirma que los items únicos estén bloqueados por expansión, y las notas de 3.1.1 confirman que los **jefes de guarida** pueden soltar únicos en calidad mítica. **Conclusión: es muy probable que Kessime's Legacy sea accesible con juego base, farmeando Andariel.** No es una declaración oficial de Blizzard, así que lo dejo como *muy probable* y no como certificado — pero pasa de "quizá esta build no existe para vosotros" a "esta build casi con seguridad es vuestra, y además con vía de farmeo dirigida".
+>
+> Texto exacto del efecto según Icy Veins: *"Blood Wave now forms a wave on each side of you. Both waves converge at your feet, Pulling In surrounding enemies and exploding for x damage."*
+
+> ⚠️ **Aviso nuevo de dependencia de expansión.** La guía de Maxroll de Blood Wave afirma que **"Lord of Hatred has fundamentally transformed everything about this build"**. Es decir: la build *tal y como está escrita en la guía* está más entrelazada con la expansión de lo que el informe original daba a entender. El item núcleo parece accesible ✅, pero **la versión de guía asume LoH**; vosotros jugaréis una versión recortada. Sigue siendo jugable, pero no esperéis replicar los números de la guía.
 
 **Barra de habilidades:**
 1. **Blood Wave** con la mejora **Hematolagnia** — daño principal.
@@ -454,7 +468,9 @@ Tier C de endgame y C de push — **no os va a llevar a la cima del leaderboard*
 
 ### 8.2 Lo que NO he podido confirmar (❓)
 
-1. **La pregunta más importante que queda abierta:** si los **items únicos introducidos con Vessel of Hatred o Lord of Hatred caen para jugadores sin expansión**. No encontré declaración de Blizzard ni de guía. Esto afecta directamente a **Kessime's Legacy** (núcleo de Blood Wave), **Crown of Lucion**, **Pact of Bone**, **Vengeful Sinew**, **Signet of Pelghain** y **Sanguivor Blade of Zir**, cuyo origen (base vs. expansión) no pude fechar en ninguna fuente. **Comprobadlo dentro del juego en la colección de únicos antes de planificar.**
+1. **La pregunta más importante que queda abierta:** si los **items únicos introducidos con Vessel of Hatred o Lord of Hatred caen para jugadores sin expansión**. No encontré declaración de Blizzard ni de guía. Afecta a **Crown of Lucion**, **Pact of Bone**, **Vengeful Sinew**, **Signet of Pelghain** y **Sanguivor Blade of Zir**. **Comprobadlo dentro del juego en la colección de únicos antes de planificar.**
+   - **Avance en verificación (parcial):** para **Kessime's Legacy** sí hay respuesta razonable — Icy Veins la sitúa en la tabla de botín de **Andariel**, jefe de guarida de **juego base** (ver §5.3). Y **ninguna fuente consultada afirma que los únicos estén bloqueados por expansión**; el eje gratis/pago documentado va de **sistemas** (runas, mercenarios, charms, Cubo), no de items únicos concretos. Eso hace **menos probable** —pero no imposible— que el resto de la lista esté bloqueada.
+   - **Herramienta primaria que podéis usar vosotros mismos:** las notas de parche oficiales de Blizzard **están divididas en secciones "Expansion" y "Base Game"**. Es la forma más fiable y gratuita de comprobar si algo os aplica: si un cambio está bajo "Base Game", es vuestro.
 2. **Si el contenido estacional de S14 es 100% gratis.** Un desglose señala que en Season 13 "**algunas tareas requieren Lord of Hatred**" aunque las recompensas fueran mayormente gratis. Es plausible que S14 repita el patrón, sobre todo porque el objetivo de rango de temporada citado en 3.1.3 se apoya en Escalation/Ruptures y hay arreglos de **War Plans** 🔒 en el mismo parche. **No verificado para S14.**
 3. **Enlaces de planner exactos.** Los planners de Maxroll (D4Planner) están **embebidos por JavaScript** en cada guía y no son extraíbles por fetch. Los enlaces que doy son **los de la guía**, que es donde vive el planner. Mobalytics y DiabloBytes devolvieron **HTTP 403** a mis peticiones; no pude leer sus tier lists ni sus planners directamente (solo a través de resúmenes de búsqueda).
 4. **Asignación exacta de puntos del árbol de habilidades.** Ninguna guía de Maxroll expone la distribución punto a punto en texto plano; hay que abrir el planner en el navegador.
@@ -503,3 +519,56 @@ Páginas realmente abiertas y leídas (WebFetch) durante esta investigación:
 - https://infinitybuilds.gg/en/news/diablo-4-lord-of-hatred-free-vs-expansion-content
 
 De estas seis, la información que aparece citada en §3.4 y §8.1 procede de **resúmenes de resultados de búsqueda**, no de la página abierta. Está marcada como tal.
+
+---
+
+## Nota del verificador
+
+> **Fecha de verificación:** 18 de agosto de 2026 · **Método:** verificación adversarial (intento activo de refutar el informe, no de confirmarlo).
+> **Limitación de método a declarar:** el presupuesto de búsquedas web de la sesión estaba **agotado** (200/200), así que **toda la verificación se hizo con acceso directo a URLs concretas (WebFetch)**, sin búsqueda exploratoria. Se abrieron **14 páginas**, priorizando **fuentes primarias** (Blizzard oficial) sobre las secundarias que usaba el informe. No pude por tanto buscar fuentes independientes *nuevas* que el informe no citara ya; esto sesga la verificación hacia "comprobar lo afirmado" más que hacia "descubrir lo omitido".
+
+### Veredicto general: **PARCIAL — el informe es sólido y honesto, con un error real y varias omisiones**
+
+El informe resiste bien el ataque. Su núcleo —la clasificación gratis/pago, las tier lists, las cifras de las builds— **se confirmó casi punto por punto contra fuentes primarias**. Su virtud principal es metodológica: declara abiertamente que la clasificación ✅/🔒 es inferencia propia y marca sus incertidumbres con ❓ en vez de rellenarlas. Eso es correcto y hay que mantenerlo.
+
+### Lo que se CONFIRMÓ (sin cambios)
+
+- **Tier list de endgame** (Maxroll, 29 jun. 2026): A = Blood Wave, Bone Spirit; B = Minion, Golem, Sever, Blood Surge; C = Blight, AotD, Bone Spear, Blood Lance. **Exacto.**
+- **Tier list de push** (29 jun. 2026): A = solo Blood Wave; B = otras siete; C = Blight, Bone Spear. **Exacto.**
+- **Tier list de leveling** (29 jun. 2026): S = Minion; A = Blood Surge, Sever, Blight. **Exacto**, incluido el criterio literal "sin recursos, temples ni aspectos" hasta nivel 70.
+- **Tabla gratis vs. pago de §1.2**: confirmada íntegra contra la fuente de desglose — nivel 70, 12 Tormentos, Pit de 5 plantas, filtro de botín, rework de gemas, rework de afijos a multiplicativo, 2 de 3 variantes de habilidad. Y del lado de pago: Cubo Horadric, Talismán/charms de 6 huecos, War Plans, Echoing Hatred, tercera variante.
+- **Runewords requieren Vessel of Hatred**: cita literal confirmada — *"Runewords are only available to players who have purchased the Vessel of Hatred expansion."* Efectos de **Teb**, **Wat**, **Gar** (2,5% crítico por acumulación **hasta 25%**) e **Igni** (0,3 s, hasta 500 de ofrenda): **todos exactos**.
+- **Mercenarios requieren VoH**: confirmado en la guía de Minion — *"Mercenaries are unlocked during the Vessel of Hatred campaign."*
+- **Lord of Hatred**: confirmado en la **página oficial de Blizzard** — clases **Paladin y Warlock**, región **Skovos**, **Horadric Cube**, **Talismán con bonus de set**, **War Plans**, **Echoing Hatred**, **pesca**, e inclusión gratuita de Vessel of Hatred. El informe acertó incluso en el dato arriesgado de que LoH trae **dos** clases.
+- **Parche 3.1.3** (build #73224, 12 ago. 2026): **verificado entrada por entrada**, incluido el arreglo de que *"Necromancer Shadow skills would obscure the Corrupted Reaper"*, el portal a la fase 3 del **Echo of Mephisto**, el arreglo de teletransporte de **War Plans** y el objetivo **Set Fire to the Beacons** con Escalation/Ruptures. **Es efectivamente un parche sin cambios de balance.**
+- **Rework de invocador de S14**: confirmado — Guerreros nivel 4, Libro de los Muertos 6, Gólem 8 (antes 25), y la cita *"no longer relying on legendary powers or specific equipment drops"*.
+- **Blood Surge y Blood Wave**: objetivos de estadísticas, orden de glifos, orden de míticos, Libro de los Muertos y mercenario **confirmados uno a uno** contra las guías.
+
+### Errores encontrados y CORREGIDOS en el fichero
+
+1. **[ERROR REAL] El "hotfix 3.1.1a del 16 de julio" no existe en las notas oficiales**, y con él cae la afirmación de que **se eliminó el límite de un mítico crafteado equipado**. El documento oficial de Blizzard solo lista **3.1.0 (#72592)**, **3.1.1 (#72836)**, **3.1.2 (#73020)** y **3.1.3 (#73224)**. Era una afirmación consecuente —el informe la usaba en §1.4 y §2.4— y estaba presentada como hecho. **Retirada y marcada como no confirmada.**
+2. **[OMISIÓN] Faltaba el parche 3.1.2 entero** (build #73020, 28 jul. 2026). Añadido, con su arreglo de reciclado de míticos.
+3. **[OMISIÓN IMPORTANTE, y a favor del jugador] El informe se perdió la mejor noticia de 3.1.1**: *"Fixed an issue that was preventing certain sources of Uniques from dropping as Mythic, **including Lair Bosses**"*. Como los **jefes de guarida son juego base**, esto **refuta la conclusión pesimista** del informe de que los míticos os son "lotería pura": tenéis una **vía dirigida y repetible**. Corregido en §1.4 y §2.4.
+4. **[INCERTIDUMBRE CERRADA A MEDIAS] Kessime's Legacy** —la pregunta que el informe declaraba como la más importante sin resolver— **cae de Andariel**, jefe de guarida de **juego base**, según Icy Veins. Sumado a que **ninguna fuente afirma que los únicos estén bloqueados por expansión**, la build de Blood Wave pasa de "quizá no existe para vosotros" a **"muy probablemente accesible"**. Corregido en §5.3 y §8.2.
+5. **[MATIZ QUE EL INFORME SE DEJABA] La guía de Blood Wave de Maxroll dice "Lord of Hatred has fundamentally transformed everything about this build".** El item núcleo parece accesible, pero la **versión de guía asume la expansión**. Aviso añadido en §5.3 para que no esperéis replicar sus números.
+6. **[ERROR MENOR] Runas de Blood Surge**: el informe listaba "Gar/Teb/Wat"; la guía solo usa **Teb y Wat**. Corregido en §4.1 y §5.2.
+7. **[PRECISIÓN] Objetivos de estadísticas de Blood Surge**: son **mínimos** (">15% RCR", ">10 regen", ">70% velocidad", ">85% crítico **con Bone Storm**"), no cifras exactas. El informe los daba como valores cerrados. Corregido.
+8. **[PRECISIÓN] Mercenario de Minion**: es **Subo *con* Aldkin de refuerzo**, no "Subo *o* Aldkin". Corregido.
+9. **[DATOS AÑADIDOS] Unyielding Commander se desbloquea al nivel 25**; los Magos Esqueléticos antes pedían **nivel 15**; a nivel 20 se tiene un ejército de **15 esbirros**. Añadido en §2.3.
+10. **[AVISO NUEVO, relevante para la cartera] La página oficial de venta de Lord of Hatred publicita como features de la expansión el rework del árbol de habilidades, la subida de nivel máximo y el filtro de botín — que son GRATIS.** Es una trampa comercial evidente para un jugador de juego base. Aviso añadido en §1.1.
+
+### Contradicción de fuentes detectada y NO resuelta (reportada, no promediada)
+
+- **¿En qué parche entraron Gloom Ward (8→6), Bone Graft (40→60%) y Aspect of Serration (5→10%)?** La fuente dedicada a 3.1.0 los atribuye a **3.1.0**; una lectura del documento acumulado de Blizzard los situó en **3.1.1**. **No se pudo cerrar.** Anotado en §2.2. Impacto práctico nulo (están vivos en cualquier caso), pero la fecha no es firme.
+- *Causa probable del ruido:* el documento oficial de notas de parche es **acumulativo** (contiene 3.1.0 a 3.1.3 en la misma página), lo que hace fácil atribuir mal un cambio. **Fue exactamente el error que estuve a punto de cometer yo**: una primera lectura me hizo creer que 3.1.3 sí tocaba balance, y una segunda lectura dirigida lo desmintió. El informe original acertaba.
+
+### Lo que sigue sin poder verificarse
+
+- Origen (base vs. expansión) de **Crown of Lucion, Pact of Bone, Vengeful Sinew, Signet of Pelghain y Sanguivor Blade of Zir**. Se debilita la sospecha —el eje gratis/pago documentado va de **sistemas**, no de items— pero no hay declaración oficial.
+- **Si el pase/contenido estacional de S14 es 100% gratis.** Sigue abierto.
+- **Mobalytics y DiabloBytes siguen devolviendo 403.** Las afirmaciones de §3.4 y §8.1 que dependen de ellas (Minion en A, Golem como S-tier, Blood Wave "T0") **siguen apoyadas solo en resúmenes de búsqueda, sin página abierta**. El informe ya lo declaraba; lo confirmo y lo mantengo como debilidad.
+- **Bases de datos de items** (wowhead/d4/fandom/maxroll resources) devolvieron **404/402**; no hubo forma de auditar items uno a uno.
+
+### Recomendación al jugador
+
+Las **tres builds recomendadas (Minion → Blood Surge → Blood Wave) siguen siendo la respuesta correcta** tras la verificación, y **Blood Wave sale reforzada**, no debilitada, porque su item núcleo parece accesible y farmeable en Andariel. Añadid a vuestra rutina el **farmeo de jefes de guarida**: es contenido base, admite llaves universales y desde 3.1.1 puede soltar únicos en calidad mítica. Y para comprobar vosotros mismos si algo os aplica, usad las **notas de parche oficiales, que están divididas en secciones "Expansion" y "Base Game"**.

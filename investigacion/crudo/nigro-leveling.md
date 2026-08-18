@@ -18,7 +18,14 @@ El briefing de partida decía "1 a 60". **Eso ya no es cierto en el parche vivo.
 | Puntos de habilidad extra por Rango de Temporada (Season Rank) | **14** | Icy Veins, Maxroll |
 | Total del build "completo" | **83 puntos** | Icy Veins, Maxroll |
 
-El salto de 60 a 70 llegó con el parche **3.0.1** (base de Lord of Hatred, abril de 2026) y, según lo que he leído, **se aplicó a todo el mundo, también a quien solo tiene el juego base** ✅. ⚠️ Este último punto conviene verificarlo en la pantalla de personaje el primer día: Icy Veins no lo confirma explícitamente en su artículo sobre el cap; la afirmación "está para todos" viene de fuentes secundarias.
+El salto de 60 a 70 llegó con el parche **3.0.1** (base de Lord of Hatred, abril de 2026) y **se aplica a todo el mundo, también a quien solo tiene el juego base** ✅.
+
+> **[VERIFICADO — antes era una suposición, ahora es un hecho con fuente primaria]** La página oficial de Blizzard de Lord of Hatred tiene un apartado titulado **"Major Updates for all Diablo IV Players"** y dentro dice, textualmente:
+> *"Major Skill Tree reworks including new skill variants for every class, along with level cap increases, will refresh how you customize and build power."*
+> Es decir: **el rework del árbol de habilidades 3.0 Y la subida de nivel máximo son gratis para todos los jugadores, con o sin expansión.** No hay nada que comprobar el primer día: el cap 70 es vuestro.
+> Fuente: https://diablo4.blizzard.com/en-us/lord-of-hatred
+
+⚠️ Matiz: la página oficial dice "level cap increases" sin dar el número. El **70** concreto lo confirman Maxroll (guías de leveling de Nigromante S14, tier list, recurso Experience), Icy Veins (guía Summoner: *"designed to get you to level 70"*, *"unlocking the paragon board after reaching level 70"*) y ConquestCapped. Las dos piezas encajan.
 
 **Consecuencia práctica:** todo lo que leas por ahí que hable de "el rush a 60" es de Season 12 o anterior. Descártalo.
 
@@ -34,8 +41,10 @@ Esta es la sección más importante del informe. La meta de leveling que domina 
 |---|---|---|
 | Nigromante (Necromancer) como clase | ✅ | Clase del juego base desde el día 1. |
 | Libro de los Muertos (Book of the Dead) | ✅ | Mecánica de clase del Nigromante, no expansión. |
-| Árbol de habilidades + rework 3.0 | ✅ ⚠️ | El "skill tree overhaul" llegó con el parche 3.0.1. Icy Veins lo lista bajo "Lord of Hatred", pero históricamente los reworks de clase son gratuitos para todos. **Verificar en juego.** |
-| Paragon (a partir de 70) | ✅ | Base. |
+| Árbol de habilidades + rework 3.0 | ✅ **CONFIRMADO** | Blizzard lo mete literalmente en el apartado *"Major Updates for all Diablo IV Players"*: *"Major Skill Tree reworks including new skill variants for every class"*. **Gratis con juego base.** Ya no hay que verificarlo. Ojo al detalle: el nuevo árbol *"unlocks in stages, permanently unlocking new skill clusters"* (Icy Veins), que es justo lo que explica los desbloqueos escalonados de la sección 3. |
+| Cap de nivel 70 | ✅ **CONFIRMADO** | Misma frase oficial: *"…along with level cap increases"*, dentro del bloque para todos los jugadores. |
+| **Filtro de botín (Loot Filter)** | ✅ **CONFIRMADO** | Novedad de 3.0 y **gratis para todos**: *"a new Loot Filter will ease the discovery of desired items across Sanctuary"* (Blizzard, mismo apartado). Configuradlo el primer día: para dos principiantes es de lo que más tiempo ahorra. |
+| Paragon (a partir de 70) | ✅ | Base. Icy Veins: *"unlocking the paragon board after reaching level 70"*. |
 | Altares de Lilith (Altars of Lilith) | ✅ | Existen en las 5 zonas del juego base. |
 | Renombre (Renown) | ✅ pero **irrelevante en temporada** | Desde el parche 2.5.0 (Season 11) el Renown es **solo Reino Eterno**. En temporada lo sustituye el Season Rank. |
 | Rango de Temporada (Season Rank) | ✅ | Es de donde salen vuestros 14 puntos de habilidad extra. |
@@ -48,25 +57,27 @@ Esta es la sección más importante del informe. La meta de leveling que domina 
 | Hordas Infernales (Infernal Hordes) | ✅ | Base. |
 | Campos de Odio (Fields of Hatred, PvP) | ✅ | Base. |
 | Mecánica de temporada: Rupturas de Pandemónium (Pandemonium Ruptures) | ✅ | La línea de misión arranca en Kyovashad y el hub está en Zarbinzet (Hawezar) → mapa base. |
-| Mythic Unique 3.0 | ✅ | Rework de temporada, no de expansión. |
-| Corrupted Reaper (jefe de guarida estacional) | ✅ ⚠️ | Está en el "Pandemonium Threshold" de Zarbinzet → zona base. |
-| Solo Self-Found (SSF) | ✅ | **Pero NO lo cojáis:** SSF prohíbe grupo y comercio. Jugáis en dúo. |
-| Torre / Leaderboards | ⚠️ | Sale de beta en S14 con recompensas cosméticas. No he podido confirmar si hay requisito de expansión. |
+| Mythic Unique 3.0 | ✅ **con una trampa** | Rework de temporada, no de expansión. Maxroll, textual: *"In Season 14, every Unique can be Mythic. Instead of being an item Rarity, Mythic is now a modifiable Item Quality."* Se convierte un Único Ancestral (850+) en Mítico por **dos rutas**: (a) **Cubo Horádrico + 5 Fragmentos de Pandemónium** ✅ o (b) **Joyero + 18 Runas + 3 Chispas Resplandecientes** 🔒 (las runas son de expansión). **La ruta (a) es la vuestra.** El Mítico sube su poder único un **30%** y el resto de afijos rolan al máximo. Límite: *"You can only equip one **crafted** Mythic Unique"* — los míticos que os caigan del suelo/alijos no cuentan para ese límite. |
+| Corrupted Reaper (jefe de guarida estacional) | ✅ | Confirmado: su guarida es **"The Pandemonium Threshold"**, en **Zarbinzet** (Hawezar) → zona del juego base. Se mata durante la línea estacional y luego es repetible; para las cajas de recompensa hace falta **Superior Lair Keys**. Es la mejor probabilidad directa de Míticos y de moneda de mejora. |
+| Solo Self-Found (SSF) | ✅ | **Pero NO lo cojáis.** Confirmado en Maxroll: *"SSF characters cannot join parties or trade with other players"*, es **permanente**, solo temporada, tiene alijo/moneda/Paragon separados, y además le quedan bloqueados **Ciudadela Oscura, couch co-op y la prueba gratuita**. Para un dúo es la peor casilla de la pantalla de creación. |
+| Torre / Leaderboards | ✅ (evidencia fuerte, no prueba) | Sale de beta en S14: cosméticos de *Halo*, **Títulos de Prestigio** de temporada y **Emblemas** de fin de temporada, con tramos de recompensa top 1.000 / 500 / 100 / 10 / 1, y **tablas separadas para SSF Normal y Hardcore**. Sobre el acceso: ConquestCapped dice que el nodo de **Rango de Temporada 2, "Hellish Descent"**, es *"the gate that opens both The Pit and The Tower"* → puerta **estacional**, no de expansión. No he encontrado ninguna fuente que exija expansión para la Torre. |
 
 ### 1.2 Lo que os falta (🔒) y por qué duele
 
 | Sistema | Expansión | Impacto en vuestro leveling |
 |---|---|---|
-| **War Plans** | 🔒 Lord of Hatred (⚠️ ver contradicciones) | **CRÍTICO.** Es el tablero de objetivos que da el nodo *Writhe and Rot* (Hellwyrms con globos gigantes de XP) y *Jade Epiphany*. Es literalmente el 80% de la ruta "1-70 en 90 minutos". Sin él, esa ruta no existe para vosotros. |
+| **War Plans** | 🔒 **Lord of Hatred — CONFIRMADO, ya no es contradicción** | **CRÍTICO.** Maxroll, textual: *"Once you complete the Lord of Hatred Campaign, you can start a War Plan by visiting **Tyrael** in **Temis, the main city of Skovos**."* ConquestCapped, independiente y en la misma dirección: *"War Plans require the Lord of Hatred campaign completed once on your account"* y *"First-time players must complete the story before accessing War Plans"*. Skovos es zona de expansión → sin LoH no hay War Plans. Es una lista de reproducción de hasta 5 actividades de endgame (Susurros, Mazmorras de Pesadilla, Helltides, Foso, Hordas, Undercity) con árboles de nodos propios. Los dos nodos que sostienen la meta: **Writhe and Rot** (Helltide) — Maxroll lo describe como *"insane experience gain overall and extra Boss Lair keys"* — y **Jade Epiphany** (Undercity). ⚠️ Lo de "Hellwyrms con globos gigantes de XP" viene de guías de ruta rápida (MMOGah), **no** de la descripción del nodo en Maxroll; el nodo de bichos de Helltide se llama *Wretched Vermin*. Da igual para vosotros: todo el tablero está 🔒. |
 | **Undercity de Kurast** | 🔒 Vessel of Hatred | Segundo motor de XP de la meta actual (nivel 25+). No lo tenéis. |
 | **Mercenarios** (Raheir, Varyana, Aldkin…) | 🔒 Vessel of Hatred | Todas las guías de Nigromante S14 asumen mercenario. Perdéis un acompañante que da defensa y utilidad gratis. En dúo lo compensáis parcialmente el uno al otro. |
-| **Runewords / Runas** | 🔒 Expansión (⚠️ VoH o LoH, fuentes discrepan) | Todas las guías dan "mejor combinación de runas". Ignorad esa sección entera. |
-| **Talismanes / Horadric Seal / Charms** | 🔒 Lord of Hatred | Idem, ignorad. |
+| **Runewords / Runas** | 🔒 **Vessel of Hatred** (evidencia más fuerte que antes) | La guía Minion de Maxroll marca Mercenarios y Runewords como contenido de expansión y ata el desbloqueo a *"the Vessel of Hatred campaign"*. Icy Veins las menciona en contexto de Lord of Hatred, pero eso parece conflación (LoH tocó las runas, no las introdujo). En ambos casos 🔒: ignorad esa sección entera. **Efecto colateral importante**: sin runas **no podéis usar la ruta del Joyero para craftear Míticos** (18 runas + 3 Chispas). Vuestra ruta es Cubo Horádrico + Fragmentos de Pandemónium. |
+| **Talismanes / Horadric Seal / Charms** | 🔒 **Lord of Hatred — CONFIRMADO** | La página oficial de Blizzard lista el **Talisman como tipo de objeto nuevo de la expansión**, con *"set bonuses"*. Ignorad. |
+| **Echoing Hatred** | 🔒 **Lord of Hatred — CONFIRMADO** | Actividad de endgame nueva de la expansión (*"the Echoing Hatred, facing unending demonic hordes"*, Blizzard). No aparecía en la versión anterior de este informe. |
+| **Pesca (Fishing)** | 🔒 **Lord of Hatred — CONFIRMADO** | *"Fishing through the perilous waterways"* (Blizzard). Anecdótico, pero es contenido que no tenéis. |
 | **Nahantu / Kurast**, Tenets of Akarat | 🔒 Vessel of Hatred | Zona entera + su renombre. |
-| **Skovos Isles** | 🔒 Lord of Hatred | Zona entera. |
+| **Skovos** (y su capital **Temis**) | 🔒 **Lord of Hatred — CONFIRMADO** | Zona entera (*"a new region (Skovos) to explore"*, Blizzard). **Temis es la ciudad principal de Skovos**, no un NPC — ver corrección en 8.1. Sin la zona no hay acceso a Tyrael ni a los War Plans. |
 | **Ciudadela Oscura (Dark Citadel)** | 🔒 Vessel of Hatred | Contenido cooperativo. |
 | **Spiritborn** y su **Sala de Espíritus / Spirit Hall** | 🔒 Vessel of Hatred | Ver punto 4. |
-| **Warlock** | 🔒 Lord of Hatred | Hay **prueba gratuita de Warlock** en S14 para probarlo ✅, pero no es vuestra clase. |
+| **Warlock** *y* **Paladín** | 🔒 Lord of Hatred | ❌ **CORRECCIÓN AL BRIEFING Y A LA VERSIÓN ANTERIOR DE ESTE INFORME:** Lord of Hatred no trae **una** clase nueva, trae **DOS**. Blizzard, textual: *"Two new classes (Paladin and Warlock), each with four specializations"*. El briefing de partida solo mencionaba Warlock. Hay **prueba gratuita de Warlock** en S14 ✅, pero ninguna de las dos es vuestra clase. Fuente: https://diablo4.blizzard.com/en-us/lord-of-hatred |
 | Saltar la campaña de expansión | 🔒 | Vosotros solo podéis saltar la **campaña base**, y solo si ya la habéis terminado antes. |
 
 ---
@@ -77,7 +88,7 @@ Maxroll mantiene una tier list específica de **builds de leveling** de Nigroman
 
 | Tier | Build | Comentario |
 |---|---|---|
-| **S** | **Minion Necro** (Nigromante de esbirros) | Único S. Maxroll lo marca además como el recomendado para principiantes en el hub de la clase. |
+| **S** | **Minion Necro** (Nigromante de esbirros) | Único S. ❌ **Corrección:** la versión anterior decía que Maxroll "lo marca como el recomendado para principiantes en el hub de la clase". **Eso no está escrito en ningún sitio.** Ni la tier list ni el hub de Nigromante etiquetan builds como *beginner-friendly*. Lo que sí dice la guía Minion, textual, es que el build es *"incredibly easy, fun to play"* y *"a very comfy one as well with multiple tank options"*. La conclusión práctica no cambia, pero el argumento es ese, no una etiqueta oficial. |
 | A | Blood Surge Necro (Oleada de sangre) | Muy sólido, más "activo". |
 | A | Sever Necro (Segar) | Buen clear, proyectiles. |
 | A | Blight Necro (Plaga) | Maxroll lo cataloga como para jugadores con experiencia. |
@@ -85,7 +96,7 @@ Maxroll mantiene una tier list específica de **builds de leveling** de Nigroman
 
 **Recomendación para vosotros dos: Minion Necro.** Razones concretas:
 
-1. Es el único S-tier y el marcado como beginner-friendly.
+1. Es el **único S-tier** de la tier list de leveling de Nigromante de Maxroll (actualizada 29/06/2026, "Updated for Season 14"), cuyo criterio declarado es literalmente *"Movement speed, survivability, ease of play, damage output and total time to reach level 70 in a season start scenario without resources, tempers or aspects unlocked"* — es decir, se puntúa **facilidad de juego** y **arranque sin recursos**, que es exactamente vuestro caso. A-tier: Blood Surge, Sever, Blight. Bone Spear no figura en la tier list (aunque tiene guía de leveling propia).
 2. Es el build que menos depende de que os caiga un item concreto: los esbirros pegan solos. Icy Veins lo describe como "indulgente con los huecos de equipo" y con "gestión de recursos mínima".
 3. **Es el que menos sufre por no tener mercenario** 🔒: ya lleváis un ejército de tanques propios.
 4. lfcarry lo lista explícitamente entre los builds S-tier accesibles **para jugadores de juego base**.
@@ -148,7 +159,7 @@ Esto es mi síntesis de los anclajes anteriores. Úsalo como guía, no como evan
 | 60-70 | Utilidad y huecos sueltos + **Army of the Dead** (Ejército de los muertos) como ultimate | Icy Veins lo lista en la barra final del Summoner. |
 
 **Barra de habilidades final del Summoner según Icy Veins (S14):** Skeleton Mage · Skeleton Warrior · Golem · **Blood Maiden** · **Inexorable Reaper** · Army of the Dead.
-⚠️ "Blood Maiden" e "Inexorable Reaper" aparecen así en su barra; son nombres de *mejora* de Iron Maiden y de Reap/Sever respectivamente, no habilidades independientes. No he podido verificar la nomenclatura exacta post-rework 3.0.
+⚠️ **Verificado a medias, y ahora sabemos POR QUÉ.** He confirmado que esa es literalmente la barra que publica Icy Veins. La explicación de los nombres raros está en la fuente primaria: Blizzard dice que el rework 3.0 trae *"new skill variants for every class"* — es decir, **el rework introdujo variantes de habilidad**, y "Blood Maiden" e "Inexorable Reaper" son casi con seguridad variantes (de Iron Maiden y de Sever/Reap respectivamente), no habilidades nuevas. Icy Veins **no las define en ninguna parte de la guía**: las mete en la barra dando por hecho que sabes qué son. Sigue sin poder verificarse la nomenclatura exacta en español ni de qué habilidad base cuelga cada una. **Cuidado especial aquí: "Blood Maiden" es también el nombre de un jefe de Helltide en Diablo IV, así que si buscáis ese término en Google os saldrá otra cosa.**
 
 ---
 
@@ -156,16 +167,21 @@ Esto es mi síntesis de los anclajes anteriores. Úsalo como guía, no como evan
 
 Es la mecánica de clase del Nigromante ✅ **juego base**. Tres tipos de esbirro (Guerreros Esqueléticos, Magos Esqueléticos, Gólem), cada uno con tres variantes, cada variante con dos mejoras (Upgrades) o un **Sacrificio** (Sacrifice) que elimina al esbirro a cambio de un buff permanente para ti.
 
-### 4.1 Niveles de desbloqueo — ⚠️ CONTRADICCIÓN ENTRE FUENTES
+### 4.1 Niveles de desbloqueo — contradicción ahora RESUELTA (a favor del nivel 15)
 
-| Fuente | Cuándo se abre el Libro |
-|---|---|
-| **Icy Veins** (guía de leveling de Nigromante S14) | **Nivel 5** |
-| **Maxroll** (Minion y Bone Spear leveling guides S14) | **Nivel 15** |
+| Fuente | Cuándo se abre el Libro | Fecha de la fuente |
+|---|---|---|
+| **Icy Veins** (guía de leveling de Nigromante) | **Nivel 5** | sin fecha visible; su tabla 5/8/12/18/22/28/32 es el calendario **histórico** del juego base |
+| **Maxroll — Minion Necro leveling** | **Nivel 15**, textual: *"At level 15, you can unlock your class mechanic called Book of the Dead."* | 30/06/2026, "Season 14 – Death Awakening" |
+| **Maxroll — Bone Spear leveling** | **Nivel 15**, misma frase literal | 30/06/2026, "Season 14 – Death Awakening" |
 
-No he podido resolverlo. **Comprobadlo en juego el primer día** — es un pestañazo en el menú de personaje.
+**Veredicto del verificador: nivel 15.** Dos guías distintas de Maxroll, ambas fechadas y etiquetadas para Season 14, usan la misma frase. Y hay un mecanismo que lo explica: el rework 3.0 cambió el Libro de los Muertos y el árbol *"unlocks in stages, permanently unlocking new skill clusters"* — la propia Icy Veins escribe que *"the Lord of Hatred expansion introduced Skill Tree and Book of the Dead changes"*, y aun así conserva la tabla vieja. **Lo más probable es que la lista 5/8/12/… de Icy Veins sea contenido caducado que no reescribieron.**
 
-### 4.2 Progresión detallada según Icy Veins (la fuente más granular)
+⚠️ Sigue siendo un pestañazo comprobarlo en juego, y merece la pena hacerlo, porque si es 15 el arranque es **más flojo de lo que sugiere Icy Veins**: del nivel 3 al 15 tenéis Magos y Guerreros base, sin variantes ni mejoras. No os asustéis en ese tramo.
+
+### 4.2 Progresión detallada según Icy Veins (la más granular, pero probablemente PRE-rework)
+
+⚠️ **Leed esta tabla con pinzas.** Es la única que da un calendario completo, pero es exactamente la tabla que el punto 4.1 pone en duda. He verificado que Icy Veins la sigue publicando tal cual (Skirmishers y Shadow a 5, Defenders y Bone Golem a 8, Reapers a 12, Cold a 18, Bone a 22, Blood Golem a 28, Iron Golem a 32). Si en juego el Libro se abre a 15, **todo este calendario está desplazado o ya no existe**. Sirve como orden relativo, no como niveles exactos.
 
 | Nivel | Se desbloquea |
 |---|---|
@@ -177,13 +193,13 @@ No he podido resolverlo. **Comprobadlo en juego el primer día** — es un pesta
 | 28 | Golem (Blood) — tras la misión **"Call of the Underworld"** |
 | 32 | Golem (Iron) — tras la misión **"Call of the Underworld"** |
 
-⚠️ Icy Veins agrupa "Call of the Underworld" y los Gólems de Sangre/Hierro bajo requisitos de Vessel of Hatred. **Eso me parece dudoso**: "Call of the Underworld" es históricamente la misión de clase del Nigromante del juego base. Verificadlo; si es cierto, os quedaríais con el Gólem de Hueso, que de todas formas es el recomendado.
+⚠️ **Verificado y matizado.** He releído la guía de Icy Veins: lo que dice es que los Gólems de Sangre y Hierro se desbloquean *"after 'Call of the Underworld' quest"*, y **por separado** que *"During the Vessel of Hatred campaign, you unlock Mercenaries"*. Es decir: **el requisito de Vessel of Hatred está atado a los Mercenarios, no a "Call of the Underworld"**. La sospecha de la versión anterior de este informe era correcta: era una mala lectura de la maquetación de la página, no una afirmación de la fuente. **"Call of the Underworld" no está marcado como contenido de expansión por ninguna fuente que haya abierto.** Aun así no he encontrado una fuente que confirme *positivamente* que es de juego base, así que se queda en ⚠️ leve — y en el peor caso os quedáis con el Gólem de Hueso, que es el que recomienda Icy Veins de todas formas.
 
 ### 4.3 Qué elegir — y aquí también hay discrepancia
 
 | Guía | Guerreros | Magos | Gólem |
 |---|---|---|---|
-| **Icy Veins — Summoner** (la que os toca) | **Reapers** (Upgrade 1 a nv.12, Upgrade 2 a nv.50) | **Shadow** (Upgrade 2) | **Bone**, y a **nivel 50 pasar a SACRIFICIO** (+10% velocidad de ataque) |
+| **Icy Veins — Summoner** (la que os toca) | ❌ **CORREGIDO:** **Reapers [Upgrade #2] a nivel 12** — no "Upgrade 1 a 12 y Upgrade 2 a 50". Efecto citado: **+50% de daño aumentado y 15% de probabilidad de aturdir** | **Shadow [Upgrade #2] a nivel 5** (los proyectiles conceden barrera equivalente al **3% de Vida Máxima**) | **Bone**, y a **nivel 50 pasar a SACRIFICIO** (cambia daño por **+10% velocidad de ataque**) |
 | Maxroll — Minion Necro | **Defenders** (espinas) | **Shadow** (barrera) | **Blood** (imparable + fortificación) |
 | Maxroll — Sever / Blight | **Skirmishers** Upgrade 1 (más esbirros) | **Shadow Mages** Upgrade 2 (barrera) | **Bone** |
 | Maxroll — Blood Surge | **Reapers** (reducción de enfriamiento) | **Cold** (vulnerable + escarcha) | **Iron** (provocar, vulnerable, imparable) |
@@ -261,8 +277,9 @@ Esta es la decisión más importante de vuestra primera sesión, y para vosotros
 
 ### 7.1 La regla del salto
 
-- El **"Saltar campaña"** en la creación de personaje de temporada **solo está disponible si ya habéis completado la campaña base al menos una vez en la cuenta** (Icy Veins, ConquestCapped).
-- Vosotros no la habéis completado nunca. **Por tanto: no podéis saltarla.** El debate se acaba solo.
+- El **"Saltar campaña"** en la creación de personaje de temporada **solo está disponible si ya habéis completado esa campaña al menos una vez en la cuenta**.
+- ⚠️ **Matiz de vigencia que la versión anterior no recogía:** hoy hay **varias campañas y cada una tiene su propio salto**. Maxroll (guía Minion, 30/06/2026) lo dice así: *"Both legacy campaigns can be skipped if you want to jump straight into the latest content"* — o sea, base y Vessel of Hatred son "legacy" y se saltan por separado. Y ConquestCapped, cuando habla de saltar, está hablando de **la campaña de Lord of Hatred**: *"If you have finished the Lord of Hatred campaign on any character: yes, skip"*, y *"First-time players must complete the story before accessing War Plans"*. Es decir: **casi todo el consejo de internet sobre "saltar campaña" en S14 se refiere a una campaña que vosotros ni siquiera tenéis.**
+- Vosotros no habéis completado ninguna. **Por tanto: no podéis saltar nada.** El debate se acaba solo.
 - Saltar la campaña (cuando se puede) desbloquea automáticamente la dificultad **Penitente** e implica **montura desde nivel 1**.
 
 ### 7.2 Y aun pudiendo, en vuestro caso conviene jugarla
@@ -286,17 +303,17 @@ La meta pública de S14 (Helltide + War Plans + Undercity) **no es replicable si
 
 | Paso meta | Requisito | ¿Vosotros? |
 |---|---|---|
-| Pedir War Plans a **Temis** y rerollear hasta sacar Helltide | 🔒 LoH ⚠️ | No |
-| Nodo **Hellmouth → Writhe and Rot → Wretched Vermin** (spawnea Hellwyrms con globos de XP) | 🔒 War Plans | No |
+| ❌ **CORREGIDO:** pedir War Plans a **Tyrael**, el NPC, que está **en Temis, la ciudad principal de Skovos**. *Temis no es un NPC, es una ciudad* — la versión anterior de este informe lo tenía mal. Y rerollear hasta sacar Helltide | 🔒 **LoH, confirmado** (hay que haber completado la campaña de Lord of Hatred) | No |
+| Nodo **Hellmouth → Writhe and Rot → Wretched Vermin**. Maxroll describe *Writhe and Rot* como *"insane experience gain overall and extra Boss Lair keys"*; lo de los Hellwyrms con globos de XP es de las guías de ruta rápida, no de Maxroll | 🔒 War Plans | No |
 | **Undercity de Kurast** + nodo **Jade Epiphany** desde nivel 25 | 🔒 VoH | No |
-| Sincronizar War Plans de grupo (novedad S14) | 🔒 | No |
+| **Party War Plans** (novedad S14): progresión y objetivos completamente sincronizados entre los del grupo, con recompensas iguales para todos. Es justo lo que un dúo querría — y es justo lo que no podéis usar | 🔒 | No |
 
 ### 8.2 Vuestra ruta real
 
 **Nivel 1 → ~15 · Campaña Acto I + primeras Helltides**
 - Campaña como columna vertebral (misiones amarillas).
 - ✅ **Helltides**: siguen siendo vuestro mejor motor de XP disponible. Icy Veins avisa de que en S14 las Helltides son "más suaves hasta que las subes con War Plans" 🔒, pero añade que **"siguen siendo bastante lucrativas si te centras en completar objetivos de Susurro (Whisper) dentro de ellas"**. Ese es vuestro atajo: Helltide + Whispers a la vez.
-- ✅ **Rupturas de Pandemónium** en cuanto aparezcan: tienen **mayor probabilidad de spawn dentro de Helltides**. Se abren matando a los guardianes del **Death's Head Idol** y luego te quedas dentro del círculo matando *Risen*. Doble beneficio: XP densa + Glints of Hope para el tablero de reputación de Zarbinzet.
+- ✅ **Rupturas de Pandemónium** en cuanto aparezcan. **Verificado y ampliado:** la línea de misión estacional se llama **"A Gospel of Despair"** y arranca **en Kyovashad, en el Reino de Temporada, tras leer un pergamino ominoso**. Las Rupturas *"appear throughout Sanctuary but concentrate in Helltide Zones"* → hacedlas dentro de Helltide. Se abren **matando a los guardianes que rodean los Death's Head Idols**, lo que crea la Ruptura con su anillo ritual. Sueltan **dos** monedas, no una: **Glints of Hope** (se ganan manteniendo la Ruptura abierta más tiempo; se canjean en el **tablero de reputación de Zarbinzet**) y **Pandemonium Fragments** (de sellar Rupturas — son los que os hacen falta para craftear Míticos en el Cubo Horádrico, ver 1.1). ⚠️ Ninguna fuente da un nivel mínimo de acceso.
 - ✅ **Campos de Odio (Fields of Hatred)** en Estepas Áridas: ConquestCapped los recomienda a nivel 1-8 por **densidad de monstruos**. Truco: no os marquéis para sangre (no activéis el PvP).
 
 **Nivel ~15 → ~40 · Campaña + Susurros + Helltides**
@@ -308,12 +325,12 @@ La meta pública de S14 (Helltide + War Plans + Undercity) **no es replicable si
 **Nivel ~40 → 70 · Terminar campaña → Bastiones → Mazmorras de Pesadilla**
 - ✅ **Bastiones (Strongholds)**: Maxroll dice literalmente *"proporcionan un impulso significativo de experiencia por poca inversión de tiempo, y deberías limpiarlos todos hacia el nivel 60"*. **Para vosotros, sin War Plans, subidlos de prioridad: hacedlos antes, hacia 45-55.** Es de las pocas fuentes de XP masiva que sí tenéis.
 - ✅ **Mazmorras de Pesadilla**: Icy Veins las llama "fuente fiable de oro, experiencia y materiales de invocación de jefes". ConquestCapped avisa: no las limpiéis enteras, **id solo a los eventos de Cofre Maldito / Santuario**.
-- ✅ **Hordas Infernales**: ⚠️ **CONTRADICCIÓN**. Maxroll (Blight, Blood Surge) las lista como actividad de leveling válida. ConquestCapped dice **"evitadlas activamente: un ciclo de oleadas tarda mucho más de lo que paga nada"**. Mi lectura: ConquestCapped compara contra el loop de War Plans, que vosotros no tenéis. **Para vosotros probablemente sí valen la pena** a partir de nivel 50-60.
+- ⚠️ **Hordas Infernales — CONTRADICCIÓN, y el verificador se pone del lado contrario al del informe original.** He leído la frase exacta de ConquestCapped (26/07/2026): *"No, avoid them until level 70. A full wave cycle takes several times longer than a Helltide or Undercity slot."* Es más tajante de lo que la versión anterior reflejaba, y **compara contra Helltide, no solo contra Undercity** — y la Helltide sí la tenéis. Además, las notas de S14 subieron las recompensas de Hordas Infernales precisamente *porque tardaban más que las demás actividades* (Gamerant, 28/06/2026), lo que confirma que el problema de ritmo era real. **Recomendación corregida: no las uséis para subir. Guardadlas para nivel 70.** La afirmación anterior ("probablemente sí valen la pena a 50-60") era una inferencia propia sin fuente y en contra de la única fuente que se moja.
 - ✅ **Compras al mercader cada 10 niveles**: ConquestCapped e Icy Veins coinciden. El stock escala con vuestro nivel y a veces trae legendarios. Buscad **Vida Máxima, armadura y resistencias**.
 - ✅ **Jefes de Mundo y Eventos de Legión** cuando os pillen de paso.
 
 **Nivel 70 · Endgame**
-- ✅ **El Foso (The Pit)** → **Torment I requiere completar Foso Nivel 10**. ⚠️ ConquestCapped: el Foso se abre a nivel 70 y Season Rank 2.
+- ✅ **El Foso (The Pit)** → **Torment I requiere completar Foso Nivel 10** y luego ir a la **Estatua del Mundo** a cambiar (*"Clear Pit tier 10, visit the World Statue, and flip to Torment I"*). **Precisión verificada:** lo que abre el Foso **y también la Torre** es el nodo de **Rango de Temporada 2 llamado "Hellish Descent"** — ConquestCapped lo llama *"the gate that opens both The Pit and The Tower"*. Es una puerta **estacional**, no de expansión: se abre jugando contenido de temporada, que sí tenéis. Ninguna fuente que haya abierto exige además nivel 70 explícitamente para entrar al Foso.
 - Rehacer equipo con temples e imprints (ahora sí gastad materiales).
 - Rupturas Colosales en los Campos de la Desecración cerca de Zarbinzet → garantizan encuentro con **Realmwalker** → abre **Deathtoll Chamber**.
 
@@ -393,9 +410,9 @@ Traducción min-max: el bonus de dificultad solo es rentable si **no baja vuestr
 | 2 | Se abre Core. | ✅ |
 | 3 | **Skeleton Mage** — el primer salto real de potencia. | ✅ |
 | 4-5 ⚠️ | **Skeleton Warrior**. | ✅ |
-| 5 o 15 ⚠️ | **Libro de los Muertos** (contradicción Icy Veins vs Maxroll). | ✅ |
+| **15** (antes ponía "5 o 15") | **Libro de los Muertos.** Resuelto a favor de **15**: dos guías de Maxroll fechadas 30/06/2026 lo dicen con la misma frase literal. | ✅ |
 | 8 | **Golem** + Gólem de Hueso en el Libro. | ✅ |
-| 12 | **Reapers** (Guerreros) en el Libro. | ✅ |
+| 12 | **Reapers** (Guerreros) en el Libro — Icy Veins coge ya la **mejora #2** aquí (+50% daño, 15% aturdir), no la #1. | ✅ |
 | 13 | **Árbol de Maldiciones**. Gólem gana Imparable. | ✅ |
 | 15-20 | Primeros aspectos legendarios; el build empieza a funcionar. | ✅ |
 | 18 | **Iron Maiden**. Magos de Frío en el Libro. | ✅ |
@@ -408,9 +425,9 @@ Traducción min-max: el bonus de dificultad solo es rentable si **no baja vuestr
 | 30 | "Casi todas las sinergias clave desbloqueadas". | ✅ |
 | ~40 | Montura + campaña avanzada; empieza el ritmo de crucero. | ✅ |
 | 45-55 | **Bastiones** (Maxroll dice ~60; para vosotros, antes). | ✅ |
-| 50 | Segundo Upgrade de Reapers; decisión de **sacrificar el Gólem**. | ✅ |
+| 50 | ❌ **Corregido:** aquí NO hay "segundo Upgrade de Reapers" (ese se coge a 12). Lo que hay a 50 es **la decisión de SACRIFICAR el Gólem de Hueso** a cambio de **+10% velocidad de ataque**, que los esbirros heredan. | ✅ |
 | 60 | Antiguo cap. Hoy es solo un número. | ✅ |
-| **70** | **CAP.** Arranca Paragon. Se abre El Foso (⚠️ + Season Rank 2). | ✅ |
+| **70** | **CAP** (confirmado por Blizzard como gratis para todos). Arranca Paragon. El Foso y la Torre se abren con el nodo **"Hellish Descent"** de **Rango de Temporada 2**, no por nivel. | ✅ |
 | 70 + Foso T10 | **Torment I**. Empieza el endgame de verdad. | ✅ |
 
 ---
@@ -473,10 +490,11 @@ Traducción min-max: el bonus de dificultad solo es rentable si **no baja vuestr
 3. Añadiros a amigos cross-play y formar grupo. Comprobar que aparece el buff de grupo.
 4. Nivel 1-2: puntos en **Reap**.
 5. **Nivel 3: cambiar a Skeleton Mage.** Es el momento en que el personaje empieza a existir.
-6. Comprobar en el menú si el **Libro de los Muertos** aparece a nivel 5 o a 15 (resolvedme la contradicción).
+6. **Esperad el Libro de los Muertos a nivel 15**, no a 5 (Maxroll S14, dos guías). Si os aparece antes, decídmelo: significaría que Icy Veins tiene razón y que la tabla de la sección 4.2 es la buena.
+6-bis. **Configurad el Filtro de Botín (Loot Filter)** en cuanto podáis. Es nuevo del parche 3.0, es gratis con juego base y es la mejora de calidad de vida más grande que tenéis disponible los dos.
 7. Coger la línea de misión estacional en **Kyovashad** ("pergaminos ominosos") para abrir las Rupturas de Pandemónium y empezar a acumular Rango de Temporada.
 8. Priorizar la **montura** cuando la campaña os la ofrezca. El Nigromante es la clase más lenta.
-9. Comprobar si el NPC de War Plans (Temis) existe en vuestra partida. Si existe, mucho de este informe cambia a mejor — decídmelo.
+9. ❌ **Paso eliminado / corregido.** El punto anterior decía "comprobar si el NPC de War Plans (Temis) existe en vuestra partida". Dos errores: (a) **el NPC es Tyrael, no Temis** — Temis es la ciudad principal de **Skovos**; (b) **no hay nada que comprobar**: Skovos es zona de Lord of Hatred y Maxroll y ConquestCapped coinciden en que hay que **haber completado la campaña de Lord of Hatred** para abrir War Plans. Sin la expansión no vais a poder ni viajar allí. Dad los War Plans por perdidos y no perdáis un minuto buscándolos.
 10. Cada 10 niveles: **pasar por el mercader**.
 
 ---
@@ -485,28 +503,28 @@ Traducción min-max: el bonus de dificultad solo es rentable si **no baja vuestr
 
 **Contradicciones directas entre fuentes:**
 
-1. **Libro de los Muertos: nivel 5 vs nivel 15.** Icy Veins (guía de leveling de Nigromante S14) dice nivel 5, con un calendario completo de variantes (5/8/12/18/22/28/32). Maxroll (Minion Necro y Bone Spear leveling S14) dice nivel 15. Sin resolver. Verificable en juego en 10 segundos.
+1. ~~**Libro de los Muertos: nivel 5 vs nivel 15.**~~ **RESUELTO por el verificador a favor del 15.** Dos guías de Maxroll fechadas 30/06/2026 y etiquetadas "Season 14 – Death Awakening" usan la misma frase literal (*"At level 15, you can unlock your class mechanic called Book of the Dead"*); Icy Veins mantiene el calendario histórico 5/8/12/18/22/28/32 mientras a la vez admite que *"the Lord of Hatred expansion introduced Skill Tree and Book of the Dead changes"*. Contenido caducado, casi seguro. Sigue mereciendo el vistazo en juego.
 2. **Skeleton Warrior: nivel 3 vs 4 vs 5.** Maxroll-Sever dice 3, Maxroll-Blood Surge dice 4, Maxroll-Blight dice 5. Tres guías del mismo sitio, tres números.
-3. **War Plans: ¿requiere expansión?** Gamerant, Maxroll e Icy Veins dicen que **sí, Lord of Hatred**, y que además hay que completar la campaña de LoH al menos una vez. ConquestCapped afirma lo contrario: *"War Plans no requieren expansión; vinieron con la actualización base de Lord of Hatred"* — frase confusa, porque Lord of Hatred **es** una expansión. **Peso de la evidencia: requiere expansión.** Pero es LA pregunta a comprobar en juego, porque cambia la ruta entera.
-4. **Runewords: ¿Vessel of Hatred o Lord of Hatred?** Icy Veins los atribuye a Lord of Hatred; Maxroll los presenta como característica integrada en la progresión de temporada sin especificar. Irrelevante para vosotros (en ambos casos 🔒), pero es una discrepancia real.
+3. ~~**War Plans: ¿requiere expansión?**~~ **RESUELTO: SÍ, requiere Lord of Hatred.** El verificador ha releído ambas fuentes y la supuesta contradicción no existe: **ConquestCapped dice exactamente lo mismo que las demás** — *"War Plans require the Lord of Hatred campaign completed once on your account"* y *"First-time players must complete the story before accessing War Plans"*. Maxroll añade la localización: *"Once you complete the Lord of Hatred Campaign, you can start a War Plan by visiting Tyrael in Temis, the main city of Skovos"*, y Skovos es zona de expansión. La frase confusa citada en la versión anterior era una mala lectura. **Cerrado: no hay nada que comprobar en juego.**
+4. **Runewords: ¿Vessel of Hatred o Lord of Hatred?** Sigue habiendo discrepancia, pero ahora **inclinada hacia Vessel of Hatred**: la guía Minion de Maxroll marca Mercenarios y Runewords como contenido de expansión y ata explícitamente el desbloqueo a *"the Vessel of Hatred campaign"*. Blizzard, en la página oficial de Lord of Hatred, **no** lista las runas entre las novedades de esa expansión (sí lista los **Talismanes**). Icy Veins parece estar conflacionando "LoH tocó las runas" con "LoH trajo las runas". En ambos casos 🔒 para vosotros. **Consecuencia práctica que sí importa:** sin runas os queda cerrada la ruta del Joyero para craftear Míticos (18 runas + 3 Chispas Resplandecientes) y tenéis que ir por el **Cubo Horádrico con 5 Fragmentos de Pandemónium**.
 5. **Altares de Lilith.** Fuentes múltiples siguen publicando "+68 a cada atributo y +4 Paragon de cuenta"; la noticia de Icy Veins sobre Season 11 dice que eso **se eliminó** y ahora solo dan oro, obolos, fragmentos y XP. Creo que la noticia de S11 es la correcta y el resto es contenido caducado, pero no lo he podido confirmar con una fuente de S14.
 6. **Hordas Infernales para subir.** Maxroll (Blight, Blood Surge) las incluye; ConquestCapped dice explícitamente que las evitéis. Probablemente el desacuerdo es contextual (con vs sin War Plans).
 7. **Torment: ¿4 escalones o 12?** Icy Veins lista I-IV y menciona nivel 60 → página desactualizada. Maxroll lista Torment 1-12 (+300% a +1400%). Las notas de S14 mencionan "Torment 8 y superior", lo que respalda a Maxroll.
 8. **Elección del Libro de los Muertos:** las cuatro guías de Maxroll/Icy Veins dan cuatro combinaciones distintas de Guerreros y Gólem. Solo hay consenso en **Magos de Sombra (Shadow), mejora 2**.
-9. **Puntos extra: 12 (Renombre) vs 14 (Season Rank).** Sin explicación en las fuentes.
-10. **Clases de expansión.** El briefing de partida dice que Lord of Hatred trae el **Warlock**; lfcarry menciona que los propietarios de expansión acceden a **Paladín y Warlock**. No he podido confirmar si hay dos clases. Irrelevante para vosotros, pero lo anoto.
+9. ~~**Puntos extra: 12 (Renombre) vs 14 (Season Rank).**~~ **RESUELTO: no es una contradicción, son dos sistemas distintos.** El Renombre completo (5 etapas en todas las zonas) da **12 puntos de habilidad + 6 cargas de poción + 480 de capacidad de Óbolos + 24 puntos de Paragon**, y **solo existe en el Reino Eterno desde el parche 2.5.0** (Maxroll, recurso Renown, actualizado 09/12/2025 con la nota "Updated for Season 11 – Added disclaimer explaining Renown has been replaced on Seasonal Realms by the Season Rank system"). El **Rango de Temporada** da **14**. No hay que explicar por qué difieren: son recompensas de dos sistemas diferentes en dos reinos diferentes. Icy Veins escribe "69 from leveling, 14 from Season Rank/Renown" agrupando ambos en una barra, y de ahí venía la confusión. **Para vosotros, en temporada: 69 + 14 = 83.**
+10. ~~**Clases de expansión.**~~ **RESUELTO, y el briefing de partida estaba incompleto.** La página oficial de Blizzard de Lord of Hatred dice: *"Two new classes (Paladin and Warlock), each with four specializations"*. **Son dos clases: Paladín y Warlock**, cada una con cuatro especializaciones. El briefing solo mencionaba Warlock. lfcarry tenía razón. Irrelevante para vuestra partida, pero es un error de contexto que conviene no arrastrar.
 
 **Cosas que NO he podido confirmar (no las he visto escritas en ninguna fuente abierta):**
 
-- Que el cap 70 se aplique con certeza a cuentas **solo juego base**. La evidencia es fuerte pero indirecta.
-- Que el rework del árbol de habilidades 3.0 sea gratuito para juego base. Icy Veins lo lista bajo "Lord of Hatred", lo cual sería muy inusual para un rework de clase.
-- Si la misión **"Call of the Underworld"** (que abre los Gólems de Sangre y Hierro) es de juego base o de Vessel of Hatred. Icy Veins parece atribuirla a VoH; sospecho que es un error de la fuente.
+- ~~Que el cap 70 se aplique a cuentas **solo juego base**.~~ **CONFIRMADO por fuente primaria** (Blizzard, apartado "Major Updates for all Diablo IV Players": *"…along with level cap increases"*).
+- ~~Que el rework del árbol de habilidades 3.0 sea gratuito para juego base.~~ **CONFIRMADO por la misma frase oficial** (*"Major Skill Tree reworks including new skill variants for every class"*, en el bloque para todos los jugadores). Añadido: el **Filtro de Botín** también es gratis para todos.
+- Si la misión **"Call of the Underworld"** (que abre los Gólems de Sangre y Hierro) es de juego base. **Parcialmente aclarado:** el requisito de Vessel of Hatred que aparecía cerca en Icy Veins pertenece a los **Mercenarios**, no a esa misión; ninguna fuente marca "Call of the Underworld" como contenido de expansión. Pero **tampoco he encontrado una fuente que lo confirme positivamente como juego base.**
 - El **orden literal nivel-a-nivel** de puntos de habilidad. Maxroll e Icy Veins lo tienen, pero dentro de un planificador JavaScript que no se puede leer por web. La sección 3.3 es **mi reconstrucción** a partir de los anclajes citados, no una cita.
 - El estado exacto de las **mazmorras Capstone** (Cathedral of Light, Fallen Temple): si siguen existiendo como contenido o se eliminaron. Lo que sí es seguro es que **no** son requisito de progresión de dificultad en S14.
 - Cuáles de los **únicos** listados (The Hand of Naz, Deathgrip, Mace of King Leoric…) son de juego base y cuáles de expansión.
-- Si el **Foso** realmente exige Season Rank 2 además de nivel 70 (solo lo dice ConquestCapped).
-- Si la **Torre / Leaderboards** de S14 está disponible en juego base. Relevante porque el objetivo declarado es "nivel leaderboard".
-- Si la mecánica de **Rupturas de Pandemónium** tiene nivel mínimo. Maxroll menciona que "el contenido parece disponible a nivel 70 en zonas Torment+" pero no indica mínimo para el acceso inicial.
+- Si el **Foso** exige además nivel 70. **Refinado:** ConquestCapped nombra el nodo concreto — **"Hellish Descent", Rango de Temporada 2** — y dice que es *"the gate that opens both The Pit and The Tower"*. Sigue siendo fuente única, pero ahora es un nombre verificable, no un rumor. No he visto ninguna fuente que exija nivel 70 para entrar.
+- Si la **Torre / Leaderboards** de S14 está disponible en juego base. **Evidencia fuerte de que sí:** la puerta que le atribuye ConquestCapped es de Rango de Temporada (estacional, no de expansión), y Maxroll describe la Torre en su guía de temporada sin marcar requisito de expansión. **No es prueba.** Sigue siendo lo más relevante que queda por cerrar, porque el objetivo declarado es "nivel leaderboard".
+- Si la mecánica de **Rupturas de Pandemónium** tiene nivel mínimo. Sigue sin confirmarse. ❗ **Ojo, la versión anterior citaba mal a Maxroll aquí:** la frase de Maxroll (*"start crafting Mythic Uniques starting at level 70 in Torment+"*) habla de **craftear Míticos**, no del acceso a las Rupturas. No es evidencia de que las Rupturas necesiten nivel 70. La línea de misión **"A Gospel of Despair"** arranca en Kyovashad sin requisito de nivel citado en ninguna fuente.
 - **Ninguna fuente da un tiempo de leveling para un escenario sin expansiones.** Mi estimación de 20-35 horas es derivada, no citada.
 
 ---
@@ -543,3 +561,59 @@ Fuentes vistas solo como resultado de búsqueda (título + resumen), no abiertas
 - https://www.rpgstash.com/blog/diablo-4-lord-of-hatred-everything-you-need-to-know
 - https://www.pcgamer.com/diablo-4-altar-of-lilith-locations/
 - https://news.blizzard.com/en-us/diablo4 (devolvió página vacía)
+
+**Añadidas por el verificador (abiertas y leídas en la pasada de verificación):**
+
+- **https://diablo4.blizzard.com/en-us/lord-of-hatred** — ⭐ **fuente primaria de Blizzard**. Es la que cierra las dos incertidumbres grandes (cap 70 y rework del árbol gratis para todos) y la que corrige lo de las clases de la expansión.
+- https://maxroll.gg/d4/resources/war-plans (actualizada 05/08/2026)
+- https://gamerant.com/diablo-4-war-plans-season-14-changes/ (28/06/2026) — esta vez abierta de verdad, no solo como resultado de búsqueda.
+
+Fuentes que se intentaron y **no** se pudieron abrir en la verificación (para que no se den por consultadas): diablo.fandom.com (HTTP 402), wowhead.com/diablo-4 (404 en las rutas probadas), rpgstash.com (403), reddit.com y old.reddit.com (bloqueados por el entorno), news.blizzard.com y diablo4.blizzard.com/news/patch-notes (404). **No he podido leer las notas de parche oficiales de 3.0.1 ni de 3.1.3.**
+
+---
+
+## Nota del verificador
+
+**Veredicto global: PARCIAL.** El informe es sólido en lo esencial y su tesis central —*"sin expansiones la ruta meta de leveling de S14 no existe para vosotros"*— **queda confirmada con más fuerza de la que él mismo se atribuía**. Pero contenía **ocho errores concretos**, dos de ellos con impacto práctico real, y varias incertidumbres que eran innecesarias porque sí había fuente.
+
+### Qué comprobé
+
+Verificación adversarial contra fuente, reabriendo las páginas citadas por el informe original **más una fuente primaria que el informe original no había consultado** (la página oficial de Blizzard de Lord of Hatred). Puntos atacados: requisitos de expansión, nombres propios exactos, números concretos y fecha/vigencia de cada fuente. **Limitación honesta de esta pasada: el presupuesto de búsqueda web del entorno estaba agotado, así que trabajé solo con WebFetch sobre URLs concretas.** Reddit, Wowhead, Fandom y las notas de parche oficiales no fueron accesibles.
+
+### Errores encontrados y corregidos
+
+| # | Error | Gravedad | Corrección |
+|---|---|---|---|
+| 1 | **"Temis" tratado como el NPC de los War Plans**, y un paso de checklist basado en ir a buscarlo | **Alta** (nombre propio inventado por confusión) | El NPC es **Tyrael**. **Temis es la ciudad principal de Skovos**. Corregido en 1.2, 8.1 y checklist. |
+| 2 | **Lord of Hatred trae "el Warlock"** (siguiendo al briefing) | **Alta** (contradice fuente primaria) | Blizzard: *"Two new classes (**Paladin and Warlock**), each with four specializations"*. Son **dos**. |
+| 3 | **Icy Veins recomienda "Reapers Upgrade 1 a nivel 12, Upgrade 2 a nivel 50"** | **Media** (afecta a decisiones de build) | Icy Veins coge **Reapers [Upgrade #2] a nivel 12** (+50% daño, 15% aturdir). Lo del nivel 50 es **otra cosa**: el **sacrificio del Gólem de Hueso**. Corregido en 4.3 y en la tabla de hitos. |
+| 4 | **"Maxroll marca Minion Necro como beginner-friendly / recomendado para principiantes en el hub"** | **Media** (atribución falsa a la fuente) | Ni la tier list ni el hub etiquetan builds como beginner-friendly. Lo que Maxroll sí escribe es *"incredibly easy, fun to play"*. La recomendación no cambia; el argumento sí. |
+| 5 | **Hordas Infernales "probablemente sí valen la pena a nivel 50-60"** | **Media** (inferencia propia contra la única fuente que se moja) | ConquestCapped, textual: *"No, avoid them until level 70. A full wave cycle takes several times longer than a **Helltide** or Undercity slot."* Compara contra Helltide, que sí tenéis. Recomendación invertida. |
+| 6 | **Cita mal a Maxroll sobre el nivel mínimo de las Rupturas** | Baja | La frase de Maxroll (*"level 70 in Torment+"*) es sobre **craftear Míticos**, no sobre el acceso a Rupturas. |
+| 7 | **Atribuye a Maxroll la descripción "Hellwyrms con globos de XP" del nodo Writhe and Rot** | Baja | Maxroll lo describe como *"insane experience gain overall and extra Boss Lair keys"*. Lo de los Hellwyrms viene de guías de ruta rápida (MMOGah). |
+| 8 | **Presenta el nivel del Libro de los Muertos como contradicción 50/50 sin resolver** | Baja | Resuelto a favor de **15**: dos guías de Maxroll fechadas 30/06/2026 con la misma frase literal, frente a una tabla de Icy Veins sin fecha que la propia Icy Veins admite que el rework tocó. |
+
+### Incertidumbres que resolví a favor del informe (deja de dudar de esto)
+
+- **El cap 70 y el rework del árbol 3.0 son GRATIS con juego base.** Fuente primaria de Blizzard, apartado literal *"Major Updates for all Diablo IV Players"*: *"Major Skill Tree reworks including new skill variants for every class, along with level cap increases, will refresh how you customize and build power."* El informe lo daba por probable con evidencia indirecta; ahora está cerrado. **Bonus:** el nuevo **Filtro de Botín** también es gratis para todos, y el informe ni lo mencionaba.
+- **War Plans requiere Lord of Hatred: confirmado, y la "contradicción" no existía.** ConquestCapped dice literalmente *"War Plans require the Lord of Hatred campaign completed once on your account"* — coincide con Maxroll, no la contradice. El informe original había leído mal esa frase.
+- **12 vs 14 puntos de habilidad no es una contradicción**, son dos sistemas distintos en dos reinos distintos (Renombre = 12, solo Eterno, desde el parche 2.5.0; Rango de Temporada = 14, temporada). 69 + 14 = 83 sigue siendo el número bueno para ellos.
+- **"Call of the Underworld" no está marcado como contenido de expansión por nadie**; el requisito de Vessel of Hatred que aparecía cerca en Icy Veins pertenece a los **Mercenarios**. La sospecha del informe era correcta.
+- **El Foso y la Torre se abren con el nodo "Hellish Descent" de Rango de Temporada 2** — puerta estacional, no de expansión.
+
+### Datos que verifiqué y estaban BIEN (no toqué nada)
+
+Multiplicadores de XP por dificultad (+75 / +125 / +175 / Torment 1-12 de +300% a +1400%, Maxroll actualizado 21/07/2026 "based on testing in S14"); bonus de grupo +10% a menos de 90 m y +5% por jugador cercano; 69 + 14 = 83 puntos de habilidad; Paragon al llegar a 70; Minion Necro **único S-tier** con A-tier Blood Surge / Sever / Blight y Bone Spear ausente (tier list 29/06/2026); cambio a Skeleton Mage en el nivel 3 (cita literal verificada en dos guías); lista de aspectos en el orden exacto (Frenzied Onslaught, Reanimation, Hellbent Commander, Hardened Bones, Amplified Damage, Vehement Brawler's); lista de únicos; el amuleto con **+150%** al efecto del aspecto; no imprintar hasta Penitente; gemas (Amatista en arma, Rubí/Topacio en joyería); la cita de herencia de estadísticas de los esbirros; Renombre solo Eterno desde 2.5.0 con sus 12 puntos / 6 cargas / 480 óbolos / 24 Paragon; el nerfeo de los Altares de Lilith en Season 11; **y que la página de dificultades de Icy Veins está efectivamente caducada** (lista Torment I-IV y "nivel 60") frente a Maxroll con 12 escalones — el informe acertó al desconfiar de ella.
+
+### Lo que sigue abierto (y por qué)
+
+1. **Si la Torre / leaderboards funciona con juego base.** Evidencia fuerte de que sí, prueba no. **Es lo más relevante que queda**, porque el objetivo declarado del jugador es "nivel leaderboard".
+2. **Qué únicos concretos son de juego base** (The Undercrown, The Hand of Naz, Deathgrip, Blood Moon Breeches, Kessime's Legacy, Deathless Visage, Mace of King Leoric). Ninguna fuente accesible los clasifica.
+3. **El orden literal nivel-a-nivel** de puntos de habilidad: sigue encerrado en los planificadores JavaScript de Maxroll e Icy Veins. La sección 3.3 sigue siendo reconstrucción, y está bien marcada como tal.
+4. **"Blood Maiden" e "Inexorable Reaper"**: sabemos *por qué* existen (el rework 3.0 trae *"new skill variants for every class"*), pero Icy Veins no las define y no he podido verificar de qué habilidad base cuelga cada una ni su nombre en español.
+5. **Estado de las mazmorras Capstone** y **nivel mínimo de las Rupturas**: sin fuente.
+6. **Notas de parche oficiales 3.0.1 y 3.1.3**: no accesibles en esta pasada. Todo lo referido a esos parches sigue apoyado en fuentes secundarias, salvo lo que cubre la página oficial de Lord of Hatred.
+
+### Aviso metodológico para la siguiente pasada
+
+El error nº 1 (Temis como NPC) y el nº 3 (los upgrades de Reapers) son del mismo tipo: **detalle leído a medias y luego reafirmado con seguridad**. Los dos habrían sobrevivido a una lectura no adversarial porque suenan bien. Para un informe que se va a usar para min-maxear, **cualquier nombre propio y cualquier par nivel→efecto debe salir de una cita literal o ir marcado como reconstruido**, sin término medio.

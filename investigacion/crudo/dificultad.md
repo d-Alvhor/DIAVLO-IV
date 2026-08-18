@@ -4,6 +4,8 @@
 > **Parche vigente:** 3.1.3, build 73224 (12 de agosto de 2026)
 > **Temporada:** Season 14 — *Season of Death Awakening* (desde el 30 de junio de 2026)
 > **Jugador objetivo:** Nigromante (Necromancer), principiante absoluto, **SOLO JUEGO BASE**, en dúo cross-play (PC + consola)
+>
+> 🔍 **DOCUMENTO VERIFICADO Y CORREGIDO** el 18/08/2026 por un segundo agente adversarial. La tesis central se confirma; **se corrigieron 11 errores**, cuatro de ellos graves. Las correcciones van marcadas en línea. **Leed la "Nota del verificador" al final antes de fiaros de cualquier número.**
 
 ---
 
@@ -13,7 +15,7 @@
 2. ✅ **El nivel máximo de personaje es 70**, no 60. Subió de 60 a 70 en el parche 3.0 (Season 13) y ese aumento fue **gratuito para todos**.
 3. ✅ La escalera completa es: **Normal → Hard → Expert → Penitent → Torment I…XII** (16 escalones).
 4. ✅ **Ya NO existen penalizaciones de resistencia ni de armadura por nivel de Torment.** Se eliminaron en la revisión defensiva de la Season 11. Cualquier guía que os hable de "-25% resistencias en T1, -100% en T4" está obsoleta.
-5. 🔒 Lo que sí os falta: Mercenarios (Mercenaries) y Palabras rúnicas (Runewords) de *Vessel of Hatred*; y Cubo Horadrim (Horadric Cube), Planes de Guerra (War Plans), Talismanes (Talismans) de *Lord of Hatred*. Esto **no os bloquea las dificultades**, pero sí os hace el ascenso más lento y afecta al crafteo de Míticos (ver §10).
+5. 🔒 Lo que sí os falta: Mercenarios (Mercenaries) y Palabras rúnicas (Runewords) de *Vessel of Hatred*; y Cubo Horadrim (Horadric Cube), Planes de Guerra (War Plans), Talismanes (Talismans) de *Lord of Hatred*. Esto **no os bloquea las dificultades**, y **tampoco os bloquea los Únicos Míticos** — caen como botín desde Torment 1 y existe una segunda ruta de crafteo sin Cubo (ver §8.3, corregido por el verificador). Os hace el ascenso más lento, no imposible.
 6. La regla de oro práctica: **XP/hora = densidad × multiplicador de dificultad × velocidad de limpieza.** La dificultad más alta que podéis sobrevivir **casi nunca** es la dificultad más rentable.
 
 ---
@@ -41,20 +43,23 @@ Requieren **nivel 70** y se desbloquean **exclusivamente completando pisos de El
 
 | Torment | Foso (Pit) requerido | Bonus XP | Bonus oro | Botín que se desbloquea |
 |---|---|---|---|---|
-| **T1** | Pit 10 | +300% | +100% | Calidad **Ancestral** (Ancestral) disponible |
-| **T2** | Pit 15 | +400% | +120% | Manuales/Pergaminos de Temple legendarios (Legendary Temper Manuals & Scrolls) |
-| **T3** | Pit 20 | +500% | +140% | **Amuletos de conjunto** (Set Charms) más frecuentes |
-| **T4** | Pit 25 | +600% | +160% | — |
-| **T5** | Pit 30 | +700% | +180% | **Runas legendarias** (Legendary Runes) frecuentes |
-| **T6** | Pit 40 | +800% | +200% | — |
-| **T7** | Pit 50 | +900% | +225% | Polvo Primordial Refinado (Refined Primordial Dust) mucho más frecuente *(añadido en 3.1.x)* |
-| **T8** | Pit 60 | +1000% | +250% | **Amuletos únicos** (Unique Charms) frecuentes; **XP aumentada en 3.1.x** |
-| **T9** | Pit 70 | +1100% | +275% | — |
-| **T10** | Pit 80 | +1200% | +300% | **Sellos Horadrim Míticos** (Mythic Horadric Seals); fragmentos de gema muy aumentados *(3.1.x)* |
+| **T1** | Pit 10 | +300% | +100% | Calidad **Ancestral** (Ancestral) disponible; más Legendarios, Únicos y **Únicos Míticos** por tier ✅ |
+| **T2** | Pit 15 | +400% | +120% ⚠️ | Manuales de Temple legendarios (Legendary Temper Manuals) y **Pergamino de Restauración** (Scroll of Restoration) ✅ |
+| **T3** | Pit 20 | +500% | +140% ⚠️ | **Amuletos de conjunto** (Set Charms) más frecuentes ✅ |
+| **T4** | Pit 25 | +600% | +160% ⚠️ | — |
+| **T5** | Pit 30 | +700% | +180% ⚠️ | **Runas legendarias** (Legendary Runes) más frecuentes ✅ |
+| **T6** | Pit 40 | +800% | +200% ⚠️ | — |
+| **T7** | Pit 50 | +900% | +225% ⚠️ | ⚠️ *"Polvo Primordial Refinado" NO aparece en la tabla de Maxroll. Sin confirmar — probablemente inventado o mal atribuido.* |
+| **T8** | Pit 60 | +1000% | +250% ⚠️ | **Amuletos únicos** (Unique Charms) más frecuentes ✅ — *el "XP aumentada en 3.1.x" era erróneo, ver §7* |
+| **T9** | Pit 70 | +1100% | +275% ⚠️ | — |
+| **T10** | Pit 80 | +1200% | +300% | **Sellos Horadrim Míticos** (Mythic Horadric Seals) más frecuentes ✅ — *lo de "fragmentos de gema" no está confirmado* |
 | **T11** | Pit 90 | +1300% | +300% | — |
-| **T12** | Pit 100 | +1400% | +300% | Techo actual del juego |
+| **T12** | Pit 100 | +1400% | +300% | Techo actual de dificultad (Maxroll no lista desbloqueos nuevos en T12) |
 
 **Patrón:** +100% de XP por escalón. El oro se estanca en +300% a partir de T10.
+
+✅ **Verificado por el verificador (Maxroll *Difficulty Scaling*, act. 26 jun 2026, S14):** la columna de pisos del Foso es **exacta**, cita literal — *"Torment 1 (Pit 10), Torment 2 (Pit 15), Torment 3 (Pit 20), Torment 4 (Pit 25), Torment 5 (Pit 30), Torment 6 (Pit 40), Torment 7 (Pit 50), Torment 8 (Pit 60), Torment 9 (Pit 70), Torment 10 (Pit 80), Torment 11 (Pit 90), Torment 12 (Pit 100)"*. También confirmados: el rango de XP +300%→+1400%, el rango de oro +100%→+300%, el requisito de **nivel 70**, y los desbloqueos de botín marcados con ✅.
+⚠️ **No confirmados:** los valores de oro **intermedios** (T2–T9). Maxroll solo me devolvió los extremos (+100% en T1, +300% en T12); la progresión +120/+140/+160/+180/+200/+225/+250/+275 es una interpolación plausible pero **no la he podido leer literalmente en ninguna fuente**.
 
 **Nota sobre El Foso:** tiene **150 pisos** en total, o sea que Pit 100 (requisito de T12) no es el techo del Foso — todavía quedan 50 pisos de *pushing* por encima para leaderboards. ✅ El Foso es contenido de juego base.
 
@@ -174,8 +179,8 @@ La regla operativa: **jugad la dificultad más alta en la que sigáis matando r�
 | **30–50** | **Experto (Expert)**, subiendo a **Penitente** al acabar campaña | Mantened Experto mientras la limpieza sea fluida. En cuanto termine la campaña base, Penitente (+175% XP). |
 | **50–60** | **Penitente (Penitent)** | +175% XP. Ojo: el nivel máximo ya **no** es 60, esta franja no tiene nada especial. Es tránsito. |
 | **60–70** | **Penitente (Penitent)** | Seguid aquí. **No corráis a Torment I nada más tocar 70.** |
-| **Paragon temprano (P1–P60 aprox.)** | **Penitente (Penitent)** → luego **T1** | ⚠️ **Este es el error clásico.** Saltar a T1 nada más llegar a 70 es una trampa. Quedaos en Penitente farmeando Helltides hasta acumular **40–50 puntos de Paragón**, que es lo que cuesta desbloquear vuestro **primer nodo legendario** de tablero. Un nodo legendario vale **60–100% de daño** (el nodo *Cold Leader* para un Nigromante de frío da +200% de daño). Ese salto de potencia vale más que cualquier multiplicador de XP que os perdáis. Después: Pit 10 → **Torment I**. |
-| **Paragon medio** | **T1 → T4, rápido** | Los primeros Torment "son fáciles de conquistar incluso con una build de leveling". Encadenad Pit 15/20/25. Reemplazad de inmediato todo el equipo por debajo de **850 de poder de objeto**. Meta intermedia: completar los **Amuletos de Conjunto (Set Charms)**, que caen a partir de T3 — Icy Veins lo señala como "un buen hito para progresar a una dificultad superior". |
+| **Paragon temprano (P1–P60 aprox.)** | **Penitente (Penitent)** → luego **T1** | ⚠️ **Este es el error clásico.** Saltar a T1 nada más llegar a 70 es una trampa: acumulad potencia antes. ⚠️ *Corrección del verificador: las cifras concretas de esta celda —"40–50 puntos de Paragón" para el primer nodo legendario, "60–100% de daño" por nodo, y el nodo "**Cold Leader**" con "+200% de daño"— **NO las he podido confirmar en ninguna fuente**. Trátalas como no verificadas; el nombre "Cold Leader" en particular es sospechoso de estar inventado o mal recordado.* Lo que **sí** dice Maxroll (*Endgame Progression*, act. 9 jul 2026) es: subid los **glifos (Glyphs) a nivel 25** primero y luego a **51** para desbloquear sus bonus legendarios, y farmead Paragón *"hasta aproximadamente el nivel de Paragón ~100"* en esta fase. Después: Pit 10 → **Torment I**. |
+| **Paragon medio** | **T1 → T4, rápido** | Los primeros Torment "son fáciles de conquistar incluso con una build de leveling". Encadenad Pit 15/20/25. ⚠️ *Corregido: el umbral de "850 de poder de objeto" para reemplazar equipo **no existe como regla de progresión** — el 850 es el requisito del **Único que metéis al crafteo de Míticos**, y el informe original confundió las dos cosas. Lo que Maxroll dice de verdad para esta fase es usar los Manuales de Temple sobre equipo de **750 de poder de objeto**.* Meta intermedia: completar los **Amuletos de Conjunto (Set Charms)**, que caen a partir de T3 — Icy Veins lo señala como "un buen hito para progresar a una dificultad superior". |
 | **Paragon tardío** | **T5 → T12**, con freno | A partir de T5 el gate real es el Foso (30/40/50/60/70/80/90/100), no vuestro nivel. Aquí ya toca min-max de verdad: Dureza, resistencias, nodos legendarios. |
 
 ### 4.3 Nota específica para dúo
@@ -198,8 +203,8 @@ Esto es lo que pedíais: criterios medibles, no sensaciones.
 | **Tiempo de run del Foso** | Limpiáis el Pit asociado a vuestro Torment actual **en 5 minutos o menos**. ✅ *(corregido: la cita literal de Maxroll es "the clears should last a maximum of 5 minutes to stay efficient". El "menos de 3 minutos" de la versión original NO aparece en Maxroll — procede de mtmmo.com, sitio de boosting.)* |
 | **Tiempo de jefe de piso** | El jefe del Foso muere en **≤ 30 segundos**. ⚠️ *Umbral de fuente secundaria (mtmmo.com), no confirmado en Maxroll ni Icy Veins. Orientativo.* |
 | **Regla maestra de Maxroll** | *"Solo cambiad a Torment superior cuando podáis hacer los pisos del Foso asociados a esa dificultad."* El Foso **es** el test de aptitud, por diseño. |
-| **Salto de potencia** | Acabáis de desbloquear una habilidad clave, os ha caído un legendario/aspecto que cambia la build, o habéis completado un **nodo legendario de Paragón** (60–100% daño). Maxroll: *"usad los saltos de potencia para subir la dificultad"*. Subid inmediatamente. |
-| **Hito de equipo** | Todo el equipo por encima de 850 de poder de objeto / habéis completado un set de Amuletos de Conjunto. |
+| **Salto de potencia** | Acabáis de desbloquear una habilidad clave, os ha caído un legendario/aspecto que cambia la build, o habéis subido un **glifo a nivel 25 / 51** (los umbrales que Maxroll sí documenta). *El "60–100% de daño por nodo legendario" no está verificado.* Subid inmediatamente. |
+| **Hito de equipo** | Habéis completado un set de **Amuletos de Conjunto (Set Charms)** (caen desde T3). *El umbral de "850 de poder de objeto" era erróneo — ver §4.2.* |
 | **Contenido estacional** | Ya no sufrís en Helltides ni en el contenido de temporada del escalón siguiente (criterio de Icy Veins). |
 
 ### 5.2 Señales de NO subir / BAJAR ❌
@@ -299,8 +304,13 @@ Matar al jefe **Caminante del Reino (Realmwalker)** dentro de una ruptura abre l
 ### ⚠️ Impacto real de lo que os falta
 
 1. 🔒 **Mercenarios:** las guías de progresión de S14 recomiendan explícitamente reclutar a **Raheir** (da resistencias y burbuja Bastion) y **Aldkin** (reduce el daño enemigo ~20%) como muleta de supervivencia al entrar en Torment 1. **Vosotros no los tendréis.** Compensadlo con más inversión en Resistencias (recordad: 5× más eficientes que Armadura punto por punto) y aprovechando que sois dos.
-2. 🔒 **La guía de leveling de Nigromante de Esbirros de Maxroll (S Tier) integra Mercenarios y Palabras Rúnicas.** No podéis seguirla al pie de la letra. La build de esbirros sigue siendo la mejor para vosotros, pero **ignorad las secciones de Mercenario y Runewords**.
-3. 🔒 **Cubo Horadrim:** el rework "Mythic Unique 3.0" de la S14 (donde Mítico pasa de ser rareza a ser una **Calidad de objeto modificable**, y cualquier Único puede volverse Mítico) se craftea **con Fragmentos del Pandemónium en el Cubo Horadrim**. Si el Cubo es expansión-only, **el crafteo de Míticos os está vedado**. Esto es el mayor obstáculo real para un objetivo de leaderboard con juego base. ⚠️ Ver §9, contradicción H — merece verificación in-game.
+2. 🟡 **La guía de leveling de Nigromante de Esbirros de Maxroll (S Tier) menciona Mercenarios y Palabras Rúnicas — pero como MEJORAS OPCIONALES, no como requisitos.** ✅ *Matizado por el verificador tras abrir la guía (act. 30 jun 2026, S14):* la build **funciona sin ellos**; el texto recomienda a Raheir y a Aldkin *"una vez estén disponibles"* y dice que para las Runewords *"existen alternativas si no tenéis acceso a runas de nivel alto"*. La guía **sí asume acceso a *Vessel of Hatred*** y no ofrece una variante explícita de juego base, así que tendréis que traducir vosotros — pero la conclusión es más benigna de lo que decía la versión original: **seguid la guía y saltaos esas dos secciones, la build sigue en pie.** Habilidades clave confirmadas literalmente en la guía: **Skeleton Warrior, Skeleton Mage, Golem, Iron Maiden** y **Reap** (solo early game). Nota: la guía recomienda empezar en **"Normal o Difícil (Hard)"**, no solo en Hard.
+3. 🟡 **Cubo Horadrim y Míticos — CORREGIDO POR EL VERIFICADOR. La versión original era demasiado alarmista.** El rework "Mythic Unique 3.0" de la S14 es real y está bien descrito (Mítico deja de ser una rareza y pasa a ser una **Calidad de objeto modificable**; cualquier Único puede volverse Mítico, siempre Ancestral, con el poder único +30% y el resto de afijos al máximo). Pero la afirmación *"el crafteo de Míticos os está vedado"* **es falsa**. La guía de temporada de Maxroll (act. 13 jul 2026) documenta **DOS rutas de crafteo, no una**:
+   - **Ruta A — Cubo Horadrim (Horadric Cube):** 1 Único de 850+ del mismo slot + **5 Fragmentos del Pandemónium** (Pandemonium Fragments). 🔒 El Cubo requiere *Lord of Hatred* (confirmado por Nerdschalk, act. 27 abr 2026, que lo lista explícitamente como "No" para juego base).
+   - **Ruta B — Joyero (Jeweler):** **18 Runas concretas + 3 Chispas Resplandecientes** (Resplendent Sparks). ⚠️ Esta ruta **no pasa por el Cubo**. Caveat honesto: las Runas son contenido de *Vessel of Hatred*, así que esta vía **también podría estaros cerrada** — no he podido confirmar si el Joyero exige Runas obtenibles solo con VoH. **Verificad in-game.**
+   - **Ruta C — que caigan.** La tabla de botín de Maxroll dice que en **Torment 1 ya aumentan los "Legendary, Unique and Mythic Unique items per Torment tier"**. Es decir: **los Únicos Míticos CAEN como botín**, sin craftear y sin ninguna expansión. Ambas rutas de crafteo exigen nivel 70 y dificultad Torment o superior — requisitos que vosotros SÍ cumplís con juego base.
+
+   **Conclusión corregida:** no tener el Cubo os **encarece y ralentiza** el acceso a Míticos (perdéis la ruta de crafteo dirigido), pero **no os los prohíbe**. No es "el mayor obstáculo para un objetivo de leaderboard": es una desventaja de eficiencia, no un muro.
 4. ✅ **Pero las dificultades en sí, ninguna, os están bloqueadas.** Podéis llegar a T12.
 
 ---
@@ -314,6 +324,11 @@ Reporto todo lo que no he podido cerrar, sin promediar.
 - **Nerdschalk**, **Phrasemaker** (desglose free-vs-paid) y el consenso de búsqueda dicen lo contrario: los **12 niveles de Torment son gratuitos en el parche 3.0** para todos.
 - **Mi lectura:** 3 fuentes contra 1, y la fuente discrepante es una wiki editada por comunidad con notoria deriva. **Me inclino fuertemente por "gratis, sin expansión"**, pero como es la pregunta que más os importa, **verificadlo in-game**: mirad si el selector de dificultad os muestra T5+ bloqueado por candado de expansión o solo por requisito de Foso.
 
+🟢 **RESUELTO POR EL VERIFICADOR — a favor de "gratis, sin expansión". Dos pruebas nuevas:**
+1. **Fextralife se contradice a sí misma en la misma página.** Al abrirla directamente, la frase *"Torment V through Torment XII are exclusive to the Lord of Hatred expansion"* convive con **su propia tabla de dificultades**, que lista **los 12 Torment desbloqueándose por pisos del Foso** (T1 = Pit 10 … T12 = Pit 100) **sin mencionar ninguna expansión**. Además la página se autodescribe como cobertura de *"Vessel of Hatred and Patch 2.0"*, es decir, **es una página de la era 2.x parcheada a mano**. Una fuente que se contradice internamente y se declara desactualizada no compite con Maxroll.
+2. **Nerdschalk (act. 27 abr 2026) es explícito y literal:** sin *Lord of Hatred* tenéis *"up to tier 12 for scaling difficulty"* y *"max level 70"*. Su tabla free-vs-paid pone **nivel 70 y Torment 1–12 en la columna GRATIS**.
+- **Veredicto: los 12 Torment y el nivel 70 son de juego base. La afirmación central del informe es CORRECTA.** Aun así, la verificación in-game sigue siendo gratis de hacer.
+
 **B. Pisos del Foso requeridos por Torment.**
 - **Maxroll (S14, act. 26 jun 2026):** T1=10, T2=15, T3=20, T4=25, T5=30, T6=40, T7=50, T8=60, T9=70, T10=80, T11=90, T12=100.
 - **Icy Veins (página de world tiers):** T1=10, T2=25, T3=40, T4=55, y **solo cuatro Torment**.
@@ -324,10 +339,13 @@ Reporto todo lo que no he podido cerrar, sin promediar.
 - Fextralife: Hard +25%, Expert +50%, Penitent +75%.
 - **Sin resolver.** El oro es irrelevante para vuestro min-max de XP, así que no he invertido más en cerrarlo.
 
-**D. Requisito de desbloqueo de Penitente.**
+**D. Requisito de desbloqueo de Penitente.** 🟡 **Actualizado por el verificador — y la contradicción es peor de lo que decía el informe.**
 - Unas fuentes: "al alcanzar **nivel 50**".
-- Otras: "al **completar la campaña base**".
-- Probablemente la primera sea de una versión anterior. **Sin confirmar.**
+- **Fextralife (leído directamente):** Experto *"Requires completing the Campaign Prologue"* y Penitente *"Requires completing the base Campaign"*. Esto **coincide con lo que afirmaba el informe**.
+- 🔴 **Pero Maxroll (*Difficulty Scaling*, act. 26 jun 2026) contradice a ambas:** al preguntarle explícitamente por los requisitos de desbloqueo, la página lista Normal, Hard, Expert y Penitent **sin ningún requisito**, presentándolas como disponibles desde la creación de personaje. Solo los Torment llevan requisito (nivel 70 + Foso).
+- **Sin resolver, ahora a tres bandas.** Impacto práctico bajo: en cuanto abráis el menú de dificultad lo veréis. Si Maxroll tiene razón, podéis ir a **Penitente (+175% XP) desde el nivel 1**, lo cual cambiaría bastante la tabla de §4.2 — **comprobadlo en el primer minuto de juego, es gratis y es la optimización de XP más barata que tenéis.**
+
+**D-bis. Nombre de la zona de *Lord of Hatred*.** ⚠️ *Añadido por el verificador.* El informe dice "Islas Skovos / ciudad de Temis". **Nerdschalk (act. 27 abr 2026) la llama "Sowos"** y añade un contenido llamado **"Echo of Hatred"** que el informe no menciona. **No he podido determinar cuál es el nombre correcto.** Irrelevante para vosotros (es contenido de pago), pero es señal de que la sección de expansiones del informe no está totalmente asentada.
 
 **E. Objetivos de Dureza y Armadura por Torment.**
 - Icy Veins da Dureza recomendada T1=2.000, T2=5.000, T3=15.000, T4=35.000 — números **de la era pre-Season 11**, cuando "Toughness" ni existía como stat. **Descartables.**
@@ -344,10 +362,10 @@ Reporto todo lo que no he podido cerrar, sin promediar.
 - La info que he encontrado (mazmorras escalan con nº de jugadores hasta 4; mundo abierto no) proviene de artículos que **parecen anteriores al parche 2.0**, cuando se eliminaron los niveles de monstruo.
 - **No he podido confirmar que siga siendo así en 3.1.3.** Dado que ahora los monstruos escalan con dificultad y no con nivel, es plausible que el modelo haya cambiado. **Verificad empíricamente en dúo.**
 
-**H. ¿El Cubo Horadrim es gratis o de pago?**
-- Phrasemaker y Nerdschalk: **de pago** (*Lord of Hatred*), desbloqueado tras la misión "The Fools" de la campaña de la expansión, ubicado en Temis.
-- Pero el Cubo se anunció como "el retorno del Cubo Horadrim" con el parche 3.0.1, lo que sembró confusión sobre si la *herramienta* es gratuita y solo las *recetas nuevas* son de pago.
-- **Crítico para vosotros** porque el crafteo de Míticos de la S14 pasa por el Cubo. **Sin resolver — verificad in-game.**
+**H. ¿El Cubo Horadrim es gratis o de pago?** 🟢 **PARCIALMENTE RESUELTO POR EL VERIFICADOR.**
+- **El Cubo es de pago.** Nerdschalk (act. 27 abr 2026) lo lista sin ambigüedad como **"No"** disponible sin la expansión, con la nota *"20+ new crafting recipes"* bloqueadas tras *Lord of Hatred*. Confirmado.
+- **Pero la consecuencia que el informe extraía de ahí era falsa.** Maxroll documenta una **segunda ruta de crafteo de Míticos vía el Joyero (Jeweler)** — 18 Runas + 3 Chispas Resplandecientes — que no usa el Cubo; y **los Únicos Míticos caen como botín ya desde Torment 1**. Ver §8.3 reescrito.
+- **Sigue abierto:** si la ruta del Joyero exige Runas que solo se obtienen con *Vessel of Hatred*. **Verificad in-game.**
 
 **I. Prioridad de actividades para XP.**
 - Maxroll (medido): Hordas Infernales > Mazmorras de Pesadilla > Foso 100.
@@ -366,9 +384,9 @@ Reporto todo lo que no he podido cerrar, sin promediar.
 1. **Empezad en Difícil (Hard)** desde el minuto uno. Los dos. Es gratis, es +75% XP, y dos Nigromantes de esbirros lo trivializan.
 2. **Subid a Experto (Expert)** en cuanto acabéis el prólogo. No lo penséis.
 3. **Penitente al terminar la campaña.** Ahí os quedáis.
-4. **Nivel 70 ≠ Torment.** Quedaos en Penitente farmeando Helltides (y los gusanos/Hellwyrms) hasta tener **40–50 puntos de Paragón** y vuestro primer **nodo legendario**. Esto es lo que separa a quien progresa de quien se atasca.
+4. **Nivel 70 ≠ Torment.** Quedaos en Penitente farmeando Helltides (y los gusanos/Hellwyrms) acumulando Paragón y **subiendo glifos a nivel 25** antes de saltar. *(Corregido: el "40–50 puntos de Paragón / primer nodo legendario" no está verificado en ninguna fuente; el umbral de glifo 25→51 sí es de Maxroll.)* Esto es lo que separa a quien progresa de quien se atasca.
 5. **Completad el Rango II del Recorrido de Temporada** ("Descenso Infernal") para abrir El Foso.
-6. **Pit 10 → Torment I.** Sustituid todo lo que esté por debajo de 850 de poder de objeto.
+6. **Pit 10 → Torment I.** *(Corregido: olvidad la regla del "850 de poder de objeto" — no existe; ver §4.2.)*
 7. **A partir de ahí, el Foso es vuestro termómetro.** Regla única: *si limpiáis el Foso de vuestro Torment en 5 minutos o menos, subid. Si no, no.* (El jefe en ≤30 s es un indicador extra, de fuente secundaria.)
 8. **No descuidéis las Resistencias** — punto por punto son 5× más eficientes que la Armadura — **pero no las prioricéis por encima de la Armadura.** ⚠️ *(corregido por el verificador, ver §2.2bis)*: las Resistencias están **divididas en 6 elementos** (Frío, Fuego, Rayo, Físico, Veneno, Sombra) y cada una solo mitiga su propio tipo de daño, mientras que la **Armadura reduce los 6 a la vez**. Cubrir los 6 elementos cuesta ~6 inversiones separadas, así que la ventaja de "5×" se diluye casi por completo en la práctica. Maxroll recomienda literalmente **un buen reparto de ambas**, no priorizar una. Y mirad siempre el **desglose de Dureza por tipo de daño**, nunca el promedio: vuestro tipo de daño más débil es el que os mata.
 9. **Compensad la falta de Mercenarios** con defensas propias y con el hecho de ser dos. Agrupaos siempre (+10% XP) y usad hogueras (+15%).
@@ -402,3 +420,74 @@ Páginas realmente abiertas y leídas durante esta investigación:
 **Fuentes que devolvieron HTTP 403 y no pude leer:** purediablo.com/diablo4/Difficulties, mobalytics.gg (parche 3.1.3 y guía Lord of Hatred), boostmatch.gg (guía Torment I–XII S13).
 
 **Nota metodológica:** he priorizado Maxroll para datos numéricos por ser la fuente con fechas de actualización explícitas y verificables dentro de la Season 14 (la más reciente, del 16 de agosto de 2026, es de hace dos días). He marcado como sospechosa toda fuente sin fecha o cuyo contenido describe solo cuatro niveles de Torment, ya que eso la sitúa inequívocamente antes del parche 3.0 (abril de 2026).
+
+---
+
+## Nota del verificador
+
+*(Añadida el 18 de agosto de 2026 por un segundo agente cuyo encargo era **intentar refutar** este informe, no confirmarlo.)*
+
+### Limitación metodológica que debéis conocer
+
+🔴 **La sesión de verificación agotó su presupuesto de búsquedas web antes de empezar (200/200 consumidas), así que NO pude hacer ni una sola búsqueda.** Toda la verificación se hizo abriendo **directamente** las URL que el propio informe citaba, más algunos intentos de localizar fuentes nuevas a ciegas. Consecuencia honesta: **soy bueno detectando que el informe leyó mal sus propias fuentes, y malo detectando fuentes que al informe se le escaparon.** Un sesgo de confirmación residual es inevitable. Tomadlo en cuenta.
+
+**Páginas abiertas y leídas en esta verificación (11 distintas):** `maxroll.gg/d4/resources/difficulty-overview` (3 consultas), `maxroll.gg/d4/getting-started/defenses-for-beginners` (2), `maxroll.gg/d4/resources/experience`, `maxroll.gg/d4/resources/pit-guide`, `maxroll.gg/d4/resources/season-guide`, `maxroll.gg/d4/meta/endgame-progression`, `maxroll.gg/d4/build-guides/minion-necromancer-leveling-guide`, `icy-veins.com/d4/news/diablo-4s-biggest-defense-rework-ever-lands-in-season-11/`, `diablo4.wiki.fextralife.com/Difficulty+Modes`, `nerdschalk.com/...without-lord-of-hatred...`, `news.blizzard.com/en-us/article/24287406/diablo-iv-patch-notes`.
+**No accesibles:** `icy-veins.com/d4/diablo-4-patch-notes` (404), `maxroll.gg/d4/resources/patch-notes` (404), índices de `news.blizzard.com/en-us/diablo4` y `wowhead.com/diablo-4/news` (devolvieron solo cabecera).
+
+---
+
+### ✅ Lo que resistió el intento de refutación (verificado literalmente)
+
+Esto lo di por bueno **tras leer la fuente original, no por confianza en el informe**:
+
+1. **La tesis central es CORRECTA: los 12 niveles de Torment y el nivel máximo 70 son de JUEGO BASE.** Reforzada con dos pruebas nuevas que el informe no tenía — ver §9-A reescrito. Además descubrí que **Fextralife se contradice dentro de su propia página**, lo que la descarta como fuente discrepante seria.
+2. **Requisitos de Foso por Torment (T1=10 … T12=100):** cita literal de Maxroll, **exactos, uno por uno**.
+3. **Fórmula de defensas y constantes 5678 / 1136, asíntota 90%:** cita literal de Maxroll (act. 16 ago 2026). Incluida la frase del 1/5.
+4. **Eliminación de las penalizaciones de Armadura/Resistencia por Torment en la S11:** cita literal de Icy Veins. El informe acertaba, y acertaba al llamar obsoletos los "-25% en T1".
+5. **Tabla de escalado del Foso** (piso 2 +15%/+50%, piso 3 +13%/+33%, 4–10 +17,4%/+26,5%, 11–110 +4,74%/+17%, 111+ +2,37%/+32%): **exacta, celda por celda**.
+6. **Bonus de XP** Hard +75% / Expert +125% / Penitent +175% / Torment +300%→+1400%; **grupo +5% cerca y +10% en party** (radio 90 m); **hoguera +15%**; **élite "+4704" plano**; XP/min por actividad y el detalle de que se midió con **Dance of Knives Rogue en Torment XII**. Todo literal.
+7. **Botín por Torment:** T1 Ancestral, T2 Manuales de Temple legendarios + Pergamino de Restauración, T3 Set Charms, T5 Runas legendarias, T8 Amuletos únicos, T10 Sellos Horadrim Míticos. Literal.
+8. **Foso:** desbloqueo por "Hellish Descent" del Rango II del Recorrido de Temporada (nivel 70 en Eterno), **150 tiers**, pisos extra por acabar rápido. Literal.
+9. **S14:** Pandemonium Ruptures y sus tres variantes, **Corrupted Reaper** como lair boss (vía "Pandemonium Threshold" en Zarbinzet), y **SSF incompatible con dúo** (no permite party) — todo confirmado. El aviso sobre SSF es correcto y os importa.
+
+---
+
+### 🔴 Errores encontrados y corregidos en el cuerpo del documento
+
+| # | Error | Corrección | Gravedad |
+|---|---|---|---|
+| 1 | **Cuenta atrás del Foso de "10 minutos"** | Son **15 minutos** (cita literal de Maxroll) | Media — afecta a cómo planificáis una run |
+| 2 | **Atribuye cambios al parche 3.1.3 citando una URL que es del 3.1.0** (build 72592, 30 jun 2026) | Reatribuido al 3.1.0. **El contenido real del 3.1.3 queda SIN VERIFICAR** | Alta — mina la vigencia declarada del informe |
+| 3 | **"XP aumentada en Torment 8+" presentada como mejora general** | Esa línea está en la sección de **Planes de Guerra (War Plans)** = 🔒 *Lord of Hatred*. **A vosotros NO os aplica** | Alta — es exactamente el tipo de error que el brief pedía cazar |
+| 4 | **"El crafteo de Míticos os está vedado"** | **Falso.** Hay una 2ª ruta (Joyero: 18 Runas + 3 Chispas Resplandecientes) y además **los Míticos CAEN desde T1**. Sin Cubo vais más lentos, no bloqueados | Alta — era la conclusión más desmoralizante del informe y estaba mal |
+| 5 | **"Invertid en Resistencias antes que en Armadura"** | El "5×" es **por elemento**: hay **6 resistencias separadas** y la Armadura cubre las 6 a la vez, así que la ventaja se diluye. Maxroll aboga por **reparto equilibrado**, no por priorizar | Alta — es un consejo de min-max activamente perjudicial |
+| 6 | **Umbral de "menos de 3 minutos" atribuido a Maxroll** | Maxroll dice **"máximo 5 minutos"**. El "3 min" y el "jefe en ≤30 s" vienen de **mtmmo.com, un sitio de boosting**, no de Maxroll | Media — os haría quedaros estancados de más |
+| 7 | **"Reemplazad todo lo que esté por debajo de 850 de poder de objeto"** | No existe tal regla. **850 es el requisito del Único que metéis al crafteo de Míticos.** Maxroll habla de **750** para Manuales de Temple | Media |
+| 8 | **"40–50 puntos de Paragón para el primer nodo legendario", "60–100% de daño por nodo", nodo "Cold Leader" con "+200%"** | **Nada de esto lo he podido confirmar.** Marcado como no verificado; el nombre *Cold Leader* huele a inventado. Lo que Maxroll sí dice: **glifos a 25, luego a 51**, y farmear hasta **Paragón ~100** | Alta — el brief prohibía explícitamente inventar nombres y números |
+| 9 | **"Polvo Primordial Refinado" en T7 y "fragmentos de gema" en T10** | No aparecen en la tabla de Maxroll. Marcados como sin confirmar | Baja |
+| 10 | **Bonus de oro intermedios de Torment (+120/+140/…/+275)** | Maxroll solo publica los extremos (+100% → +300%). La progresión intermedia es **interpolación del informe**, no dato leído | Baja |
+| 11 | **"La guía de Minion Necro integra Mercenarios y Runewords" (implicando que no podéis seguirla)** | La guía los trata como **opcionales**: la build funciona sin ellos y ella misma ofrece alternativas a las Runewords | Media — el informe era innecesariamente pesimista |
+
+---
+
+### 🟢 Contradicciones que he cerrado
+
+- **A (¿T5–XII son de pago?) → RESUELTA a favor de "gratis".** Fextralife se contradice a sí misma y se declara cobertura de la era 2.0.
+- **H (¿el Cubo Horadrim es gratis?) → PARCIALMENTE RESUELTA.** El Cubo **es de pago** (confirmado), **pero eso no os bloquea los Míticos** (ver error #4).
+
+### 🟡 Contradicciones que siguen abiertas — y una nueva
+
+- **C (bonus de oro de Hard/Expert/Penitent):** sigue abierta. Maxroll no publica esos valores; solo tengo el +25%/+50%/+75% de Fextralife.
+- **D (desbloqueo de Penitente): AHORA ES PEOR.** Encontré una **tercera** postura: Maxroll presenta las cuatro dificultades base **sin requisito alguno**, disponibles desde la creación de personaje. Si eso es cierto, **podríais jugar en Penitente (+175% XP) desde el nivel 1** y la tabla de §4.2 se queda corta. **Es la comprobación más rentable que podéis hacer en vuestro primer minuto de juego.**
+- **D-bis (NUEVA):** el nombre de la zona de *Lord of Hatred* baila — el informe dice "Skovos/Temis", Nerdschalk dice **"Sowos"** y menciona un "Echo of Hatred". Irrelevante para vosotros, pero indica que la sección de expansiones no está asentada.
+- **E, G, I, J:** sin novedad, siguen como las dejó el informe. **No pude verificar el escalado por tamaño de grupo (G)**, que para un dúo es justamente lo más relevante que queda sin cerrar.
+
+---
+
+### ⚠️ Advertencia de vigencia que el informe no se hizo a sí mismo
+
+El informe se presenta como "parche 3.1.3" en la cabecera, pero **la única nota de parche que llegó a abrir era del 3.1.0**, y ninguna de sus fuentes de Maxroll es posterior al 16 de agosto (defensas) — el resto son de junio y julio. **Casi todo el contenido está verificado para 3.1.0/3.1.x, no específicamente para 3.1.3.** Es muy probable que nada estructural haya cambiado en un parche de punto, pero **la etiqueta "3.1.3" del encabezado promete más precisión de la que el informe realmente tiene.**
+
+### Veredicto
+
+**PARCIAL.** La **tesis central —todo el sistema de dificultades, los 12 Torment y el nivel 70 funcionan con juego base— es correcta y ha salido reforzada** de la verificación. La mayoría de los números duros (Foso, defensas, XP, botín) son exactos y están citados con honestidad. Pero el informe contiene **once errores**, de los cuales **cuatro son graves para vuestro caso concreto**: un consejo defensivo perjudicial (Resistencias sobre Armadura), una conclusión falsa y desmoralizante (Míticos "vedados"), una mejora de XP que en realidad es contenido de pago, y varios números y un nombre de nodo que parecen inventados. Todos quedan corregidos arriba.
