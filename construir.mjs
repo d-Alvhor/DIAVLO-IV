@@ -377,7 +377,9 @@ const CAPA={nucleo:'Fundamentos',version:'Parche',temporada:'Temporada'};
 const ND=s=>s.normalize('NFD').replace(/[\\u0300-\\u036f]/g,'').toLowerCase();
 const RX=s=>s.replace(/[.*+?^\${}()|[\\]\\\\]/g,'\\\\$&');
 const VAR=w=>{const v=[w];for(const a of(ALIAS[w]||[]))v.push(a);
- if(w.length>4){for(const k in ALIAS)if(k.startsWith(w)){v.push(k);for(const a of ALIAS[k])v.push(a)}}
+ if(w.length>3)for(const k in ALIAS){
+  const r=k.length>=w.length?k.startsWith(w):w.startsWith(k);
+  if(r&&Math.min(k.length,w.length)>3){v.push(k);for(const a of ALIAS[k])v.push(a)}}
  return [...new Set(v)]};
 const q=document.getElementById('q'),res=document.getElementById('res'),doc=document.getElementById('doc');
 function buscar(){
