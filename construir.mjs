@@ -256,6 +256,26 @@ const ORDEN = { nucleo: 0, version: 1, temporada: 2 }
 docs.sort((a, b) => (ORDEN[a.meta.capa] - ORDEN[b.meta.capa]) || a.rel.localeCompare(b.rel))
 const NOMBRE = { nucleo: 'Fundamentos', version: `Parche ${manifiesto.parche_actual}`, temporada: `Temporada ${manifiesto.temporada_actual}` }
 
+// Alias español<->inglés extraídos del glosario, para que el buscador funcione en los dos
+// idiomas: el juego está en español y los planners en inglés. Sin esto, buscar "minions"
+// no encuentra el capítulo de esbirros y la guía se vuelve inútil a mitad de partida.
+const alias = {}
+const glosario = docs.find((d) => /glosario/i.test(d.meta.titulo))
+if (glosario) {
+  const filas = readFileSync(join(DIR, glosario.rel), 'utf8').split('\n').filter((l) => l.trim().startsWith('|'))
+  for (const f of filas) {
+    const c = f.trim().replace(/^\||\|$/g, '').split('|').map((x) => x.trim().replace(/[*`]/g, ''))
+    if (c.length < 2) continue
+    const es = sinTildes(c[0]), en = sinTildes(c[1])
+    if (!es || !en || es === en || /^-+$/.test(es) || es === 'espanol') continue
+    for (const [a, b] of [[es, en], [en, es]]) {
+      if (a.split(' ').length > 3) continue
+      ;(alias[a] ||= new Set()).add(b)
+    }
+  }
+}
+const ALIAS = Object.fromEntries(Object.entries(alias).map(([k, v]) => [k, [...v].sort()]))
+
 const idx = docs.map((d) => ({
   id: d.id, t: d.meta.titulo, c: d.meta.capa,
   s: d.indice.map((x) => ({ id: x.id, t: x.txt })),
@@ -352,23 +372,27 @@ nav.open{display:block}
 
 const JS = `
 const IDX=__IDX__;
+const ALIAS=__ALIAS__;
 const CAPA={nucleo:'Fundamentos',version:'Parche',temporada:'Temporada'};
 const ND=s=>s.normalize('NFD').replace(/[\\u0300-\\u036f]/g,'').toLowerCase();
 const RX=s=>s.replace(/[.*+?^\${}()|[\\]\\\\]/g,'\\\\$&');
+const VAR=w=>{const v=[w];for(const a of(ALIAS[w]||[]))v.push(a);
+ if(w.length>4){for(const k in ALIAS)if(k.startsWith(w)){v.push(k);for(const a of ALIAS[k])v.push(a)}}
+ return [...new Set(v)]};
 const q=document.getElementById('q'),res=document.getElementById('res'),doc=document.getElementById('doc');
 function buscar(){
  const t=ND(q.value.trim());
  if(t.length<2){res.style.display='none';doc.style.display='';return}
- const ts=t.split(/\\s+/),out=[];
+ const ts=t.split(/\\s+/),vs=ts.map(VAR),out=[];
  for(const d of IDX){
   const tit=ND(d.t);
-  if(!ts.every(w=>d.x.includes(w)||tit.includes(w)))continue;
-  const p=d.x.indexOf(ts[0]);
+  if(!vs.every(g=>g.some(w=>d.x.includes(w)||tit.includes(w))))continue;
+  let p=-1;for(const w of vs[0]){p=d.x.indexOf(w);if(p>=0)break}
   out.push({d,frag:p<0?'':d.x.slice(Math.max(0,p-60),p+120)});
-  for(const s of d.s)if(ts.some(w=>ND(s.t).includes(w)))out.push({d,sub:s});
+  for(const s of d.s)if(vs.some(g=>g.some(w=>ND(s.t).includes(w))))out.push({d,sub:s});
  }
  if(!out.length){res.innerHTML='<p class="nada">Nada para \\u00ab'+q.value.replace(/[<>&]/g,'')+'\\u00bb.</p>'}
- else{const re=new RegExp('('+ts.map(RX).join('|')+')','gi');
+ else{const re=new RegExp('('+vs.flat().map(RX).join('|')+')','gi');
   res.innerHTML=out.slice(0,40).map(o=>'<a class="r" href="#'+(o.sub?o.sub.id:o.d.id)+'">'+
    '<span class="r-c">'+(CAPA[o.d.c]||'')+' \\u00b7 '+o.d.t+'</span>'+
    '<div class="r-t">'+(o.sub?o.sub.t:o.d.t)+'</div>'+
@@ -397,7 +421,7 @@ const html = `<title>C\u00f3dice del Nigromante</title>
 <style>${CSS}</style>
 <div class="top"><button class="btn" id="menu" aria-label="Menu">\u2630</button><h2>C\u00f3dice</h2><input id="q" type="search" placeholder="Buscar\u2026 esbirros, glifo, Tormento" autocomplete="off"><button class="btn" id="tema" aria-label="Tema">\u25d0</button></div>
 <div class="wrap"><nav id="nav">${nav}</nav><main><div id="res"></div><div id="doc">${secciones}</div></main></div>
-<script>${JS.replace('__IDX__', JSON.stringify(idx))}</script>`
+<script>${JS.replace('__IDX__', JSON.stringify(idx)).replace('__ALIAS__', JSON.stringify(ALIAS))}</script>`
 
 writeFileSync(SALIDA, html)
 console.log(`  ok  ${docs.length} capitulos -> index.html (${(Buffer.byteLength(html) / 1024).toFixed(0)} KB)`)
