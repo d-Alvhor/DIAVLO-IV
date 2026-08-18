@@ -139,7 +139,7 @@ El umbral de atributo que desbloquea el bonus adicional de un glifo **no lo teng
 
 ## Orden de subida de glifos, build por build
 
-Estas listas están literales en las guías y son lo más accionable de todo el capítulo. He quitado *Bone Spirit*: su orden existe, pero la build depende de charms 🔒 *Lord of Hatred* y no os sirve.
+Listas literales de las guías, lo más accionable del capítulo. He quitado *Bone Spirit*: su orden existe, pero la build depende de charms 🔒 *Lord of Hatred*.
 
 ::: evidencia nivel=unica fuentes=maxroll-minion-necro,maxroll-blood-surge,maxroll-blood-wave,maxroll-army-of-the-dead,icyveins-naz-mages,icyveins-reaper-summoner
 | Build (fuente) | Prioridad de subida |
@@ -155,7 +155,7 @@ Estas listas están literales en las guías y son lo más accionable de todo el 
 | **Gólem** (Maxroll) | Golem → Essence → Exploit → Deadraiser → Abyssal |
 :::
 
-Patrón: **Essence** aparece en todas y casi siempre en el top-2. **Dominate** lidera todas las builds de Sobrepoder. Y ahí está el problema:
+**Essence** aparece en todas y casi siempre en el top-2. **Dominate** lidera todas las de Sobrepoder. Y ahí está el problema:
 
 ::: evidencia nivel=disputa fuentes=kami-labs-3-1-0,blizzard-3-1-1
 El desglose del parche 3.1.x lista el glifo **Dominate** como **nerfeado**, sin más detalle. Un resumen de terceros cifra el recorte en "de 23,6% a 1,8% de daño por acumulación a nivel de glifo 150", pero **no he podido verificarlo en fuente primaria** y los números parecen mal transcritos. También hay desacuerdo sobre si el cambio entró en 3.1.0 o en 3.1.1.
@@ -168,7 +168,7 @@ Dominate encabeza cuatro de las listas de arriba, y esas listas se escribieron a
 ## Cómo se suben: el Foso del Artífice
 
 ::: evidencia nivel=unica fuentes=maxroll-pit-guide,icyveins-glifos-s14
-Los glifos suben **solo en el Foso** ✅. No hay Mazmorras de Pesadilla como fuente de nivel de glifo en S14: cualquier guía que os mande allí a subir glifos está caducada. Formato: **15 minutos**, **5 plantas** aleatorias, jefe al final; pisos **1 a 150**. Se entra por el **Obelisco de Cerrigar** ✅ (las fuentes que hablan de Temis se refieren a la ciudad de Lord of Hatred 🔒). Los élites llenan la barra de progreso mucho más rápido que el trash: la forma óptima de correrlo es **cazar élites y saltarse el relleno**. Si sobra tiempo al matar al jefe, **desbloqueáis varios pisos de golpe**.
+Los glifos suben **solo en el Foso** ✅: no hay Mazmorras de Pesadilla como fuente de nivel de glifo en S14, y cualquier guía que os mande allí está caducada. Formato: **15 minutos**, **5 plantas** aleatorias, jefe al final; pisos **1 a 150**. Se entra por el **Obelisco de Cerrigar** ✅ (las fuentes que hablan de Temis se refieren a la ciudad de Lord of Hatred 🔒). Los élites llenan la barra mucho más rápido que el relleno: **cazad élites y saltaos el trash**. Si sobra tiempo al matar al jefe, **desbloqueáis varios pisos de golpe**.
 :::
 
 ::: evidencia nivel=disputa fuentes=icyveins-glifos-s14,maxroll-powering-up,maxroll-pit-guide
@@ -240,15 +240,15 @@ El de PS5: planificad los tableros fuera del juego con el [planificador de Maxro
 :::
 
 ::: paso n=4 obligatorio=si entitlement=base
-Acoplad en el orden de Icy Veins —Inicial → Frailty → Cult Leader → Flesh-eater → Wither— rotando cada uno para dejar la puerta lo más cerca posible del nodo legendario.
+Acoplad en el orden de Icy Veins —Inicial → Frailty → Cult Leader → Flesh-eater → Wither— rotando cada tablero para dejar la puerta lo más cerca del nodo legendario.
 :::
 
 ::: paso n=5 obligatorio=si entitlement=base
-Entrad al Foso solo cuando tengáis los cinco glifos colocados. Objetivo 1: **todos a 25**. Objetivo 2: **todos a 51**, que es donde la build despierta. Objetivo 3: cola larga hasta 150. Nunca empujéis un piso donde alguno de los dos vaya a morir.
+Entrad al Foso solo con los cinco glifos colocados. Objetivo 1: **todos a 25**. Objetivo 2: **todos a 51**, donde la build despierta. Objetivo 3: cola larga hasta 150. Nunca empujéis un piso donde alguno de los dos vaya a morir.
 :::
 
 ::: paso n=6 obligatorio=si entitlement=base
-Farmead el Paragón en Helltide (Hellwyrm) y Rupturas Surgentes, y terminad el Diario de Temporada por sus 42 puntos.
+Farmead Paragón en Helltide (Hellwyrm) y Rupturas Surgentes, y terminad el Diario de Temporada por sus 42 puntos.
 :::
 
 ## Lo que tenéis que comprobar vosotros
@@ -260,7 +260,7 @@ Estos huecos no se cierran desde fuera. Son cinco tooltips y quince minutos:
 - **Intentos por incursión** del Foso: contadlos en la pantalla de recompensa. 3+1 o 4+1.
 - **Texto del nodo legendario de Cult Leader**: ¿velocidad de ataque o tipos de esbirro?
 - **Tooltip de Dominate** tras el nerf, comparado con Essence.
-- Si el **Paragón es de cuenta o de personaje** en S14: se afirma lo primero en resúmenes, no está verificado. Si fuese de cuenta, cambiaría vuestra estrategia de personajes alternativos por completo.
+- Si el **Paragón es de cuenta o de personaje** en S14: se afirma lo primero en resúmenes, sin verificar. Si fuese de cuenta, cambia toda vuestra estrategia de personajes alternativos.
 
 ::: aviso tipo=ojo
 Estáis entrando en el último tercio de la temporada. La PTR del parche 3.2.0 corrió del 4 al 11 de agosto de 2026 y anuncia **nerfs generalizados a glifos y a nodos de Paragón**, junto a un buff al escalado de atributo principal del Nigromante (fuente: Maxroll, 12 ago 2026). Usad lo que queda de S14 para aprender el sistema y llegar a 70 con Tormento cómodo; guardad el esfuerzo de min-max de verdad para el arranque de la Season 15.

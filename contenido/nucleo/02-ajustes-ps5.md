@@ -18,23 +18,23 @@ El parche vivo **3.1.3** (build 73224, 12/08/2026) no contiene **ningún** cambi
 :::
 
 ::: aviso tipo=ojo
-**Aviso de método.** No existe ninguna guía de ajustes de consola escrita dentro de la Temporada 14: casi todo lo verificable sobre PS5 —resoluciones, botones, calibración— está fechado en 2023 y 2024. Nada de 2026 lo contradice y el 3.1.3 no toca esto, así que lo doy por vigente, pero eso es **inferencia**, no confirmación. De ahí el `sinconfirmar` que verás abajo.
+**Aviso de método.** No existe ninguna guía de ajustes de consola escrita dentro de la Temporada 14: casi todo lo verificable sobre PS5 —resoluciones, botones, calibración— está fechado en 2023 y 2024. Nada de 2026 lo contradice y el 3.1.3 no toca esto, así que lo doy por vigente; pero es **inferencia**, no confirmación. De ahí el `sinconfirmar` de abajo.
 :::
 
 ::: aviso tipo=truco
-Tu juego está en español y las guías en inglés. Los nombres en español que doy son traducción directa, no están verificados contra el cliente. Si un ajuste no aparece con el nombre que digo, **busca por la forma de la frase**, no por la palabra exacta. Y díselo al de PC: él ve los nombres en inglés que usan Maxroll e Icy Veins.
+Tu juego está en español y las guías en inglés. Los nombres en español que doy son traducción directa, sin verificar contra el cliente: si un ajuste no aparece así, **busca por la forma de la frase**, no por la palabra exacta.
 :::
 
 ## 1. Rendimiento: en PS5 no eliges "calidad o rendimiento"
 
-Esto choca con lo que te espera de otros juegos. Diablo IV no salió con modos Calidad/Rendimiento/Equilibrado. Salió con un objetivo único de fotogramas altos, y lo que se añadió después fue un interruptor que los **baja** a cambio de trazado de rayos (*ray tracing*).
+Diablo IV no salió con modos Calidad/Rendimiento/Equilibrado, sino con un objetivo único de fotogramas altos. Lo que se añadió después fue un interruptor que los **baja** a cambio de trazado de rayos (*ray tracing*).
 
 ::: evidencia nivel=sinconfirmar fuentes=purexbox-1-3-5,blizzard-foros-rt
 **Visuales Mejoradas (Enhanced Visuals)**, en la pestaña Gráficos, llegó con el parche 1.3.5 (marzo de 2024). Añade sombras y reflejos con trazado de rayos y cambios de oclusión ambiental, y **bloquea el juego a 30 fps por diseño**; sin ella el objetivo es **60 fps**. Hay además reportes de comunidad de caídas **por debajo** de 30 fps en zonas cargadas con el trazado activo. Dos fuentes independientes, pero ambas de 2024: nada de 2026 lo confirma ni lo desmiente.
 :::
 
 ::: evidencia nivel=disputa fuentes=purexbox-1-3-5,nerdburglars-ps5pro
-**Cómo se llama realmente el ajuste.** Versión A: las fuentes abiertas (Pure Xbox, foros de Blizzard) solo conocen **"Enhanced Visuals"** como interruptor único. Versión B: una fuente de 2026 (nerdburglars) afirma que en PS5 se alterna entre **"Performance" y "Fidelity"** sobre la marcha — pero su página devuelve HTTP 403 y solo se leyó el fragmento del buscador. No se ha podido reconciliar. Busca los dos nombres en el menú.
+**Cómo se llama el ajuste.** Versión A: las fuentes abiertas (Pure Xbox, foros de Blizzard) solo conocen **"Enhanced Visuals"**. Versión B: una fuente de 2026 dice que en PS5 se alterna entre **"Performance" y "Fidelity"**, pero su página devuelve HTTP 403 y solo se leyó el fragmento del buscador. Sin reconciliar: busca los dos nombres.
 :::
 
 ::: paso n=1 obligatorio=si entitlement=base
@@ -47,7 +47,7 @@ El objetivo de la PS5 es **4K a 60 fps**, según fuentes de lanzamiento (2023) n
 
 ## 2. HDR y brillo: el orden importa más que los valores
 
-Diablo IV tiene un problema conocido de niveles de negro en HDR: la imagen sale grisácea y lavada. Es lo que más gente hace mal en consola, y en un juego tan oscuro como este arruina la lectura de mazmorras y Rupturas.
+Diablo IV tiene un problema conocido de niveles de negro en HDR: la imagen sale grisácea y lavada. Es lo que más gente hace mal en consola, y en un juego tan oscuro arruina la lectura de mazmorras y Rupturas.
 
 ::: paso n=2 obligatorio=si entitlement=base
 Calibra **primero la consola, después el juego**. Nunca al revés.
@@ -57,39 +57,38 @@ Calibra **primero la consola, después el juego**. Nunca al revés.
 3. Dentro de esa pantalla, en este orden: **Punto de negro (Black Point)** con la imagen de la izquierda → **Punto de blanco (White Point)** con la de la derecha → **Brillo (Brightness)** con la central.
 :::
 
-El punto de negro es la clave: viene demasiado alto de fábrica y es la causa del velo gris. Bájalo. El punto de blanco ajústalo al pico real de tu tele, pero júzgalo con una mazmorra en pantalla, no con la imagen de test.
+El punto de negro es la clave: viene demasiado alto de fábrica y es la causa del velo gris. Bájalo. El de blanco, al pico real de tu tele, pero júzgalo con una mazmorra en pantalla, no con la imagen de test.
 
 ::: evidencia nivel=unica fuentes=game8-consola
 Game8 recomienda dejar el **Brillo al 60 % o más** para juego en televisor a distancia de sofá. Es un punto de partida, no un valor canónico.
 :::
 
 ::: aviso tipo=truco
-Si tras calibrar sigue sin convencerte, **apaga el HDR y juega en SDR**: `Ajustes > Pantalla y vídeo > Salida de vídeo > HDR`. Es una opción legítima y muy defendida por la comunidad de HDR precisamente por este juego. Y recalibra si cambias de entorno de luz.
+Si tras calibrar sigue sin convencerte, **apaga el HDR y juega en SDR**: `Ajustes > Pantalla y vídeo > Salida de vídeo > HDR`. Es una opción legítima y muy defendida por la comunidad de HDR precisamente por este juego.
 :::
 
 ## 3. Jugabilidad e interfaz: los equivalentes a PC
 
-Todo ✅ juego base. Esta tabla no lleva cifras porque no las necesita: son interruptores.
+Todo ✅ juego base, y todo interruptores: aquí no hay cifras que verificar.
 
 | Opción | Valor | Por qué |
 |---|---|---|
-| **Advanced Tooltip Information** | ON | Muestra el rango de valores de cada afijo. Sin esto no puedes min-maxear, y además el filtro de botín parsea mal |
-| **Advanced Tooltip Compare** | ON | Comparación directa de objetos; con mando se activa manteniendo **Triángulo** |
+| **Advanced Tooltip Information** | ON | Rango de valores de cada afijo. Sin esto no puedes min-maxear y el filtro de botín parsea mal |
+| **Advanced Tooltip Compare** | ON | Comparar objetos; con mando se activa manteniendo **Triángulo** |
 | **Combat Hit Flash** | ON | Feedback de impacto a distancia de sofá |
 | **Screen Shake Effects** | OFF | Claridad visual con la pantalla llena |
-| **Item Drop Sounds** | Legendario o superior | Corta el ruido de basura |
-| **Highlight Character When Obscured** | ON | Contorno permanente del personaje. Con dos nigromantes en pantalla y sus ejércitos, es el ajuste número uno de consola |
+| **Item Drop Sounds** | Legendario o superior | Corta el ruido de basura. Poned los dos el mismo umbral: así "ha sonado algo bueno" significa lo mismo para ambos |
+| **Highlight Character When Obscured** | ON | Contorno permanente del personaje. Con dos nigromantes y sus ejércitos en pantalla, es el ajuste número uno de consola |
 | **Font Scale (escala de fuente)** | Large | "Medium" solo vale pegado a un monitor |
-| **Loot audio cues** (sonido ambiental de objetos) | ON | Los objetos suenan según rareza. En consola sustituye al barrido con ratón que hace el de PC |
-| **HUD Compass / flecha de objetivo** | ON | En `Accesibilidad > HUD` |
+| **Loot audio cues** (sonido ambiental de objetos) | ON | Los objetos suenan según rareza; en consola sustituye al barrido con ratón del de PC |
 | **Combine Interact and Basic Skill** | **OFF** | Crítico para nigromante. Ver sección 4 |
 
 ::: evidencia nivel=unica fuentes=icyveins-accesibilidad
-Diablo IV declara más de 50 funciones de accesibilidad ✅. La lista oficial incluye una entrada de **asistencia de mercenarios en combate** — los **Mercenarios son 🔒 Vessel of Hatred**, así que esa entrada no os aplica y no debe confundiros al leer el menú.
+Diablo IV declara más de 50 funciones de accesibilidad ✅. Su lista oficial incluye una entrada de **asistencia de mercenarios en combate**: los **Mercenarios son 🔒 Vessel of Hatred**, así que esa entrada no os aplica.
 :::
 
 ::: evidencia nivel=sinconfirmar fuentes=gamertweak-skilltoggle
-Varias fuentes describen **"Skill Toggle Behavior"** con valor "Toggle All" como el ajuste de "auto-apuntado". Ni Maxroll ni Icy Veins lo mencionan, y el artículo que más lo desarrolla habla claramente en clave PC (rueda del ratón, teclado numérico). **Está mal documentado. No lo toques a ciegas.**
+Varias fuentes venden **"Skill Toggle Behavior"** en "Toggle All" como el ajuste de auto-apuntado. Ni Maxroll ni Icy Veins lo mencionan, y quien más lo desarrolla habla en clave PC. **Mal documentado: no lo toques a ciegas.**
 :::
 
 ## 4. Mando: esquema, esquiva y fijado de objetivo
@@ -100,7 +99,7 @@ Esquema por defecto en PlayStation: moverse con stick izquierdo · **Interactuar
 
 ### El remapeo que sí merece la pena
 
-La lógica es una sola: **que nunca sueltes el stick izquierdo**. Los gatillos se pueden mantener pulsados sin mover el pulgar; los botones frontales no.
+La lógica es una: **que nunca sueltes el stick izquierdo**. Los gatillos se mantienen pulsados sin mover el pulgar; los botones frontales no.
 
 ::: evidencia nivel=unica fuentes=kontrolfreek-mando
 KontrolFreek propone: **Habilidad Básica a L2**, **Habilidad Fundamental a R2** (los dos botones que se machacan pasan a gatillos), Interactuar suelto en X, y las habilidades 1-4 repartidas entre Cuadrado, Triángulo, Círculo y R1 para dejar los frontales a los tiempos de reutilización. Sensibilidad de cursor como punto de partida: **6**. Zona muerta (dead zone): **la más pequeña que no te haga derivar el stick**.
@@ -118,7 +117,7 @@ En `Opciones > Controles > Mando`:
 - **Persist Target Lock: OFF**
 - **Use Right Stick to Cycle Locked Target: ON**
 
-Con eso, R3 fija y suelta a mano, y el stick derecho cambia de objetivo. Fijas al jefe cuando quieres y no te quedas pegado a un enemigo lejano mientras te comen.
+Con eso R3 fija y suelta a mano y el stick derecho cambia de objetivo: fijas al jefe cuando quieres y no te quedas pegado a un enemigo lejano mientras te comen.
 
 ::: evidencia nivel=unica fuentes=blizzard-foros-targetlock
 **Bug reportado el 22/06/2023, sin constancia de arreglo:** con **Hold to Lock Target** y **Use Right Stick to Cycle Locked Target** activados a la vez, mover el stick derecho mientras mantienes el botón de fijado **deja el objetivo bloqueado hasta que acaba el encuentro**. Reportado en Xbox y confirmado por otro jugador; sin respuesta de Blizzard ni nota de parche. Es la razón dura de dejar Hold to Lock Target en OFF.
@@ -134,13 +133,13 @@ Pon **Combine Interact and Basic Skill = OFF** para que Interactuar tenga botón
 
 ## 5. Qué builds de nigromante son cómodas con mando y cuáles un infierno
 
-Esta es la diferencia real entre vuestras dos pantallas, y es más grande que cualquier ajuste gráfico.
+Esta es la diferencia real entre vuestras dos pantallas, y pesa más que cualquier ajuste gráfico.
 
 En PC se apunta con el cursor: un Bone Spear va donde está el puntero, con precisión de píxel. **En PS5 no hay cursor.** El personaje lanza en la dirección del stick izquierdo o hacia el objetivo fijado; el stick derecho **no apunta**, solo cicla objetivos. Consecuencias:
 
-- Las habilidades **centradas en ti** (Blood Surge, Blood Mist, Bone Storm) son idénticas con mando. Coste cero.
-- Las **direccionales** (Bone Spear, Sever, Blood Wave) pierden precisión: tienes ocho o dieciséis direcciones cómodas, no 360 grados finos.
-- Las de **posicionamiento remoto** (Corpse Explosion, Corpse Tendrils) son el punto débil real: hay que elegir un cadáver concreto a distancia, y con mando lo elige el juego, no tú.
+- Las **centradas en ti** (Blood Surge, Blood Mist, Bone Storm) son idénticas con mando. Coste cero.
+- Las **direccionales** (Bone Spear, Sever, Blood Wave) pierden precisión: tienes unas pocas direcciones cómodas, no 360 grados finos.
+- Las de **posicionamiento remoto** (Corpse Explosion, Corpse Tendrils) son el punto débil real: hay que elegir un cadáver concreto a distancia y con mando lo elige el juego, no tú.
 
 ::: evidencia nivel=unica fuentes=maxroll-tierlist-necro,maxroll-minion
 Cruce de la tier list de nigromante de la Temporada 14 (Maxroll, 29/06/2026) con la exigencia de apuntado:
@@ -157,27 +156,27 @@ Cruce de la tier list de nigromante de la Temporada 14 (Maxroll, 29/06/2026) con
 La guía de esbirros de Maxroll (22/07/2026) dice literalmente que los esbirros se dirigen **mediante comandos con auto-apuntado**, y que el sistema de comandos es directo con mando.
 :::
 
-**Traducción práctica:** la de PS5 lleva **Esbirros o Blood Surge**. No es una concesión: son las dos builds que no pierden nada por no tener ratón. Bone Spear es la trampa clásica —la build "canónica" de las guías, que el de PC lleva sin problema y que en consola sangra daño efectivo en cada lanzamiento.
+**Traducción práctica:** la de PS5 lleva **Esbirros o Blood Surge**. No es una concesión: son las dos builds que no pierden nada por no tener ratón. Bone Spear es la trampa clásica —la build "canónica" de las guías, que el de PC lleva sin problema y que en consola sangra daño en cada lanzamiento.
 
 ::: evidencia nivel=disputa fuentes=informe-nigro-builds,informe-ajustes-consola
 **Qué tres builds son viables con juego base.** Versión A (informe dedicado, que filtró build por build las listas de charms y runas): **Esbirros → Blood Surge → Blood Wave**, plan B Bone Spear, y **Bone Spirit vetada** por depender de *Red Blessing* y del set *Berú of Desecration* 🔒 Lord of Hatred. Versión B (informe de consola, mención de pasada sin razonar): Esbirros, Bone Spear y **Bone Spirit**. **Gana la A**: es el informe cuyo trabajo era exactamente ese.
 :::
 
 ::: aviso tipo=peligro
-**No llevéis los dos el ejército completo de esbirros.** Es redundancia de rol, caos visual insoportable y —esto es criterio derivado, sin fuente que lo mida— caída de fotogramas en la consola. Uno de ancla con esbirros, el otro de martillo con área. Repartíos también las maldiciones: sin runas 🔒, cubrir Decrepify e Iron Maiden cuesta dos huecos de barra, y llevando una cada uno os devolvéis un hueco por cabeza.
+**No llevéis los dos el ejército completo de esbirros.** Redundancia de rol, caos visual y —criterio derivado, sin fuente que lo mida— caída de fotogramas en la consola. Uno de ancla con esbirros, el otro de martillo con área. Y repartíos las maldiciones: sin runas 🔒, cubrir Decrepify e Iron Maiden cuesta dos huecos de barra; llevando una cada uno os devolvéis un hueco por cabeza.
 :::
 
 ## 6. Battle.net, PS Plus y cross-play
 
 ::: paso n=4 obligatorio=si entitlement=base
-**Vincula la cuenta de PSN a Battle.net desde el propio juego, antes de subir un solo nivel.** Al lanzar Diablo IV aparece el aviso de inicio de sesión. Después verifica en `battle.net > Conexiones (Connections)` que el enlace está. Si te saltas esto y luego lo arreglas, te arriesgas a perder el vínculo de cross-progression del personaje.
+**Vincula la cuenta de PSN a Battle.net desde el propio juego, antes de subir un solo nivel** — el aviso de inicio de sesión sale al lanzar Diablo IV. Después verifica el enlace en `battle.net > Conexiones (Connections)`. Hacerlo tarde arriesga el vínculo de cross-progression del personaje.
 :::
 
 ::: evidencia nivel=corroborado fuentes=maxroll-multiplayer,denofgeek-crossplay
 **Cross-play y cross-progression son ✅ juego base, gratuitos y automáticos.** Viajan entre plataformas: personajes y nivel, equipo, Paragón, cosméticos, logros, progreso del Pase de Batalla y progreso estacional. **No viaja la licencia del juego**: para jugar en otra plataforma hay que comprarlo otra vez ahí. Cross-play activo entre PC, PS4, PS5, Xbox One y Xbox Series X|S. Para agregaros necesitáis el **BattleTag** del otro, en formato `Nombre#1234`.
 :::
 
-Comprueba que `Opciones > Social > Cross-Network Play` y `Cross-Network Communication` están en **ON**; vienen activados de fábrica. Una guía de Icy Veins sugiere desactivar el cross-play para reducir la población de zona y farmear tranquilo: **si lo hacéis, dejáis de poder jugar juntos.**
+En `Opciones > Social`, **Cross-Network Play** y **Cross-Network Communication** en **ON**; vienen así de fábrica. Icy Veins sugiere desactivar el cross-play para reducir la población de zona: **si lo hacéis, dejáis de poder jugar juntos.**
 
 ::: evidencia nivel=unica fuentes=informe-duo-coop
 El jugador de consola necesita **PS Plus** (o Xbox Live Gold) para el multijugador en línea. Lo afirma una sola fuente del expediente. **Compruébalo el día uno**, porque es lo único que puede impedir físicamente que os agrupéis.
@@ -215,38 +214,32 @@ El jugador de consola necesita **PS Plus** (o Xbox Live Gold) para el multijugad
 Empieza con el filtro **Light**, no con **Strict**. Mientras subís nivel necesitáis ver legendarios para extraer aspectos al Códice. Escala Light → Medium → Strict conforme subáis de Tormento.
 :::
 
-### El resto de limitaciones
+### El resto
 
 | Limitación de la PS5 | Impacto | Compensación |
 |---|---|---|
-| No hay overlays ni segunda ventana: no puedes tener Maxroll encima del juego | Medio-alto | **Tablet o móvil al lado del sofá** con el planificador abierto. Maxroll, D4Builds y Mobalytics son webs y van en el móvil igual que en PC |
-| Teclear texto (chat, cantidades de oro) es un suplicio, y comerciar es lentísimo | Medio | **Teclado USB o Bluetooth conectado a la PS5**; la consola lo soporta a nivel de sistema. Y que las cantidades de oro las teclee el de PC |
+| No hay overlays ni segunda ventana: no puedes poner Maxroll encima del juego | Medio-alto | **Tablet o móvil al lado del sofá** con el planificador abierto. Maxroll, D4Builds y Mobalytics son webs y van igual en el móvil |
+| Teclear texto (chat, cantidades de oro) es un suplicio y comerciar es lentísimo | Medio | **Teclado USB o Bluetooth conectado a la PS5**; la consola lo soporta de sistema. Y que el oro lo teclee el de PC |
 | Las apps de Windows (Diablo4Companion, d4lf, Overwolf) y los addons no existen aquí | Bajo | Diablo IV no tiene ecosistema de addons ni en PC, y el filtro de botín oficial ✅ deja obsoletos casi todos los overlays |
 
 ::: evidencia nivel=sinconfirmar fuentes=dexerto-trading
-Sobre la lentitud del comercio en consola hay reportes de **40 minutos para tres intercambios** y de jugadores expulsados del servidor por inactividad en mitad de un trade por lo que se tarda en teclear. La fuente es de noviembre de 2023 y Blizzard no lo había reconocido formalmente entonces. **No está reverificado en 2026**, pero el problema de fondo (no hay teclado) sigue existiendo.
+Hay reportes de **40 minutos para tres intercambios** en consola, y de jugadores expulsados por inactividad en mitad del trade por lo que se tarda en teclear. Fuente de noviembre de 2023, **sin reverificar en 2026**; el problema de fondo (no hay teclado) sigue ahí.
 :::
 
 ## 8. Latencia: nada de lo que importa está dentro del juego
 
-Diablo IV no expone ajustes de latencia en consola: no hay equivalente a Reflex. Todo está fuera del juego.
+Diablo IV no expone ajustes de latencia en consola: no hay equivalente a Reflex. Todo está fuera del juego. El **Modo Juego de la tele en ON**, con desenfoque de movimiento y demás post-proceso en OFF, es la ganancia más grande con diferencia y la causa número uno de las quejas de "input lag en D4": compruébalo antes que nada. Después, **ALLM y VRR en ON** en la PS5, salida a 120 Hz aunque el juego no tenga modo de 120 fotogramas, **cable HDMI 2.1 Ultra High Speed** para las tres cosas a la vez, y **Ethernet en vez de WiFi** —el juego es siempre en línea y el retardo de red se percibe como retardo de mando—.
 
-- **Modo Juego de la tele: ON.** La ganancia más grande con diferencia, porque desactiva interpolación, suavizado y nitidez artificial. Es la causa número uno de las quejas de "input lag en D4". Compruébalo antes que nada, junto con el desenfoque de movimiento y el resto de post-proceso de la tele, que van a OFF.
-- **ALLM y VRR en ON** en los ajustes de la PS5, con salida a 120 Hz aunque el juego no tenga modo de 120 fotogramas, y **cable HDMI 2.1 Ultra High Speed** si quieres las tres cosas a la vez.
-- **Ethernet en vez de WiFi.** El juego es siempre en línea; el retardo de red se percibe como retardo de mando.
+No doy cifras de milisegundos porque el expediente no tiene fuente que las respalde. Que la ganancia del Modo Juego es grande está fuera de duda; cuánto, no lo sé.
 
-No doy cifras de milisegundos porque el expediente no tiene fuente que las respalde. Que la ganancia del Modo Juego es grande está fuera de duda; cuánto exactamente, no lo sé.
+## 9. Lo que no admite marcha atrás
 
-## 9. Checklist de la primera sesión
+Lo demás de este capítulo se cambia cuando quieras. Estas cinco cosas no, o cuestan caro:
 
 ::: paso n=6 obligatorio=si entitlement=base
-**Fuera del juego:** Modo Juego, ALLM y VRR de la tele ON · post-proceso OFF · HDR del sistema calibrado · Ethernet · teclado USB.
-
-**Gráficos:** Visuales Mejoradas OFF · brillo calibrado en el orden negro → blanco → brillo.
-
-**Jugabilidad e interfaz:** los dos Advanced Tooltip ON · Combat Hit Flash ON · Screen Shake OFF · sonidos de drop en legendario o superior · **Combine Interact and Basic Skill OFF** · escala de fuente Large · resaltado de personaje ON · sonido ambiental de objetos ON.
-
-**Mando:** Hold to Lock Target OFF · Persist Target Lock OFF · Cycle Locked Target ON · zona muerta mínima · Básica a L2 y Fundamental a R2 · esquiva en Círculo o leva trasera · **ninguna habilidad de cadáver en el botón de Interactuar**.
-
-**Social:** Cross-Network Play ON · PSN vinculada a Battle.net y verificada en Conexiones · PS Plus comprobado · **NO marcar Solo Self-Found**.
+1. **NO marcar Solo Self-Found** al crear el personaje. Irreversible toda la temporada.
+2. **Vincular PSN a Battle.net desde el juego** antes de subir un solo nivel.
+3. **Visuales Mejoradas OFF** antes de la primera mazmorra, no después.
+4. **Combine Interact and Basic Skill OFF**, y ninguna habilidad de cadáver en el botón de Interactuar.
+5. **Modo Juego de la tele ON.** Si no, todo lo demás da igual.
 :::

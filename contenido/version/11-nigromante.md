@@ -73,7 +73,7 @@ Gólem: habilidad activa del clúster Macabras, uno solo. Con *Gravebloom* ✅ p
 Cada Sacrificio del Libro multiplica la cantidad de ese tipo por **0,5**.
 :::
 
-::: aviso tipo=ojo
+::: evidencia nivel=unica fuentes=pcgamer-loh-necro
 El famoso «28 esbirros» viene de un periodista de PC Gamer que escribió *«what looks like 28»* contándolos a ojo en una pantalla de previa, antes del lanzamiento. **No es cifra oficial. No planifiquéis con ella.**
 :::
 
@@ -96,8 +96,8 @@ El fichero de datos del juego (versión 3.1.0.72698) usa un campo llamado `requi
 Cada habilidad tiene **15 rangos**, no 5. Nivel máximo de personaje: **70**. Las pasivas ya no están en el árbol y la ranura de Pasiva Clave (*Key Passive*) fue **eliminada**.
 :::
 
-::: aviso tipo=peligro
-Si una guía dice «23 puntos para Definitivas», «33 para la Pasiva Clave», «5 rangos por habilidad», «nivel máximo 60» o «el Gólem se desbloquea a nivel 25 con la misión Llamada del Inframundo», está publicando texto de 2023–2024 aunque lleve fecha de este mes. Una página de Maxroll con sello de julio de 2026 sigue diciendo que cada habilidad sube 5 veces. La fecha no acredita nada.
+::: evidencia nivel=corroborado fuentes=game8-2024,maxroll-necro-overview,datos-juego-3-1-0
+**Cómo detectar una guía muerta en cinco segundos.** Si dice «23 puntos para Definitivas», «33 para la Pasiva Clave», «5 rangos por habilidad», «nivel máximo 60» o «el Gólem se desbloquea a nivel 25 con la misión Llamada del Inframundo», está publicando texto de 2023–2024 aunque lleve fecha de este mes. Una página de Maxroll con sello de julio de 2026 sigue diciendo que cada habilidad sube 5 veces. La fecha no acredita nada.
 :::
 
 Cada habilidad tiene tres variantes mutuamente excluyentes. Vosotros veréis dos.
@@ -120,9 +120,9 @@ GameRant: *«the Book of the Dead still lets players choose which form their Ske
 
 Sacrificar ya no es renunciar: **reduce a la mitad**, no elimina.
 
-## Los 27 textos del Libro, uno por uno
+## Los textos del Libro, uno por uno
 
-Tres esbirros × tres formas × (dos Mejoras + un Sacrificio). Lo que sigue sale de **capturas del propio juego** y del **fichero de datos**. Ninguna wiki generalista publica estos textos: siguen con los de 2023.
+Tres esbirros × tres formas × (dos Mejoras + un Sacrificio). Lo que sigue sale de **capturas del propio juego** y del **fichero de datos**. Ninguna wiki generalista publica estos textos: siguen con los del juego de lanzamiento.
 
 ### Guerreros Esqueléticos (*Skeletal Warriors*) ✅
 
@@ -218,11 +218,13 @@ Gólem de Hierro, Sacrificio: **+15 %[x] de daño crítico**, tu Gólem inflige 
 
 Lo que media internet os venderá como hecho y no lo es:
 
-- **De los 27 textos, solo cinco filas están vistas en pantalla:** la base y las dos Mejoras de los **Defensores**, y las dos del **Gólem de Hueso** (una, cortada). El resto sale del **fichero de datos**: *datamining* servido por Maxroll, no una publicación de Blizzard, y de versión anterior al parche vivo.
+::: evidencia nivel=unica fuentes=captura-jugador,datos-juego-3-1-0
+- **De los veintisiete textos, solo cinco filas están vistas en pantalla:** la base y las dos Mejoras de los **Defensores**, y las dos del **Gólem de Hueso** (una, cortada). El resto sale del **fichero de datos**: *datamining* servido por Maxroll, no una publicación de Blizzard, y de versión anterior al parche vivo.
 - **Ningún Sacrificio está confirmado en juego.** A nivel 8 aparecen con candado y el texto «Para desbloquear…». Los nueve Sacrificios de arriba son texto de fichero.
 - **No existe «texto base» publicado** de las nueve formas, salvo el de los Defensores que capturasteis. El fichero solo guarda Mejora A, Mejora B y Sacrificio.
 - **La interfaz reparte el texto distinto que el fichero.** Vuestra captura separa las espinas de los Defensores y el Provocar en **dos filas**; el fichero las guarda **juntas en la Mejora A**. Cuando difieran, **manda vuestra pantalla**.
 - **Los niveles de desbloqueo de cada forma** (Escaramuzadores, Segadores, Frío, Hueso, Sangre, Hierro) los publica una sola fuente y sin segundo testigo. No los uséis para planificar.
+:::
 
 ## Cuándo se abre el Libro: la única pregunta que no se cierra desde fuera
 
@@ -234,7 +236,7 @@ Cuatro fuentes, tres respuestas: **nivel 5** (Icy Veins, y también el resumen d
 **El «nivel 15» está muerto.** Vuestra propia captura, a **nivel 8**, muestra el Libro abierto y operativo, con las variantes Defensores y Gólem de Hueso seleccionables y con las Mejoras alternándose. Lo único bloqueado a ese nivel es el **Sacrificio**.
 :::
 
-Queda saber si es 5 o 6. Es un dato de treinta segundos que solo se cierra en vuestra pantalla.
+Queda saber cuál de los dos niveles bajos es el bueno. Es un dato de treinta segundos y solo se cierra en vuestra pantalla.
 
 ## Qué hace especial a esta clase
 
@@ -256,8 +258,8 @@ Traducido: los primeros niveles se sienten flojos y os vais a morir. Es normal. 
 
 La fragilidad estructural es la dependencia de cadáveres: sin muertos no hay Guerreros, y sin Guerreros no hay muro entre vosotros y los golpes. Por eso las builds serias meten generación de cadáveres a propósito.
 
-::: aviso tipo=ojo
-Y la fragilidad que nadie os va a contar porque no vende: la Vida base a nivel 70 es **1.526**, y las builds de endgame piden **30.000+**. Todo lo demás es equipo, Paragón ✅ y multiplicadores. Si a nivel 70 tenéis cinco mil de vida, no estáis rotos: estáis empezando el juego.
+::: evidencia nivel=unica fuentes=maxroll-necro-overview
+Y la fragilidad que nadie os cuenta porque no vende: la Vida base a nivel **70** es **1.526**, y las builds de endgame piden **30.000+**. Todo lo demás es equipo, Paragón ✅ y multiplicadores. Si al llegar al tope tenéis cinco mil de vida, no estáis rotos: estáis empezando el juego.
 :::
 
 ## Cuatro comprobaciones con el juego delante
