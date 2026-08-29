@@ -1,3 +1,7 @@
 node_modules/
 .DS_Store
 *.log
+escaner/datos/*.json
+escaner/perfiles/
+escaner/__pycache__/
+escaner/config.json

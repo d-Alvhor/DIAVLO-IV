@@ -35,21 +35,14 @@ AQUI = Path(__file__).parent
 PERFILES = AQUI / "perfiles"
 CONFIG = AQUI / "config.json"
 
+from catalogo import Catalogo
+
+CAT = Catalogo()   # 432 tipos, 891 afijos, 524 aspectos — de Diablo4Companion (MIT)
+
 # ---------------------------------------------------------------- qué hay que ver
-# Palabras del tooltip que identifican el hueco. Salen de la 2ª línea del objeto:
-# "Yelmo legendario ancestral", "Peto único ancestral", "Mangual legendario"…
-TIPOS = {
-    "Casco":      ["yelmo", "casco", "bacinete", "capucha", "sombrero", "corona", "yelmos"],
-    "Peto":       ["peto", "coraza", "manto", "armadura de pecho", "túnica", "tunica"],
-    "Guantes":    ["guantes", "guanteletes", "puños", "punos", "manoplas"],
-    "Pantalones": ["pantalones", "grebas", "calzas", "perneras"],
-    "Botas":      ["botas", "borceguí", "borcegui", "botines", "sandalias"],
-    "Arma":       ["mangual", "espada", "hacha", "maza", "daga", "lanza", "arma",
-                   "bastón", "baston", "guadaña", "guadana", "ballesta", "arco"],
-    "Escudo":     ["escudo", "broquel"],
-    "Amuleto":    ["amuleto", "collar", "talismán", "talisman"],
-    "Anillo":     ["anillo", "sortija", "aro", "círculo", "circulo"],
-}
+# Ya no adivinamos con palabras clave: la línea de tipo del tooltip es literalmente
+# una entrada del catálogo, así que emparejamos contra los 432 nombres reales.
+# Eso corrige de paso los errores del OCR ("Yelrno" -> Casco).
 HUECOS = ["Casco", "Peto", "Guantes", "Pantalones", "Botas",
           "Arma", "Escudo", "Amuleto", "Anillo 1", "Anillo 2"]
 
@@ -84,16 +77,11 @@ def identificar(texto):
         return None
     n = norm(texto)
 
-    # ¿objeto? La línea de tipo suele ser la 2ª y lleva la palabra del hueco.
+    # ¿objeto? La línea de tipo suele ser la 2ª. Contra el catálogo, no a ojo.
     for linea in lineas[:4]:
-        ln = norm(linea)
-        if not any(r in ln for r in ("legendari", "unico", "unica", "mitico", "mitica",
-                                     "ancestral", "magico", "raro")):
-            continue
-        for hueco, palabras in TIPOS.items():
-            if any(re.search(rf"\b{re.escape(p)}", ln) for p in palabras):
-                nombre = lineas[0].strip()
-                return ("objeto", hueco, nombre, texto)
+        hueco = CAT.hueco(linea)
+        if hueco:                       # None = tipo conocido pero no es equipo
+            return ("objeto", hueco, lineas[0].strip(), texto)
 
     # ¿habilidad? nombre conocido + algún marcador de tooltip de habilidad
     for h in HABILIDADES:
