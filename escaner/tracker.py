@@ -75,7 +75,7 @@ def identificar(texto):
     """Del texto de un tooltip saca (clase, hueco_o_nombre, nombre, texto).
     clase: 'objeto' | 'habilidad' | None."""
     lineas = [l.strip() for l in texto.splitlines() if l.strip()]
-    if len(lineas) < 2:
+    if len(lineas) < 3:          # un tooltip real nunca son dos líneas sueltas
         return None
     n = norm(texto)
 
@@ -85,9 +85,11 @@ def identificar(texto):
         if hueco:                       # None = tipo conocido pero no es equipo
             return ("objeto", hueco, lineas[0].strip(), texto)
 
-    # ¿habilidad? "RANGO n/15" es la firma; si no está, valen dos marcadores.
-    marcas = sum(1 for m in MARCAS_HABILIDAD if m in n)
-    if RANGO.search(n) or marcas >= 2:
+    # ¿habilidad? EXIGIMOS "RANGO n/15". La red de seguridad anterior ("dos
+    # marcadores sueltos") metía basura de la interfaz —nombres de mercenario,
+    # cabeceras de panel— como si fueran habilidades. Un falso positivo es peor
+    # que no detectar: llena la checklist de mentiras y la da por completa.
+    if RANGO.search(n) and len(lineas) >= 3:
         nombre = lineas[0].strip()
         # la 1ª línea puede ser basura del icono; nos quedamos con la primera
         # que parezca un nombre de verdad y no un dato
@@ -347,6 +349,8 @@ class App(tk.Tk if tk else object):
         self.grabando = False
         self.region = self._cfg().get("region")
         self.vistos_txt = set()
+        self.ciclos = 0
+        self.sin_nada = 0
 
         cab = tk.Frame(self, bg="#1c1917")
         cab.pack(fill="x")
@@ -405,7 +409,28 @@ class App(tk.Tk if tk else object):
         val = tk.Label(f, text="—", bg="#141210", fg="#3a352f",
                        font=("Segoe UI", 10), anchor="w")
         val.pack(side="left", fill="x", expand=True)
-        return {"marca": marca, "nombre": nom, "valor": val, "etiqueta": etiqueta}
+        fila = {"marca": marca, "nombre": nom, "valor": val, "etiqueta": etiqueta}
+        # clic derecho sobre una fila = borrarla, por si el OCR mete algo raro
+        for w in (f, marca, nom, val):
+            w.bind("<Button-3>", lambda e, et=etiqueta: self._borrar_fila(et))
+        return fila
+
+    def _borrar_fila(self, etiqueta):
+        for clave, fila in self.filas.items():
+            if fila["etiqueta"] != etiqueta:
+                continue
+            fila["marca"].config(text="○", fg="#3a352f")
+            fila["nombre"].config(fg="#6b625a")
+            fila["valor"].config(text="—", fg="#3a352f")
+            if self.perfil:
+                self.perfil.objetos.pop(clave, None)
+                if clave.startswith("hab"):
+                    i = int(clave[3:])
+                    claves = list(self.perfil.habilidades)
+                    if i < len(claves):
+                        self.perfil.habilidades.pop(claves[i], None)
+            self._log(f"  ✗ borrado: {etiqueta}")
+            return
 
     def _log(self, s):
         self.log.insert("end", s + "\n")
@@ -425,6 +450,8 @@ class App(tk.Tk if tk else object):
         tipo, nombre = d.resultado
         self.perfil = Perfil(nombre, tipo)
         self.vistos_txt = set()
+        self.ciclos = 0
+        self.sin_nada = 0
         self._construir_checklist()
         self.grabando = True
         self.btn.config(text="■  Parar", bg="#8a3030")
@@ -460,13 +487,26 @@ class App(tk.Tk if tk else object):
                     return
                 time.sleep(1)
                 continue
+            reconocidos = 0
             for txt in trozos:
                 if not txt or txt in self.vistos_txt:
                     continue
                 self.vistos_txt.add(txt)
                 r = identificar(txt)
                 if r:
+                    reconocidos += 1
                     self.after(0, self._visto, *r)
+            # Sin esto no se distingue "no captura" de "captura pero no reconoce".
+            self.ciclos += 1
+            if reconocidos:
+                self.sin_nada = 0
+            else:
+                self.sin_nada += 1
+                if self.sin_nada in (8, 25, 60):
+                    self.after(0, self._log,
+                               f"  … {self.ciclos} lecturas, {len(trozos)} bloques en la "
+                               f"última. Ninguno es un tooltip: pon el ratón ENCIMA de "
+                               f"un objeto y espera 2 s.")
             time.sleep(self.INTERVALO)
 
     def _visto(self, clase, clave, nombre, texto):
