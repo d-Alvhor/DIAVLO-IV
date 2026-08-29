@@ -114,14 +114,19 @@ CHROME = ("EQUIPADO", "Casilla de", "Quitar", "Desmarcar objeto", "Marcar objeto
           "Mejorar", "Bloqueado", "Estadísticas y materiales", "Transfigurado")
 # Etiquetas de una sola palabra: SOLO si la línea es exactamente eso. Como
 # subcadena se comerían nombres de objeto ("Mano" está dentro de un montón).
-CHROME_EXACTO = ("mano", "mayus", "alt", "ctrl", "transfigurado", "equipado")
+CHROME_EXACTO = ("mano", "mayus", "alt", "ctrl", "transfigurado", "equipado",
+                 "cuello", "mano izquierda", "mano derecha", "mano izquierda,",
+                 "vinculado a cuenta", "enlazar", "pado", "anillo", "amuleto")
+# El OCR parte EQUIPADO en trozos ("EQUI PADO", "PADO"): se reconoce con hueco
+# opcional entre letras, y también pegado a la etiqueta del hueco.
+EQUIPADO = __import__("re").compile(r"^\s*(?:mano\s*\w*,?\s*|cuello\s*)?e?\s*q?\s*u?\s*i?\s*pado\s*$", __import__("re").I)
 CHROME_N = tuple(sorted({__import__("re").sub(r"\s+", " ", c).strip().lower()
                          for c in CHROME}))
 
 
 def es_chrome(linea):
     n = norm(linea)
-    if n in CHROME_EXACTO:
+    if n in CHROME_EXACTO or EQUIPADO.match(n):
         return True
     # el OCR pega un icono delante ("-L Desplazar hacia arriba"): se tolera
     # basura corta al principio, pero solo en líneas cortas de interfaz
@@ -132,6 +137,30 @@ def es_chrome(linea):
 def es_propia(texto):
     n = norm(texto)
     return sum(1 for p in PROPIAS if p in n) >= 2
+
+
+# El tooltip parte un afijo largo en dos renglones: "Multiplicador de daño de
+# golpe" / "crítico x30% [13-25]%". Cada mitad por separado no parsea, así que
+# el valorador se comía los multiplicadores enteros y daba +5% a un arma con
+# x30% de crítico. Se vuelven a juntar antes de valorar.
+CORTADA = re.compile(r"(?:\b[a-záéíóúñ]{2,}|\bx)\s*$", re.I)
+SIGUE = re.compile(r"^\s*(?:[a-záéíóúñ]|x\s*\d)")
+# el OCR escribe el símbolo % como '0/0' o '9/0': x300/0 es x30%
+PORCIENTO = re.compile(r"(\d+)[09]\s*/\s*0")
+
+
+def reflujo(texto):
+    """Vuelve a unir los afijos que el tooltip partió en dos renglones."""
+    out = []
+    for l in texto.splitlines():
+        l = PORCIENTO.sub(r"\1%", l.strip())
+        if not l:
+            continue
+        if out and CORTADA.search(out[-1]) and SIGUE.match(l):
+            out[-1] = f"{out[-1]} {l}"
+        else:
+            out.append(l)
+    return "\n".join(out)
 
 
 def _nombre(previas):
@@ -170,7 +199,7 @@ def identificar(texto):
     utiles = [l for l in lineas if not es_chrome(l)]
     if len(utiles) < 3:          # un tooltip real nunca son dos líneas sueltas
         return None
-    limpio = "\n".join(utiles)
+    limpio = reflujo("\n".join(utiles))
     n = norm(limpio)
 
     # ¿objeto? Se busca la línea de TIPO contra el catálogo, no a ojo. Puede
