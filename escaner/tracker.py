@@ -228,7 +228,7 @@ def _fusionar_renglon(ls):
     return out
 
 
-def agrupar(lineas, hueco_max=2.4, solape_min=0.30):
+def agrupar(lineas, hueco_max=2.4, solape_min=0.30, cajas=False):
     """Agrupa las líneas en paneles: un tooltip es un panel, y cada panel es una
     COLUMNA en la pantalla.
 
@@ -243,7 +243,9 @@ def agrupar(lineas, hueco_max=2.4, solape_min=0.30):
     """
     con_caja = [l for l in lineas if l["h"] > 0]
     if not con_caja:
-        return ["\n".join(l["texto"] for l in lineas)] if lineas else []
+        if not lineas or cajas:
+            return []
+        return ["\n".join(l["texto"] for l in lineas)]
     abiertos = []
     for l in _fusionar_renglon(con_caja):
         mejor, mejor_s = None, solape_min
@@ -264,7 +266,10 @@ def agrupar(lineas, hueco_max=2.4, solape_min=0.30):
             mejor["x2"] = max(mejor["x2"], l["x2"])
             mejor["y2"] = max(mejor["y2"], l["y2"])
             mejor["alto"] = max(mejor["alto"], l["h"])
-    return ["\n".join(x["texto"] for x in b["lineas"]) for b in abiertos]
+    for b in abiertos:
+        b["texto"] = "\n".join(x["texto"] for x in b["lineas"])
+        b["y"] = min(x["y"] for x in b["lineas"])
+    return abiertos if cajas else [b["texto"] for b in abiertos]
 
 
 def _lineas(res):
