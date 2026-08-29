@@ -25,6 +25,7 @@ import unicodedata
 from pathlib import Path
 
 PERFIL_STATS = Path(__file__).with_name("mis_stats.json")
+EN_COMBATE = Path(__file__).with_name("en_combate.json")
 
 # ---------------------------------------------------------------- tu ficha
 # Grupos aditivos, leídos de la ficha de personaje. Son la BASE de todo el
@@ -111,11 +112,31 @@ def cargar_grupos():
     return dict(GRUPOS_DEF)
 
 
+def cargar_combate():
+    """Valores que la ficha da MAL porque los mide fuera de combate.
+
+    La hoja de personaje enseña el estado en reposo. Una build que acumula
+    —Resolución, bloqueo por acumulación, fortificación— vale en combate algo
+    muy distinto: la ficha decía 17 de Resolución máxima cuando en el juego son
+    29, y 77,5% de bloqueo cuando en combate topa. Como los grupos son el
+    divisor de todo el cálculo, usar el número en reposo lo falsea entero.
+
+    Este fichero lo escribe el jugador y la lectura de ficha NUNCA lo pisa."""
+    try:
+        return {k: float(v) for k, v in
+                json.loads(EN_COMBATE.read_text(encoding="utf-8")).items()
+                if not str(k).startswith("_")}
+    except Exception:
+        return {}
+
+
+COMBATE = cargar_combate()
 GRUPOS = {k: v for k, v in cargar_grupos().items()
           if re.sub(r"\s+", " ", str(k)).strip().lower() not in
           {"nivel", "capacidad de pociones", "bonus de experiencia",
            "velocidad de arma", "regeneración de fe", "reducción de daño",
            "bonus de probabilidad de golpe de suerte"}}
+GRUPOS.update(COMBATE)                    # lo de combate manda sobre la ficha
 
 
 def norm(s):
@@ -432,6 +453,7 @@ def guardar_ficha(valores):
     # Nivel o capacidad de pociones no son grupos donde nada se diluya: se
     # guardan, pero no entran en el reparto.
     GRUPOS.update({k: v for k, v in valores.items() if norm(k) not in NO_GRUPO})
+    GRUPOS.update(COMBATE)                # la ficha no pisa lo de combate
     return len(valores)
 
 
@@ -458,12 +480,29 @@ def informe(perfil):
         for h, g in muertos:
             lineas.append(f"  {h:<11} {g}")
 
-    porcentuales = {k: v for k, v in GRUPOS.items() if k not in PLANOS}
-    vacios = sorted(porcentuales.items(), key=lambda kv: kv[1])[:3]
-    lineas.append("\nDÓNDE TEMPLAR (grupos más vacíos)")
-    for k, v in vacios:
-        lineas.append(f"  {v:>8.1f}%   {k}")
-    lineas.append("  Un afijo que suma rinde el triple en un grupo vacío que en uno lleno.")
+    if COMBATE:
+        lineas.append("\nVALORES DE COMBATE (la ficha los da en reposo)")
+        for k, v in sorted(COMBATE.items()):
+            lineas.append(f"  {v:>8.1f}   {k}")
+
+    # Solo grupos que esta build USA de verdad. Antes miraba todos los de la
+    # ficha y recomendaba "probabilidad de esquivar" o "daño con fuego" a una
+    # build física de espinas: grupos vacíos, sí, pero vacíos porque no pintan
+    # nada aquí.
+    usados = {casar(a.get("grupo_real") or a["grupo"])
+              for d in objetos.values() for a in (d.get("afijos") or [])
+              if not a.get("muerto")}
+    usados.discard(None)
+    candidatos = {k: v for k, v in GRUPOS.items()
+                  if k in usados and k not in PLANOS and not muerto(k)}
+    if candidatos:
+        vacios = sorted(candidatos.items(), key=lambda kv: kv[1])[:3]
+        lineas.append("\nDÓNDE TEMPLAR (de los grupos que esta build usa, "
+                      "los más vacíos)")
+        for k, v in vacios:
+            lineas.append(f"  {v:>8.1f}%   {k}")
+        lineas.append("  Un afijo que suma rinde el triple en un grupo vacío "
+                      "que en uno lleno.")
     return "\n".join(lineas)
 
 
