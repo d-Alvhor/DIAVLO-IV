@@ -103,7 +103,21 @@ def norm(s):
 
 
 def num(s):
-    return float(s.replace(".", "").replace(",", "."))
+    """OCR real trae ruido: puntos sueltos, comas huerfanas, cifras partidas.
+    Devuelve None en vez de reventar; quien llama descarta la linea."""
+    t = str(s).strip()
+    if not re.search(r"\d", t):
+        return None
+    t = t.rstrip(".,")                 # "2.970." -> "2.970"
+    if "," in t:                       # coma decimal espanola
+        ent, _, dec = t.rpartition(",")
+        t = ent.replace(".", "") + "." + dec
+    else:
+        t = t.replace(".", "")         # punto de millares
+    try:
+        return float(t)
+    except ValueError:
+        return None
 
 
 def limpiar(s):
@@ -122,27 +136,34 @@ def parsear(texto):
         if not linea:
             continue
 
-        m = re.search(r"multiplicador de (.+?)\s*x\s*([\d.,]+)\s*%", linea, re.I)
+        m = re.search(r"multiplicador de (.+?)\s*x\s*(\d[\d.,]*)\s*%", linea, re.I)
         if m:
-            out.append({"grupo": limpiar(m.group(1)), "valor": num(m.group(2)), "mult": True, "crudo": linea})
+            v, g = num(m.group(2)), limpiar(m.group(1))
+            if v is not None and len(g) > 2:
+                out.append({"grupo": g, "valor": v, "mult": True, "crudo": linea})
             continue
 
         # "Tus ataques infligen del 1% al 390%" -> se valora por su media
-        m = re.search(r"del\s*1\s*%\s*al\s*([\d.,]+)\s*%", linea, re.I)
+        m = re.search(r"del\s*1\s*%\s*al\s*(\d[\d.,]*)\s*%", linea, re.I)
         if m:
             mx = num(m.group(1))
-            out.append({"grupo": f"aleatorio 1%-{mx:g}%", "valor": (1 + mx) / 2 - 100,
-                        "mult": True, "nota": f"media {(1 + mx) / 2:.1f}%", "crudo": linea})
+            if mx is not None:
+                out.append({"grupo": f"aleatorio 1%-{mx:g}%", "valor": (1 + mx) / 2 - 100,
+                            "mult": True, "nota": f"media {(1 + mx) / 2:.1f}%", "crudo": linea})
             continue
 
-        m = re.match(r"^\+?\s*([\d.,]+)\s*%\s*(?:de\s+)?(.+?)(?:\s*\[|$)", linea, re.I)
+        m = re.match(r"^\+?\s*(\d[\d.,]*)\s*%\s*(?:de\s+)?(.+?)(?:\s*\[|$)", linea, re.I)
         if m and not re.match(r"^[\d.,\s]+$", m.group(2)):
-            out.append({"grupo": limpiar(m.group(2)), "valor": num(m.group(1)), "mult": False, "crudo": linea})
+            v, g = num(m.group(1)), limpiar(m.group(2))
+            if v is not None and len(g) > 2:
+                out.append({"grupo": g, "valor": v, "mult": False, "crudo": linea})
             continue
 
-        m = re.match(r"^\+?\s*([\d.,]+)\s+(?:de\s+)?(.+?)(?:\s*\+?\[|$)", linea, re.I)
+        m = re.match(r"^\+?\s*(\d[\d.,]*)\s+(?:de\s+)?(.+?)(?:\s*\+?\[|$)", linea, re.I)
         if m:
-            out.append({"grupo": limpiar(m.group(2)), "valor": num(m.group(1)), "mult": False, "crudo": linea})
+            v, g = num(m.group(1)), limpiar(m.group(2))
+            if v is not None and len(g) > 2:
+                out.append({"grupo": g, "valor": v, "mult": False, "crudo": linea})
     return out
 
 
@@ -210,7 +231,7 @@ def analizar(texto, hueco=None):
 def capturar(region=None):
     import mss
     from PIL import Image
-    with mss.mss() as sct:
+    with (mss.MSS() if hasattr(mss, 'MSS') else mss.mss()) as sct:
         mon = region or sct.monitors[1]
         if isinstance(mon, dict):
             shot = sct.grab(mon)
@@ -430,6 +451,16 @@ class App(tk.Tk if tk else object):
         self.after(0, self._pintar, texto, hueco)
 
     def _pintar(self, texto, hueco):
+        try:
+            self._pintar_real(texto, hueco)
+        except Exception:
+            import traceback
+            self.txt.delete("1.0", "end")
+            self.txt.insert("end", "Fallo al analizar (no pasa nada, sigue funcionando)\n\n", "no")
+            self.txt.insert("end", traceback.format_exc(), "mut")
+            self.txt.insert("end", "\n--- texto leido ---\n" + (texto or "(vacio)")[:800], "mut")
+
+    def _pintar_real(self, texto, hueco):
         afijos, total, comp = analizar(texto, hueco)
         t = self.txt
         t.delete("1.0", "end")
