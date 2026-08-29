@@ -333,8 +333,18 @@ def _plausible(clave, valor):
     return not r or (r[0] <= valor <= r[1])
 
 
+# El OCR de Windows escribe el símbolo % como "0/0" o "9/0": "3.166,1 9/0" es
+# 3.166,1 %. Sin esto NINGUNA fila porcentual se reconocía como número, y las
+# ofensivas de la ficha son todas porcentuales.
+PCT_OCR = re.compile(r"\s*[09]\s*[/|]\s*0\s*$")
+
+
+def pct_ocr(t):
+    return PCT_OCR.sub("%", str(t).strip())
+
+
 def _es_valor(t):
-    return bool(re.fullmatch(r"[+\-]?\s*[\d][\d.,]*\s*%?", t.strip()))
+    return bool(re.fullmatch(r"[+\-]?\s*[\d][\d.,]*\s*%?", pct_ocr(t)))
 
 
 def leer_ficha_cajas(lineas):
@@ -354,7 +364,7 @@ def leer_ficha_cajas(lineas):
     for v in valores:
         cy = (v["y"] + v["y2"]) / 2
         alto = max(v["y2"] - v["y"], 1)
-        n = num(v["texto"])
+        n = num(pct_ocr(v["texto"]))
         if n is None:
             continue
         # A la izquierda, a su altura, y CERCA: sin el tope de distancia se

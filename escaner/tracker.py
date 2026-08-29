@@ -925,6 +925,10 @@ class App(tk.Tk if tk else object):
         if self.grabando:
             self._log("Para el trackeo antes de leer la ficha.")
             return
+        if getattr(self, "_leyendo_ficha", False):
+            self._log("Ya estoy leyendo la ficha, espera a que acabe.")
+            return
+        self._leyendo_ficha = True
         self._log("\nLeyendo la ficha 15 s. Abre la hoja de personaje (C), entra "
                   "en «Estadísticas y materiales» —no vale el resumen— y baja "
                   "despacio por la lista.")
@@ -952,26 +956,39 @@ class App(tk.Tk if tk else object):
                     vistas[k] = v
                 ciclos += 1
             except Exception as e:
-                self.after(0, self._log, f"  (lectura saltada: {type(e).__name__})")
+                self.after(0, self._log, f"  (lectura saltada: {type(e).__name__}: {e})")
             self.after(0, self.estado.config,
                        {"text": f"ficha: {len(vistas)} estadísticas"})
             time.sleep(0.6)
         self.after(0, self._fin_ficha, vistas, ciclos)
 
     def _fin_ficha(self, vistas, ciclos):
+        self._leyendo_ficha = False
         if not vistas:
             self._log("  No he reconocido ninguna estadística. Abre la hoja de "
                       "personaje con C y vuelve a darle a Ficha.")
             self.estado.config(text="ficha vacía")
             return
         V.guardar_ficha(vistas)
-        faltan = [f for f in V.FICHA if V.norm(f) not in {V.norm(k) for k in vistas}]
-        self._log(f"  ✓ {len(vistas)} estadísticas guardadas en {ciclos} lecturas.")
+        # Contra lo ACUMULADO en disco, no contra esta pasada: si no, decía que
+        # faltaban 33 cuando ya estaban guardadas de la vez anterior.
+        todo = dict(V.GRUPOS)
+        try:
+            todo.update(json.loads(V.PERFIL_STATS.read_text(encoding="utf-8")))
+        except Exception:
+            pass
+        tengo = {V.norm(k) for k in todo}
+        faltan = [f for f in V.FICHA if V.norm(f) not in tengo
+                  and V.norm(V.ALIAS_FICHA.get(V.norm(f), f)) not in tengo]
+        self._log(f"  ✓ {len(vistas)} nuevas en {ciclos} lecturas · "
+                  f"{len(todo)} acumuladas en total.")
         if faltan:
-            self._log(f"  Sin leer ({len(faltan)}): {', '.join(faltan[:6])}"
+            self._log(f"  Aún sin ver ({len(faltan)}): {', '.join(faltan[:6])}"
                       + ("…" if len(faltan) > 6 else "")
-                      + "\n  Vuelve a darle a Ficha y desplázate por esa parte.")
-        self.estado.config(text=f"ficha: {len(vistas)} estadísticas")
+                      + "\n  Vuelve a darle a Ficha sobre esa parte de la lista.")
+        else:
+            self._log("  ★ La ficha entera. Ya puedes darle a Trackear.")
+        self.estado.config(text=f"ficha: {len(todo)} estadísticas")
 
     def _informe(self):
         if not self.perfil:
