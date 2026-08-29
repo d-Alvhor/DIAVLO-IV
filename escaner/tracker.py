@@ -34,6 +34,8 @@ except ImportError:
 AQUI = Path(__file__).parent
 PERFILES = AQUI / "perfiles"
 CONFIG = AQUI / "config.json"
+CORPUS = AQUI / "corpus"
+SUFICIENTE = 6      # líneas útiles a partir de las cuales no se prueban más variantes
 
 from catalogo import Catalogo
 import valorar as V
@@ -114,10 +116,79 @@ def _lineas(res):
     return [getattr(res, "text", "") or ""]
 
 
-def ocr(img):
+def preparar(img, escala=2):
+    """Los tooltips son texto claro sobre fondo oscuro SEMITRANSPARENTE, que es
+    justo lo que peor lee un OCR. Escalar, subir contraste y binarizar ayuda
+    bastante. Devuelve varias versiones: se prueban por orden."""
+    from PIL import Image, ImageOps, ImageEnhance
+    g = img.convert("L")
+    g = g.resize((g.width * escala, g.height * escala), Image.LANCZOS)
+    versiones = [("escalada", g)]
+    alto = ImageEnhance.Contrast(g).enhance(2.2)
+    versiones.append(("contraste", alto))
+    versiones.append(("binaria", alto.point(lambda v: 255 if v > 140 else 0)))
+    versiones.append(("binaria-inv", ImageOps.invert(alto.point(lambda v: 255 if v > 140 else 0))))
+    return versiones
+
+
+def ocr(img, guardar=None):
+    """Lee el tooltip. Prueba la imagen cruda y varias preparaciones, y se queda
+    con la que más líneas útiles saque. Si se pasa 'guardar', deja la captura y
+    lo leído en corpus/ para poder medir la precisión más tarde."""
     import winocr
-    res = winocr.recognize_pil_sync(img, "es-ES")
-    return "\n".join(x for x in _lineas(res) if x.strip())
+
+    def leer(im):
+        try:
+            return "\n".join(x for x in _lineas(
+                winocr.recognize_pil_sync(im, "es-ES")) if x.strip())
+        except Exception:
+            return ""
+
+    # El orden importa: primero las que mejor rinden en la medición, y solo se
+    # corta cuando el resultado es COMPLETO (un tooltip tiene ~6 líneas útiles).
+    # Cortar antes hacía que se quedara con la peor lectura, que es lo que pasaba.
+    intentos = [("cruda", img)]
+    try:
+        intentos += preparar(img)
+    except Exception:
+        pass
+
+    mejor, mejor_txt, mejor_n = "cruda", "", -1
+    for nombre, im in intentos:
+        t = leer(im)
+        n = _utiles(t)
+        if n > mejor_n:
+            mejor, mejor_txt, mejor_n = nombre, t, n
+        if mejor_n >= SUFICIENTE:
+            break
+
+    if guardar:
+        _al_corpus(img, mejor_txt, mejor)
+    return mejor_txt
+
+
+def _utiles(texto):
+    """Cuántas líneas parecen de verdad un afijo o un tipo de objeto."""
+    n = 0
+    for l in texto.splitlines():
+        l = l.strip()
+        if len(l) < 4:
+            continue
+        if re.search(r"\d", l) or CAT.hueco(l):
+            n += 1
+    return n
+
+
+def _al_corpus(img, texto, variante):
+    """Cada captura, con lo que leyó. Así el corpus de prueba se construye solo."""
+    try:
+        CORPUS.mkdir(exist_ok=True)
+        marca = datetime.now().strftime("%Y%m%d-%H%M%S-%f")[:-3]
+        img.save(CORPUS / f"{marca}.png")
+        (CORPUS / f"{marca}.txt").write_text(
+            f"# variante: {variante}\n{texto}", encoding="utf-8")
+    except Exception:
+        pass
 
 
 # ---------------------------------------------------------------- perfil
@@ -204,6 +275,8 @@ class App(tk.Tk if tk else object):
         self.btn.pack(side="left", padx=6)
         tk.Button(cab, text="Zona", command=self.elegir_region, bg="#232019",
                   fg="#e8e2da", relief="flat", padx=10).pack(side="left")
+        tk.Button(cab, text="Ficha", command=self.leer_ficha, bg="#232019",
+                  fg="#e8e2da", relief="flat", padx=10).pack(side="left", padx=4)
         self.estado = tk.Label(cab, text="parado", bg="#1c1917", fg="#9a9088",
                                font=("Segoe UI", 9))
         self.estado.pack(side="right", padx=12)
@@ -282,12 +355,14 @@ class App(tk.Tk if tk else object):
         if self.perfil:
             ruta = self.perfil.guardar()
             self._log(f"■ {motivo}. Guardado en {ruta.name}")
+            if motivo != "completo" and self.perfil.objetos:
+                self._informe()
 
     def _bucle(self):
         fallos = 0
         while self.grabando:
             try:
-                txt = ocr(capturar(self.region))
+                txt = ocr(capturar(self.region), guardar=True)
                 fallos = 0
             except Exception as e:
                 fallos += 1
@@ -331,6 +406,7 @@ class App(tk.Tk if tk else object):
         self.estado.config(text=f"faltan {len(f)} objetos · {n} habilidades")
         if self.perfil.completo():
             self._log("\n★ COMPLETO. Build entera capturada.")
+            self._informe()
             self.parar("completo")
 
     def _contra_referencia(self, hueco, dato):
@@ -361,6 +437,40 @@ class App(tk.Tk if tk else object):
             if d and d.get("aporte") is not None:
                 extra = f"   +{d['aporte']:.0f}%"
         fila["valor"].config(text=(texto[:38] + extra), fg="#c9c0b4")
+
+    def leer_ficha(self):
+        """Captura la hoja de personaje y actualiza los grupos del valorador.
+        Son la base de todo el cálculo: desfasados, las respuestas mienten."""
+        self._log("\nLeyendo la ficha de personaje…")
+        self.update()
+        try:
+            self.withdraw()
+            time.sleep(0.25)
+            img = capturar(self.region)
+            self.deiconify()
+            txt = ocr(img, guardar=True)
+        except Exception as e:
+            self.deiconify()
+            self._log(f"✗ {e}")
+            return
+        vals = V.leer_ficha(txt)
+        if not vals:
+            self._log("  No he reconocido ninguna estadística. Abre la hoja de "
+                      "personaje y marca la Zona sobre la lista de estadísticas.")
+            return
+        V.guardar_ficha(vals)
+        self._log(f"  ✓ {len(vals)} estadísticas actualizadas:")
+        for k, v in sorted(vals.items()):
+            self._log(f"      {k}: {v:g}")
+
+    def _informe(self):
+        if not self.perfil:
+            return
+        p = {"objetos": self.perfil.objetos}
+        self._log("\n" + "─" * 46)
+        for l in V.informe(p).splitlines():
+            self._log(l)
+        self._log("─" * 46)
 
     # ---------------------------------------------------------------- zona
     def elegir_region(self):

@@ -250,6 +250,78 @@ def resumen_linea(afijos, total):
     return " · ".join(trozos)
 
 
+# ---------------------------------------------------------------- ficha
+def leer_ficha(texto):
+    """Ficha de personaje -> {grupo: valor}. Así los grupos se mantienen al día
+    sin editar código: son la base del cálculo y desfasados mienten."""
+    out = {}
+    for linea in str(texto).splitlines():
+        l = linea.strip()
+        if not l:
+            continue
+        m = re.match(r"^(.+?)\s+([\d.,]+)\s*%?\s*$", l)
+        if not m:
+            continue
+        etiqueta, bruto = limpiar(m.group(1)), num(m.group(2))
+        if bruto is None or len(etiqueta) < 4:
+            continue
+        # limpiar() quita el "de" tras "daño", así que hay que aplicarlo a las
+        # dos partes o "daño de golpe crítico" nunca casa con su propia clave.
+        e = limpiar(etiqueta)
+        for k in GRUPOS_DEF:
+            kk = limpiar(k)
+            if kk == e or kk in e or e in kk:
+                out[k] = bruto
+                break
+    return out
+
+
+def guardar_ficha(valores):
+    actual = {}
+    if PERFIL_STATS.exists():
+        try:
+            actual = json.loads(PERFIL_STATS.read_text(encoding="utf-8"))
+        except Exception:
+            pass
+    actual.update(valores)
+    PERFIL_STATS.write_text(json.dumps(actual, ensure_ascii=False, indent=2),
+                            encoding="utf-8")
+    GRUPOS.update(valores)
+    return len(valores)
+
+
+# ---------------------------------------------------------------- informe
+def informe(perfil):
+    """Resumen legible de una build completa: qué aporta cada pieza, cuál es la
+    más floja y en qué grupo conviene templar (el más vacío, no el más grande)."""
+    objetos = perfil.get("objetos") or {}
+    lineas = []
+    piezas = sorted(((h, d) for h, d in objetos.items() if d.get("aporte") is not None),
+                    key=lambda kv: -kv[1]["aporte"])
+    if piezas:
+        lineas.append("APORTE POR PIEZA")
+        for h, d in piezas:
+            lineas.append(f"  {d['aporte']:>7.0f}%   {h:<11} {d['nombre'][:34]}")
+        floja = piezas[-1]
+        lineas.append(f"\n  La más floja: {floja[0]} ({floja[1]['nombre'][:30]}, "
+                      f"+{floja[1]['aporte']:.0f}%). Ahí es donde más margen tienes.")
+
+    muertos = [(h, a["grupo"]) for h, d in objetos.items()
+               for a in (d.get("afijos") or []) if a.get("muerto")]
+    if muertos:
+        lineas.append("\nAFIJOS QUE NO TE SIRVEN")
+        for h, g in muertos:
+            lineas.append(f"  {h:<11} {g}")
+
+    porcentuales = {k: v for k, v in GRUPOS.items() if k not in PLANOS}
+    vacios = sorted(porcentuales.items(), key=lambda kv: kv[1])[:3]
+    lineas.append("\nDÓNDE TEMPLAR (grupos más vacíos)")
+    for k, v in vacios:
+        lineas.append(f"  {v:>8.1f}%   {k}")
+    lineas.append("  Un afijo que suma rinde el triple en un grupo vacío que en uno lleno.")
+    return "\n".join(lineas)
+
+
 # ---------------------------------------------------------------- pruebas
 def autotest():
     try:

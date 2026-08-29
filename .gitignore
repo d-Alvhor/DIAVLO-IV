@@ -5,3 +5,5 @@ escaner/datos/*.json
 escaner/perfiles/
 escaner/__pycache__/
 escaner/config.json
+escaner/corpus/
+escaner/mis_stats.json
