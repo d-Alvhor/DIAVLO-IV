@@ -36,6 +36,7 @@ PERFILES = AQUI / "perfiles"
 CONFIG = AQUI / "config.json"
 
 from catalogo import Catalogo
+import valorar as V
 
 CAT = Catalogo()   # 432 tipos, 891 afijos, 524 aspectos — de Diablo4Companion (MIT)
 
@@ -141,7 +142,14 @@ class Perfil:
             if clave in self.objetos and self.objetos[clave]["nombre"] == nombre:
                 return False
             nuevo = clave not in self.objetos
-            self.objetos[clave] = {"nombre": nombre, "texto": texto}
+            afijos, total = V.analizar(texto, CAT)
+            self.objetos[clave] = {
+                "nombre": nombre, "texto": texto, "aporte": round(total, 1),
+                "afijos": [{"grupo": a.get("grupo_real") or a["grupo"],
+                            "valor": a["valor"], "mult": bool(a.get("mult")),
+                            "pct": round(a["pct"], 1) if a.get("pct") is not None else None,
+                            "tipo": a.get("tipo"), "muerto": a.get("muerto")}
+                           for a in afijos]}
             return nuevo
         else:
             if clave in self.habilidades:
@@ -310,12 +318,36 @@ class App(tk.Tk if tk else object):
         else:
             i = len(self.perfil.habilidades) - 1
             self._marcar(f"hab{i}", nombre)
-        self._log(f"  ✓ {nombre}")
+        d = self.perfil.objetos.get(k) if clase == "objeto" else None
+        if d and d.get("afijos") is not None:
+            afijos = [{"grupo": x["grupo"], "valor": x["valor"], "mult": x["mult"],
+                       "pct": x["pct"], "tipo": x["tipo"], "muerto": x["muerto"]}
+                      for x in d["afijos"]]
+            self._log(f"  ✓ {nombre}  —  {V.resumen_linea(afijos, d['aporte'])}")
+            self._contra_referencia(k, d)
+        else:
+            self._log(f"  ✓ {nombre}")
         f, n = self.perfil.faltan()
         self.estado.config(text=f"faltan {len(f)} objetos · {n} habilidades")
         if self.perfil.completo():
             self._log("\n★ COMPLETO. Build entera capturada.")
             self.parar("completo")
+
+    def _contra_referencia(self, hueco, dato):
+        """Si hay un perfil guardado del otro lado, compara ese hueco al vuelo."""
+        otro = "rival" if self.perfil.tipo == "yo" else "yo"
+        for ruta in sorted(PERFILES.glob(f"{otro}_*.json")) if PERFILES.exists() else []:
+            try:
+                p = json.loads(ruta.read_text(encoding="utf-8"))
+            except Exception:
+                continue
+            ref = (p.get("objetos") or {}).get(hueco)
+            if not ref or not ref.get("texto"):
+                continue
+            dif, tn, tv, _ = V.comparar(dato["texto"], ref["texto"], CAT)
+            v, _ = V.veredicto(dif)
+            self._log(f"      vs {p.get('nombre', ruta.stem)}: {v} {dif:+.0f}%")
+            return
 
     def _marcar(self, clave, texto):
         fila = self.filas.get(clave)
@@ -323,7 +355,12 @@ class App(tk.Tk if tk else object):
             return
         fila["marca"].config(text="●", fg="#4a9d68")
         fila["nombre"].config(fg="#e8e2da")
-        fila["valor"].config(text=texto[:46], fg="#c9c0b4")
+        extra = ""
+        if self.perfil:
+            d = self.perfil.objetos.get(clave)
+            if d and d.get("aporte") is not None:
+                extra = f"   +{d['aporte']:.0f}%"
+        fila["valor"].config(text=(texto[:38] + extra), fg="#c9c0b4")
 
     # ---------------------------------------------------------------- zona
     def elegir_region(self):
@@ -436,8 +473,60 @@ def autotest():
           f"{'ok' if len(p.objetos) == 2 else 'MAL'}")
 
 
+def simulacion():
+    """Sesión completa simulada con tooltips reales del jugador."""
+    TOOLTIPS = {
+        "Casco": """YELMO EXCEPCIONAL DEL YUNQUE DE GLYNN
+Yelmo legendario ancestral
++182 de fuerza
++1.728 de vida máxima [1.226 - 1.450]
++1.635 de espinas [1.221 - 1.526]
++6 acumulaciones máximas de Resolución""",
+        "Guantes": """PUÑOS DEL DESTINO
+Guantes únicos ancestrales
++243 de fuerza +[150 - 180]
++2.970 de vida máxima [1.831 - 2.200]
+Multiplicador de daño por vulnerabilidad x52% [16 - 28]%
+Multiplicador de daño de Físico x32% [14 - 24]%
++64,0% de daño a enemigos cercanos""",
+        "Escudo": """HERALDO DE ZAKARUM
+Escudo único ancestral
++225 de fuerza +[150 - 180]
++790 de vida por golpe [526 - 632]
++1.908 de espinas [1.221 - 1.526]
+18,8% de reducción de daño [11,0 - 15,0]%""",
+        "Anillo": """CÍRCULO DE ECOS DE ESCRITURA DE LAPA
+Anillo legendario ancestral
++6,4% de probabilidad de golpe crítico [3,5 - 5,0]%
+Multiplicador de daño de golpe crítico x27% [13 - 25]%
++336 de vida por golpe [263 - 316]""",
+    }
+    p = Perfil("simulacion", "yo")
+    print("  --- sesión simulada ---")
+    for _, txt in TOOLTIPS.items():
+        r = identificar(txt)
+        if not r:
+            print(f"    MAL  no identificado: {txt.splitlines()[0]}")
+            continue
+        clase, clave, nombre, texto = r
+        if p.anadir(clase, clave, nombre, texto):
+            hueco = next((k for k, v in p.objetos.items() if v["nombre"] == nombre), clave)
+            d = p.objetos[hueco]
+            print(f"    ok   {hueco:<11} {nombre[:30]:<32} +{d['aporte']:.0f}%")
+    f, n = p.faltan()
+    print(f"\n    capturado: {len(p.objetos)} objetos · faltan {len(f)}: {', '.join(f)}")
+    print(f"    habilidades: faltan {n}")
+    print(f"    completo: {p.completo()}  (correcto: False, faltan piezas)")
+    peor = TOOLTIPS["Guantes"].replace("x52%", "x20%").replace("+64,0%", "+10,0%")
+    dif, tn, tv, _ = V.comparar(peor, TOOLTIPS["Guantes"], CAT)
+    v, _ = V.veredicto(dif)
+    print(f"\n    guantes recortados vs los tuyos: {v} {dif:+.1f}%")
+
+
 if __name__ == "__main__":
     if "--test" in sys.argv:
         autotest()
+        print()
+        simulacion()
     else:
         App().mainloop()

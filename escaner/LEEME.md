@@ -1,70 +1,125 @@
-# Escáner de objetos — Diablo IV
+# Tracker de builds — Diablo IV
 
-Capturas con **F8** y te dice si el objeto que tienes delante **gana o pierde**
-contra el que llevas puesto, y **por qué**.
+Le das a **Trackear**, dices si es tu personaje o un rival, y va mirando la pantalla.
+Tú pasas el ratón por cada objeto; la checklist se rellena sola y **te dice cuánto
+aporta cada pieza y si gana a la del otro perfil**.
 
 ## Lo que NO hace
 
-No dibuja nada sobre el juego. No lee su memoria. No automatiza nada.
-Hace **una captura de pantalla** —como la tecla Impr Pant— y la lee.
-La ventana de resultados es una ventana normal, aparte.
+No dibuja sobre el juego. No lee su memoria. No automatiza teclado ni ratón.
+Hace capturas de pantalla y las lee. La ventana es una ventana normal, aparte.
 
-## Instalación (una sola vez, en el PC de Windows)
+> ⚠️ Blizzard no autoriza herramientas de terceros ni tiene lista blanca: la EULA
+> es deliberadamente amplia y prohíbe software que "lea información generada por
+> la Plataforma". No hay ningún caso documentado y sostenido de baneo por
+> captura + OCR en Diablo IV, pero **nadie puede garantizarte nada**. Riesgo asumido.
 
-1. Instala **Python** desde [python.org](https://www.python.org/downloads/) si no lo tienes.
-   Marca **"Add Python to PATH"** en el instalador.
-2. Abre una consola y ejecuta:
+## Instalación (una vez, en el PC de Windows)
+
+1. [Python](https://www.python.org/downloads/) — marca *"Add Python to PATH"*
+2. En una consola:
 
 ```
 pip install winocr mss pillow
 ```
 
-`winocr` usa el **motor de OCR que ya trae Windows**. No hace falta Tesseract
-ni ningún binario externo, y lee español de fábrica.
+`winocr` usa el **motor de OCR que ya trae Windows**. Sin Tesseract, sin binarios,
+y lee español de fábrica.
 
 ## Uso
 
 ```
-python escaner.py
+python tracker.py
 ```
 
-| Tecla | Qué hace |
+1. **▶ Trackear** → eliges **Soy yo** o **Un rival** (con su nombre)
+2. Pasas el ratón por cada objeto y cada habilidad
+3. La checklist se marca sola: `○` → `●` con el nombre y **cuánto aporta**
+4. Si ya tienes guardado el otro perfil, te compara **hueco a hueco al vuelo**
+5. Termina cuando lo ha visto todo (10 huecos + 6 habilidades) y guarda el perfil
+
+**Botón Zona:** marca una vez el recuadro donde te salen los tooltips. Leer solo
+esa zona en vez de toda la pantalla es más rápido y bastante más preciso.
+
+Los perfiles se guardan en `perfiles/yo_*.json` y `perfiles/rival_*.json`, con el
+texto completo de cada pieza.
+
+## Las tres piezas
+
+| Fichero | Qué hace |
 |---|---|
-| **F9** | Marcas **una vez** la zona de pantalla donde salen los tooltips (arrastras un rectángulo). Se guarda en `config.json`; no hay que repetirlo. |
-| **F8** | Con el objeto a la vista, escanea y analiza. |
+| `catalogo.py` | Carga el catálogo canónico en español |
+| `valorar.py` | Calcula el aporte real de cada afijo y compara piezas |
+| `tracker.py` | Captura, checklist en vivo y perfiles |
 
-El desplegable de arriba elige **contra qué hueco** comparar.
+### El catálogo no es mío
 
-> **Marca la zona con F9 el primer día.** Leer solo el recuadro del tooltip en vez
-> de la pantalla entera es mucho más rápido y mucho más preciso.
+Viene de [josdemmers/Diablo4Companion](https://github.com/josdemmers/Diablo4Companion) (MIT),
+que publica el catálogo extraído del juego en 14 idiomas:
 
-## La regla que aplica
+```
+432 tipos de objeto  ·  891 afijos  ·  524 aspectos
+```
 
-Los afijos que **suman** entran en un grupo compartido, y su valor real depende
-de **cuánto tienes ya en ese grupo**:
+**Y eso es lo que corrige el OCR.** Como solo hay 432 tipos y 891 afijos posibles,
+una lectura sucia empareja sola con la buena:
 
-- Sumar 50 a un grupo de 4.047 → **+1,2%**
-- Sumar 40 a un grupo de 11,5 → **+347%**
+| El OCR lee | Se resuelve como |
+|---|---|
+| `Yelrno legendario ancestral` | **Casco** |
+| `Anillo legendari0 ancestral` | **Anillo** |
+| `de velocidd de ataqe` | *de velocidad de ataque* |
 
-Los que **multiplican** (los que llevan `x`) se aplican enteros y no se diluyen.
+Actualizarlo cuando cambie el parche:
+
+```
+python catalogo.py --actualizar
+```
+
+### La regla que aplica el valorador
+
+Un afijo que **suma** entra en un grupo compartido, y su valor real depende de
+cuánto tienes ya ahí:
+
+```
++50 sobre un grupo de 4.047  ->    +1,2%
++40 sobre un grupo de    11,5 ->  +347%
+```
+
+Un afijo que **multiplica** (los que llevan `x`) se aplica entero y no se diluye.
 
 > **Templa en el grupo más vacío, no en el más grande.**
 
 ## Mantener tus datos al día
 
-Abre `escaner.py` y edita, arriba del todo:
+**`mis_stats.json`** (créalo al lado de `valorar.py`) sobrescribe los grupos sin
+tocar el código. Son **la base de todo el cálculo**: si están desfasados, las
+respuestas también.
 
-- **`GRUPOS`** — los números de tu ficha de personaje. **Son la base de todo el
-  cálculo.** Si están desfasados, las respuestas también.
-- **`EQUIPADO`** — lo que llevas puesto por hueco, para la comparación.
-- **`MUERTOS`** — afijos que no te aportan nada con esta build (daño en el tiempo,
-  daño elemental, daño a lejanos…). El escáner los marca en rojo.
+```json
+{
+  "daño de golpe crítico": 4047.5,
+  "daño a enemigos cercanos": 75.5,
+  "vida máxima": 13100
+}
+```
+
+En `valorar.py` está además `MUERTOS`: afijos que no aportan nada a esta build
+(daño en el tiempo, elemental, a enemigos lejanos). El tracker los marca.
 
 ## Comprobar que funciona sin abrir el juego
 
 ```
-python escaner.py --test
+python catalogo.py     # 14/14 tipos y 7/7 afijos, con ruido de OCR metido a mano
+python valorar.py      # valoración, comparación y control contra sí mismo
+python tracker.py --test   # identificación + sesión simulada de principio a fin
 ```
 
-Analiza unos Puños del Destino de ejemplo y saca el desglose por consola.
-Si eso funciona, la lógica está bien y cualquier problema es del OCR o de la zona.
+Si eso pasa, la lógica está bien y cualquier fallo es del OCR o de la zona.
+
+## Lo que NO está verificado
+
+**El OCR contra un tooltip real del juego.** Todo lo medido usa texto escrito a
+mano o imágenes generadas. El listón para fiarse sería: **20-30 capturas reales
+variadas, ≥95% de líneas aceptadas y cero afijos o números erróneos aceptados en
+silencio.** Está sin intentar.
