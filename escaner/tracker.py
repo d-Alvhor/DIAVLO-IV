@@ -916,22 +916,31 @@ class App(tk.Tk if tk else object):
         if self.grabando:
             self._log("Para el trackeo antes de leer la ficha.")
             return
-        self._log("\nLeyendo la ficha 12 s: abre la hoja de personaje (C) y "
-                  "baja despacio por las estadísticas…")
+        self._log("\nLeyendo la ficha 15 s. Abre la hoja de personaje (C), entra "
+                  "en «Estadísticas y materiales» —no vale el resumen— y baja "
+                  "despacio por la lista.")
         self.update()
         threading.Thread(target=self._bucle_ficha, daemon=True).start()
 
-    def _bucle_ficha(self, segundos=12.0):
+    def _bucle_ficha(self, segundos=15.0):
         vistas, fin, ciclos = {}, time.time() + segundos, 0
         while time.time() < fin:
             try:
                 img = self._captura_limpia()
-                for trozo in ocr_bloques(img, guardar=True):
-                    nuevas = V.leer_ficha(reflujo(trozo))
-                    for k, v in nuevas.items():
-                        if k not in vistas:
-                            self.after(0, self._log, f"      {k}: {v:g}")
-                        vistas[k] = v
+                import winocr
+                res = winocr.recognize_pil_sync(escalar_para_ocr(img), "es-ES")
+                lineas = _lineas_con_caja(res)
+                # Por CAJAS, no por texto: en la hoja la etiqueta va pegada a la
+                # izquierda y el número al borde derecho, medio panel de por
+                # medio. Unidos por texto nunca se emparejan.
+                nuevas = V.leer_ficha_cajas(lineas)
+                nuevas.update(V.leer_ficha(reflujo("\n".join(
+                    l["texto"] for l in lineas))))
+                _al_corpus(img, "\n".join(l["texto"] for l in lineas), "ficha")
+                for k, v in nuevas.items():
+                    if k not in vistas:
+                        self.after(0, self._log, f"      {k}: {v:g}")
+                    vistas[k] = v
                 ciclos += 1
             except Exception as e:
                 self.after(0, self._log, f"  (lectura saltada: {type(e).__name__})")

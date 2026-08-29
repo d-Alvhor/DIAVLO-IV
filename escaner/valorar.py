@@ -125,7 +125,9 @@ def num(s):
     t = str(s).strip()
     if not re.search(r"\d", t):
         return None
-    t = t.rstrip(".,")
+    # "30,5 %" tiene que dar 30.5. Antes solo llegaban aquí números ya pelados
+    # por la regex de turno; leyendo la ficha por cajas llega la celda entera.
+    t = t.rstrip("% \t").rstrip(".,")
     if "," in t:
         ent, _, dec = t.rpartition(",")
         t = ent.replace(".", "") + "." + dec
@@ -303,6 +305,45 @@ def _canon_ficha(etiqueta):
     if not cerca:
         return None
     return next(f for f in FICHA if norm(f) == cerca[0])
+
+
+def _es_valor(t):
+    return bool(re.fullmatch(r"[+\-]?\s*[\d][\d.,]*\s*%?", t.strip()))
+
+
+def leer_ficha_cajas(lineas):
+    """Ficha de personaje -> {stat: valor}, emparejando por ALTURA.
+
+    En la hoja, la etiqueta va pegada al borde izquierdo de la fila y el número
+    al derecho: medio panel de distancia. Juntarlos por cercanía horizontal no
+    funciona —era por lo que solo salían las cuatro de la columna estrecha—,
+    pero por altura sí: el número está a la misma altura que su etiqueta, y
+    cuando la etiqueta ocupa dos renglones ('Daño por' / 'vulnerabilidad') el
+    número queda centrado entre los dos.
+    """
+    ls = [l for l in lineas if l.get("texto", "").strip()]
+    valores = [l for l in ls if _es_valor(l["texto"])]
+    etiquetas = [l for l in ls if not _es_valor(l["texto"])]
+    out = {}
+    for v in valores:
+        cy = (v["y"] + v["y2"]) / 2
+        alto = max(v["y2"] - v["y"], 1)
+        cerca = [e for e in etiquetas
+                 if e["x2"] <= v["x"] + alto                    # a su izquierda
+                 and abs((e["y"] + e["y2"]) / 2 - cy) < alto * 1.15]
+        if not cerca:
+            continue
+        cerca.sort(key=lambda e: (e["y"], e["x"]))
+        canon = _canon_ficha(" ".join(e["texto"] for e in cerca))
+        if not canon:                       # con dos renglones no casó: prueba uno
+            for e in sorted(cerca, key=lambda e: abs((e["y"] + e["y2"]) / 2 - cy)):
+                canon = _canon_ficha(e["texto"])
+                if canon:
+                    break
+        n = num(v["texto"])
+        if canon and n is not None:
+            out[ALIAS_FICHA.get(norm(canon), canon.lower())] = n
+    return out
 
 
 def leer_ficha(texto):
