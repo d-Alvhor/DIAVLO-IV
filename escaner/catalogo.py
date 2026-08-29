@@ -37,10 +37,14 @@ HUECO_DE_TIPO = {
     "helm": "Casco", "chest": "Peto", "gloves": "Guantes", "pants": "Pantalones",
     "boots": "Botas", "weapon": "Arma", "ranged": "Arma", "offhand": "Escudo",
     "amulet": "Amuleto", "ring": "Anillo",
+    # El visor de configuraciones del leaderboard enseña también estos, y no son
+    # adorno: el sello mítico de un rival daba 19%[x] de daño y bonus de
+    # juggernaut. Estaban en IGNORAR desde el principio.
+    "horadricseal": "Sello", "charm": "Dije",
 }
 # Los que existen pero no ocupan hueco de equipo en nuestra checklist
-IGNORAR = {"charm", "rune", "horadricseal", "sigil", "witchersigil",
-           "dungeonescalation", "horadricjewel", "bloodiedlair"}
+IGNORAR = {"rune", "sigil", "witchersigil", "dungeonescalation",
+           "horadricjewel", "bloodiedlair"}
 
 
 def norm(s):

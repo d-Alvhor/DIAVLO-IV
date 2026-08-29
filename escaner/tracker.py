@@ -79,6 +79,11 @@ HUECOS = ["Casco", "Peto", "Guantes", "Pantalones", "Botas",
           "Arma", "Escudo", "Amuleto", "Anillo 1", "Anillo 2"]
 
 N_HABILIDADES = 6
+# Sello y dijes salen en el visor de configuraciones del leaderboard. Se leen y
+# se valoran, pero NO cuentan para dar la build por completa: no todo el mundo
+# los lleva, y si no, la sesión no terminaría nunca.
+N_DIJES = 6
+HUECOS_EXTRA = ["Sello"] + [f"Dije {i}" for i in range(1, N_DIJES + 1)]
 
 # Cómo se reconoce un tooltip de HABILIDAD, visto en capturas reales del juego:
 #   Punición
@@ -88,6 +93,10 @@ N_HABILIDADES = 6
 # Nada de listas de nombres a mano: el nombre se toma de la primera línea, así
 # funciona con cualquier habilidad de cualquier clase sin mantener nada.
 RANGO = re.compile(r"\brango\s*\d+\s*/\s*\d+", re.I)
+# En el visor de configuraciones del leaderboard las habilidades NO llevan
+# "RANGO n/15": llevan "Enfrentamiento : Castigo" y debajo MODIFICADORES con la
+# lista de mejoras elegidas. Es más útil que el rango: dice qué eligió.
+ELECCION = re.compile(r"^\s*(.{3,40}?)\s+[:：]\s+(.{3,40})\s*$")
 MARCAS_HABILIDAD = [
     "tiempo de reutilizacion", "modificadores", "probabilidad de golpe de suerte",
     "coste:", "de fe", "genera", "canalizada", "definitiva", "dano sagrado",
@@ -219,6 +228,13 @@ def identificar(texto):
     # marcadores sueltos") metía basura de la interfaz —nombres de mercenario,
     # cabeceras de panel— como si fueran habilidades. Un falso positivo es peor
     # que no detectar: llena la checklist de mentiras y la da por completa.
+    if "modificadores" in n and not RANGO.search(n):
+        for l in utiles[:3]:
+            m = ELECCION.match(l)
+            if m and "modificador" not in norm(l):
+                nombre = f"{m.group(1).strip()} : {m.group(2).strip()}"
+                return ("habilidad", norm(m.group(1)), nombre, limpio)
+
     if RANGO.search(n):
         nombre = utiles[0]
         for l in utiles[:3]:
@@ -529,15 +545,18 @@ class Perfil:
             self.habilidades[clave] = {"nombre": nombre, "texto": texto}
             return True
 
-        if clave == "Anillo":                          # dos anillos: por nombre
-            ya = [k for k in self.objetos if k.startswith("Anillo")]
+        # huecos repetidos: dos anillos, seis dijes
+        for base, tope in (("Anillo", 2), ("Dije", N_DIJES)):
+            if clave != base:
+                continue
+            ya = [k for k in self.objetos if k.startswith(base)]
             igual = next((k for k in ya if self.objetos[k]["nombre"] == nombre), None)
             if igual:
                 clave = igual
-            elif len(ya) >= 2:
+            elif len(ya) >= tope:
                 return False
             else:
-                clave = f"Anillo {len(ya) + 1}"
+                clave = f"{base} {len(ya) + 1}"
 
         afijos, total = V.analizar(texto, CAT)
         # Menos de 3 afijos en una pieza de nivel 70 no es una pieza pobre: es
@@ -734,6 +753,11 @@ class App(tk.Tk if tk else object):
         tk.Label(self.lista, text="EQUIPO", bg="#141210", fg="#c14a4a",
                  font=("Georgia", 10, "bold"), anchor="w").pack(fill="x", pady=(0, 4))
         for h in HUECOS:
+            self.filas[h] = self._fila(h)
+        tk.Label(self.lista, text="SELLO Y DIJES  (opcional)", bg="#141210",
+                 fg="#6b625a", font=("Georgia", 9, "bold"), anchor="w"
+                 ).pack(fill="x", pady=(10, 2))
+        for h in HUECOS_EXTRA:
             self.filas[h] = self._fila(h)
         tk.Label(self.lista, text="HABILIDADES", bg="#141210", fg="#c14a4a",
                  font=("Georgia", 10, "bold"), anchor="w").pack(fill="x", pady=(12, 4))
