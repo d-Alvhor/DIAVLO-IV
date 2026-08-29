@@ -49,21 +49,20 @@ CAT = Catalogo()   # 432 tipos, 891 afijos, 524 aspectos — de Diablo4Companion
 HUECOS = ["Casco", "Peto", "Guantes", "Pantalones", "Botas",
           "Arma", "Escudo", "Amuleto", "Anillo 1", "Anillo 2"]
 
-# Habilidades del Paladín que pueden ir en la barra (6 huecos).
-HABILIDADES = [
-    "carga con escudo", "shield charge", "choque", "clash", "fortaleza", "fortress",
-    "condena", "condemn", "aura de desafío", "aura de desafio", "defiance aura",
-    "aura de fanatismo", "fanaticism aura", "aegis", "égida", "egida",
-    "golpe bendito", "blessed hammer", "martillo bendito", "juicio", "judgement",
-    "zelote", "zeal", "castigo", "punish", "escudo bendito", "blessed shield",
-    "avance", "advance", "arbitro", "árbitro", "arbiter", "blandir", "brandish",
-]
 N_HABILIDADES = 6
 
-# Marcadores de que un tooltip es de habilidad y no de objeto.
-MARCAS_HABILIDAD = ["enfriamiento", "coste:", "de fe", "genera", "habilidad de",
-                    "canalizada", "definitiva", "cuerpo a cuerpo"]
-
+# Cómo se reconoce un tooltip de HABILIDAD, visto en capturas reales del juego:
+#   Punición
+#   RANGO 1/15                      <- firma inequívoca, ningún objeto la tiene
+#   Tiempo de reutilización: 0,5 s
+#   MODIFICADORES
+# Nada de listas de nombres a mano: el nombre se toma de la primera línea, así
+# funciona con cualquier habilidad de cualquier clase sin mantener nada.
+RANGO = re.compile(r"\brango\s*\d+\s*/\s*\d+", re.I)
+MARCAS_HABILIDAD = [
+    "tiempo de reutilizacion", "modificadores", "probabilidad de golpe de suerte",
+    "coste:", "de fe", "genera", "canalizada", "definitiva", "dano sagrado",
+]
 
 # ---------------------------------------------------------------- texto
 def norm(s):
@@ -86,10 +85,17 @@ def identificar(texto):
         if hueco:                       # None = tipo conocido pero no es equipo
             return ("objeto", hueco, lineas[0].strip(), texto)
 
-    # ¿habilidad? nombre conocido + algún marcador de tooltip de habilidad
-    for h in HABILIDADES:
-        if h in n and any(m in n for m in MARCAS_HABILIDAD):
-            return ("habilidad", h, lineas[0].strip(), texto)
+    # ¿habilidad? "RANGO n/15" es la firma; si no está, valen dos marcadores.
+    marcas = sum(1 for m in MARCAS_HABILIDAD if m in n)
+    if RANGO.search(n) or marcas >= 2:
+        nombre = lineas[0].strip()
+        # la 1ª línea puede ser basura del icono; nos quedamos con la primera
+        # que parezca un nombre de verdad y no un dato
+        for l in lineas[:3]:
+            if 3 <= len(l) <= 40 and not re.search(r"\d", l) and not RANGO.search(norm(l)):
+                nombre = l.strip()
+                break
+        return ("habilidad", norm(nombre), nombre, texto)
     return None
 
 
@@ -104,6 +110,58 @@ def capturar(region=None):
             if region else sct.monitors[1])
         shot = sct.grab(mon)
         return Image.frombytes("RGB", shot.size, shot.bgra, "raw", "BGRX")
+
+
+def _lineas_con_caja(res):
+    """winocr devuelve cada línea con las cajas de sus palabras. Sacamos la caja
+    de la línea entera para poder agrupar por cercanía."""
+    out = []
+    ls = res.get("lines") if isinstance(res, dict) else getattr(res, "lines", None)
+    for l in (ls or []):
+        txt = (l.get("text") if isinstance(l, dict) else getattr(l, "text", "")) or ""
+        if not txt.strip():
+            continue
+        palabras = (l.get("words") if isinstance(l, dict) else getattr(l, "words", None)) or []
+        cajas = []
+        for w in palabras:
+            r = w.get("bounding_rect") if isinstance(w, dict) else getattr(w, "bounding_rect", None)
+            if not r:
+                continue
+            g = (lambda k: r.get(k) if isinstance(r, dict) else getattr(r, k, 0))
+            cajas.append((g("x"), g("y"), g("width"), g("height")))
+        if cajas:
+            x = min(c[0] for c in cajas)
+            y = min(c[1] for c in cajas)
+            x2 = max(c[0] + c[2] for c in cajas)
+            y2 = max(c[1] + c[3] for c in cajas)
+            out.append({"texto": txt, "x": x, "y": y, "x2": x2, "y2": y2, "h": y2 - y})
+        else:
+            out.append({"texto": txt, "x": 0, "y": 0, "x2": 0, "y2": 0, "h": 0})
+    return out
+
+
+def agrupar(lineas):
+    """Agrupa líneas en bloques por cercanía vertical y solape horizontal.
+    Un tooltip es un bloque; el resto de la interfaz, otros. Así se puede leer
+    la pantalla ENTERA sin que el ruido de alrededor estropee la lectura."""
+    con_caja = [l for l in lineas if l["h"] > 0]
+    if not con_caja:
+        return ["\n".join(l["texto"] for l in lineas)] if lineas else []
+    con_caja.sort(key=lambda l: (l["y"], l["x"]))
+    bloques, actual = [], [con_caja[0]]
+    for l in con_caja[1:]:
+        prev = actual[-1]
+        hueco = l["y"] - prev["y2"]
+        alto = max(prev["h"], l["h"], 1)
+        solapa = min(l["x2"], prev["x2"]) - max(l["x"], prev["x"])
+        ancho = min(l["x2"] - l["x"], prev["x2"] - prev["x"]) or 1
+        if hueco < alto * 1.6 and solapa > ancho * 0.25:
+            actual.append(l)
+        else:
+            bloques.append(actual)
+            actual = [l]
+    bloques.append(actual)
+    return ["\n".join(x["texto"] for x in b) for b in bloques]
 
 
 def _lineas(res):
@@ -165,6 +223,31 @@ def ocr(img, guardar=None):
     if guardar:
         _al_corpus(img, mejor_txt, mejor)
     return mejor_txt
+
+
+def ocr_bloques(img, guardar=None):
+    """Lee la pantalla ENTERA y devuelve bloques de texto separados.
+    Cada tooltip acaba en su propio bloque, así no hace falta fijar zona."""
+    import winocr
+    try:
+        versiones = [("escalada", preparar(img, escala=2)[0][1]), ("cruda", img)]
+    except Exception:
+        versiones = [("cruda", img)]
+    mejor, mejor_bloques, mejor_n = "cruda", [], -1
+    for nombre, im in versiones:
+        try:
+            res = winocr.recognize_pil_sync(im, "es-ES")
+        except Exception:
+            continue
+        bloques = agrupar(_lineas_con_caja(res))
+        n = sum(1 for b in bloques if identificar(b))
+        if n > mejor_n:
+            mejor, mejor_bloques, mejor_n = nombre, bloques, n
+        if n:
+            break
+    if guardar:
+        _al_corpus(img, "\n---\n".join(mejor_bloques), f"{mejor}/bloques")
+    return mejor_bloques
 
 
 def _utiles(texto):
@@ -263,7 +346,7 @@ class App(tk.Tk if tk else object):
         self.perfil = None
         self.grabando = False
         self.region = self._cfg().get("region")
-        self.ultimo = ""
+        self.vistos_txt = set()
 
         cab = tk.Frame(self, bg="#1c1917")
         cab.pack(fill="x")
@@ -341,6 +424,7 @@ class App(tk.Tk if tk else object):
             return
         tipo, nombre = d.resultado
         self.perfil = Perfil(nombre, tipo)
+        self.vistos_txt = set()
         self._construir_checklist()
         self.grabando = True
         self.btn.config(text="■  Parar", bg="#8a3030")
@@ -362,7 +446,11 @@ class App(tk.Tk if tk else object):
         fallos = 0
         while self.grabando:
             try:
-                txt = ocr(capturar(self.region), guardar=True)
+                img = capturar(self.region)
+                if self.region:
+                    trozos = [ocr(img, guardar=True)]
+                else:
+                    trozos = ocr_bloques(img, guardar=True)
                 fallos = 0
             except Exception as e:
                 fallos += 1
@@ -372,8 +460,10 @@ class App(tk.Tk if tk else object):
                     return
                 time.sleep(1)
                 continue
-            if txt and txt != self.ultimo:
-                self.ultimo = txt
+            for txt in trozos:
+                if not txt or txt in self.vistos_txt:
+                    continue
+                self.vistos_txt.add(txt)
                 r = identificar(txt)
                 if r:
                     self.after(0, self._visto, *r)
@@ -562,17 +652,21 @@ def autotest():
         print(f"  {marca}  {texto.splitlines()[0][:38]:<40} -> {got}")
     print(f"\n  objetos: {ok}/{len(casos)}")
 
-    hab = [("CARGA CON ESCUDO\nHabilidad de Juggernaut\nCoste: 20 de Fe\nCanalizada", "carga con escudo"),
-           ("FORTALEZA\nDefinitiva\nEnfriamiento: 45 s", "fortaleza"),
-           ("AURA DE FANATISMO\nAura\nCoste: 0 de Fe", "aura de fanatismo")]
+    # Tooltips REALES de habilidad, sacados de capturas del juego
+    hab = [
+        "Punición\nRANGO 1/15\nJusticia Discípulo\n"
+        "Tiempo de reutilización: 0,5 s\nProbabilidad de golpe de suerte: 26%\nMODIFICADORES",
+        "Carga con escudo\nRANGO 15/15\nTiempo de reutilización: 8 s\nCanalizada",
+        "Aura de fanatismo\nRANGO 12/15\nCoste: 0 de Fe\nMODIFICADORES",
+        "Fortaleza\nRANGO 5/15\nTiempo de reutilización: 45 s\nDefinitiva",
+    ]
     ok2 = 0
-    for texto, esperado in hab:
+    for texto in hab:
         r = identificar(texto)
-        if r and r[0] == "habilidad" and r[1] == esperado:
-            ok2 += 1
-            print(f"  ok   {texto.splitlines()[0]:<40} -> habilidad")
-        else:
-            print(f"  MAL  {texto.splitlines()[0]:<40} -> {r}")
+        bien = bool(r) and r[0] == "habilidad"
+        ok2 += bien
+        print(f"  {'ok ' if bien else 'MAL'}  {texto.splitlines()[0]:<40} -> "
+              f"{r[2] if r else None}")
     print(f"  habilidades: {ok2}/{len(hab)}")
 
     p = Perfil("prueba", "yo")
