@@ -222,18 +222,25 @@ def capturar(region=None):
 def ocr(img):
     """OCR con el motor nativo de Windows. Sin Tesseract, sin binarios."""
     import winocr
-    # el tooltip es texto claro sobre fondo oscuro: invertir ayuda bastante
     from PIL import ImageOps
-    res = winocr.recognize_pil_sync(img, "es-ES")
-    txt = res.text if hasattr(res, "text") else str(res)
-    if len(txt.strip()) < 20:
-        res = winocr.recognize_pil_sync(ImageOps.invert(img.convert("RGB")), "es-ES")
-        alt = res.text if hasattr(res, "text") else str(res)
+
+    def _lineas(res):
+        """winocr devuelve un objeto/dict con 'lines'; cada una trae su 'text'.
+        Hay que extraerlas: str(res) vuelca el diccionario entero y duplica afijos."""
+        if isinstance(res, dict):
+            ls = res.get("lines") or []
+            return [l.get("text", "") if isinstance(l, dict) else getattr(l, "text", "") for l in ls]
+        ls = getattr(res, "lines", None)
+        if ls:
+            return [getattr(l, "text", "") for l in ls]
+        return [getattr(res, "text", "") or ""]
+
+    txt = "\n".join(x for x in _lineas(winocr.recognize_pil_sync(img, "es-ES")) if x.strip())
+    if len(txt.strip()) < 20:  # tooltip claro sobre oscuro: a veces invertir ayuda
+        alt = "\n".join(x for x in _lineas(
+            winocr.recognize_pil_sync(ImageOps.invert(img.convert("RGB")), "es-ES")) if x.strip())
         if len(alt) > len(txt):
             txt = alt
-    # winocr devuelve todo en una línea; partimos por los marcadores de afijo
-    txt = re.sub(r"\s+(?=[+•·]\s*\d)", "\n", txt)
-    txt = re.sub(r"\s+(?=Multiplicador)", "\n", txt)
     return txt
 
 
