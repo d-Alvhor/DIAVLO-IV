@@ -244,6 +244,55 @@ def ocr(img):
     return txt
 
 
+# ---------------------------------------------------------------- atajos globales
+# RegisterHotKey es la via oficial de Windows: le pides al sistema que te avise
+# con una combinacion concreta. NO instala un hook de teclado, no lee otras teclas,
+# y no interactua con ningun proceso. Es lo que usa cualquier app normal.
+MOD_ALT, MOD_CONTROL, MOD_SHIFT, MOD_NOREPEAT, WM_HOTKEY = 0x0001, 0x0002, 0x0004, 0x4000, 0x0312
+VK_D, VK_Z, VK_F8, VK_F9 = 0x44, 0x5A, 0x77, 0x78
+
+
+# Combinaciones candidatas por accion, en orden de preferencia. Se usa la primera
+# que Windows acepte: asi no hay que configurar nada si alguna esta ocupada.
+CANDIDATAS = {
+    "escanear": [(MOD_CONTROL | MOD_ALT, VK_D, "Ctrl+Alt+D"),
+                 (MOD_CONTROL | MOD_SHIFT, VK_D, "Ctrl+Mayus+D"),
+                 (MOD_ALT | MOD_SHIFT, VK_D, "Alt+Mayus+D"),
+                 (MOD_CONTROL | MOD_ALT, VK_F8, "Ctrl+Alt+F8")],
+    "zona": [(MOD_CONTROL | MOD_ALT, VK_Z, "Ctrl+Alt+Z"),
+             (MOD_CONTROL | MOD_SHIFT, VK_Z, "Ctrl+Mayus+Z"),
+             (MOD_ALT | MOD_SHIFT, VK_Z, "Alt+Mayus+Z"),
+             (MOD_CONTROL | MOD_ALT, VK_F9, "Ctrl+Alt+F9")],
+}
+
+
+def atajos_globales(acciones, aviso):
+    """acciones = {'escanear': cb, 'zona': cb}. Bloquea: llamar en un hilo aparte.
+    Prueba las combinaciones candidatas y se queda con la primera libre."""
+    import ctypes
+    from ctypes import wintypes
+    u32 = ctypes.windll.user32
+    mapa, activos, idx = {}, {}, 1
+    for accion, cb in acciones.items():
+        for mods, vk, nombre in CANDIDATAS.get(accion, []):
+            if u32.RegisterHotKey(None, idx, mods | MOD_NOREPEAT, vk):
+                mapa[idx] = cb
+                activos[accion] = nombre
+                idx += 1
+                break
+        else:
+            activos[accion] = None
+    aviso(activos)
+    if not mapa:
+        return
+    msg = wintypes.MSG()
+    while u32.GetMessageW(ctypes.byref(msg), None, 0, 0) != 0:
+        if msg.message == WM_HOTKEY and msg.wParam in mapa:
+            mapa[msg.wParam]()
+        u32.TranslateMessage(ctypes.byref(msg))
+        u32.DispatchMessageW(ctypes.byref(msg))
+
+
 # ---------------------------------------------------------------- ventana
 class App(tk.Tk if tk else object):
     def __init__(self):
@@ -261,9 +310,9 @@ class App(tk.Tk if tk else object):
         self.hueco = ttk.Combobox(cab, values=["(sin comparar)"] + list(EQUIPADO), state="readonly", width=16)
         self.hueco.current(0)
         self.hueco.pack(side="left", padx=6)
-        tk.Button(cab, text="Escanear (F8)", command=self.escanear,
+        tk.Button(cab, text="Escanear (Ctrl+Alt+D)", command=self.escanear,
                   bg="#c14a4a", fg="white", relief="flat", padx=10).pack(side="left", padx=6)
-        tk.Button(cab, text="Zona (F9)", command=self.elegir_region,
+        tk.Button(cab, text="Zona (Ctrl+Alt+Z)", command=self.elegir_region,
                   bg="#232019", fg="#e8e2da", relief="flat", padx=8).pack(side="left")
 
         self.txt = tk.Text(self, bg="#141210", fg="#e8e2da", insertbackground="#e8e2da",
@@ -276,11 +325,43 @@ class App(tk.Tk if tk else object):
         self.txt.tag_config("az", foreground="#7aa8cc")
         self.txt.tag_config("am", foreground="#d0a63c")
 
-        self._msg("Pon el tooltip a la vista en el juego y pulsa F8.\n\n"
-                  "F9 te deja marcar una zona fija de la pantalla para que lea solo ahí "
-                  "(más rápido y más preciso).")
+        self._msg("CON EL JUEGO DELANTE:\n"
+                  "   Ctrl+Alt+D   escanear\n"
+                  "   Ctrl+Alt+Z   marcar la zona del tooltip\n\n"
+                  "Con esta ventana enfocada valen también F8 y F9.\n\n"
+                  "Marca la zona una vez con Ctrl+Alt+Z: leer solo el recuadro del "
+                  "tooltip en vez de la pantalla entera es mucho más rápido y preciso.")
+        # con la ventana enfocada
         self.bind_all("<F8>", lambda e: self.escanear())
         self.bind_all("<F9>", lambda e: self.elegir_region())
+        # y con el JUEGO enfocado: atajos globales del sistema
+        self._arrancar_atajos()
+
+    def _arrancar_atajos(self):
+        if sys.platform != "win32":
+            return
+        acciones = {"escanear": lambda: self.after(0, self.escanear),
+                    "zona": lambda: self.after(0, self.elegir_region)}
+        threading.Thread(target=atajos_globales,
+                         args=(acciones, lambda a: self.after(0, self._atajos_listos, a)),
+                         daemon=True).start()
+
+    def _atajos_listos(self, activos):
+        esc, zon = activos.get("escanear"), activos.get("zona")
+        if esc and zon:
+            txt = (f"CON EL JUEGO DELANTE:\n"
+                   f"   {esc}   escanear\n"
+                   f"   {zon}   marcar la zona del tooltip\n\n"
+                   f"Con esta ventana enfocada valen también F8 y F9.\n\n"
+                   f"Marca la zona una vez: leer solo el recuadro del tooltip en vez "
+                   f"de la pantalla entera es mucho más rápido y preciso.")
+        else:
+            txt = ("⚠ Windows no me ha dejado registrar los atajos globales.\n\n"
+                   "Todas las combinaciones que probé están ocupadas por otra app.\n"
+                   "Puedes seguir usando los botones de arriba, o F8/F9 con esta "
+                   "ventana enfocada.\n\n"
+                   "Para añadir otra combinación, edita CANDIDATAS en escaner.py.")
+        self._msg(txt)
 
     def _cargar_region(self):
         if CONFIG.exists():
