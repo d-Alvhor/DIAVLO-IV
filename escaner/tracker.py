@@ -78,40 +78,93 @@ PROPIAS = ("tracker de builds", "habilidad 1", "habilidad 2", "faltan",
            "trackear", "equipo\nhabilidades")
 
 
+# Chrome de la interfaz del juego que se cuela dentro del recuadro del tooltip.
+# No es parte del objeto: ni es su nombre ni es un afijo.
+CHROME = ("EQUIPADO", "Casilla de", "Quitar", "Desmarcar objeto", "Marcar objeto",
+          "Desplazar hacia abajo", "Desplazar hacia arriba", "Requiere nivel",
+          "Comparar", "Soltar", "Equipación de la armería", "Guardar en el alijo",
+          "Mejorar", "Bloqueado", "Estadísticas y materiales", "Transfigurado")
+# Etiquetas de una sola palabra: SOLO si la línea es exactamente eso. Como
+# subcadena se comerían nombres de objeto ("Mano" está dentro de un montón).
+CHROME_EXACTO = ("mano", "mayus", "alt", "ctrl", "transfigurado", "equipado")
+CHROME_N = tuple(sorted({__import__("re").sub(r"\s+", " ", c).strip().lower()
+                         for c in CHROME}))
+
+
+def es_chrome(linea):
+    n = norm(linea)
+    if n in CHROME_EXACTO:
+        return True
+    # el OCR pega un icono delante ("-L Desplazar hacia arriba"): se tolera
+    # basura corta al principio, pero solo en líneas cortas de interfaz
+    return any(n == c or n.startswith(c) or (len(n) < 46 and c in n)
+               for c in CHROME_N)
+
+
 def es_propia(texto):
     n = norm(texto)
     return sum(1 for p in PROPIAS if p in n) >= 2
 
 
+def _nombre(previas):
+    """El nombre de un objeto son las líneas que hay ENCIMA de la de tipo.
+    El juego lo parte en varios renglones y el OCR los da sueltos:
+    'YELMO EXCEPCIONAL DEL' / 'YUNQUE DE' / 'GLYNN'. Quedarse con el primero
+    daba nombres a medias ('mANT0 DE. LOS', 'Escudo únic')."""
+    partes = []
+    for l in previas:
+        l = re.sub(r"[*·•~^]+\s*$", "", l).strip()
+        if not l or re.fullmatch(r"[\W\d_]+", l):   # adornos e iconos sueltos
+            continue
+        partes.append(l)
+    return re.sub(r"\s{2,}", " ", " ".join(partes)).strip()[:70]
+
+
+def calidad_nombre(n):
+    """Cuánto fiarse de un nombre leído por OCR, para quedarse con la mejor de
+    varias lecturas. Coger la más LARGA elegía justo la más sucia
+    ('PUÑOS DEt DES f INO' por encima de 'PUÑOS DEL DESTINO')."""
+    if not n:
+        return 0.0
+    if norm(n) in CAT.unicos:
+        return 2.0                       # corregido contra el catálogo: seguro
+    if CAT.hueco(n):
+        return 0.1                       # es la línea de TIPO, no un nombre
+    return sum(1 for c in n if c.isalpha() or c.isspace()) / len(n)
+
+
 def identificar(texto):
-    """Del texto de un tooltip saca (clase, hueco_o_nombre, nombre, texto).
+    """Del texto de un panel saca (clase, hueco_o_nombre, nombre, texto).
     clase: 'objeto' | 'habilidad' | None."""
     if es_propia(texto):
         return None
     lineas = [l.strip() for l in texto.splitlines() if l.strip()]
-    if len(lineas) < 3:          # un tooltip real nunca son dos líneas sueltas
+    utiles = [l for l in lineas if not es_chrome(l)]
+    if len(utiles) < 3:          # un tooltip real nunca son dos líneas sueltas
         return None
-    n = norm(texto)
+    limpio = "\n".join(utiles)
+    n = norm(limpio)
 
-    # ¿objeto? La línea de tipo suele ser la 2ª. Contra el catálogo, no a ojo.
-    for linea in lineas[:4]:
+    # ¿objeto? Se busca la línea de TIPO contra el catálogo, no a ojo. Puede
+    # estar hasta la 10ª: por encima va el nombre, que ocupa varios renglones.
+    for i, linea in enumerate(utiles[:10]):
         hueco = CAT.hueco(linea)
         if hueco:                       # None = tipo conocido pero no es equipo
-            return ("objeto", hueco, lineas[0].strip(), texto)
+            nombre = _nombre(utiles[:i]) or linea
+            # los únicos tienen nombre canónico: el catálogo corrige el OCR
+            return ("objeto", hueco, CAT.unico(nombre) or nombre, limpio)
 
     # ¿habilidad? EXIGIMOS "RANGO n/15". La red de seguridad anterior ("dos
     # marcadores sueltos") metía basura de la interfaz —nombres de mercenario,
     # cabeceras de panel— como si fueran habilidades. Un falso positivo es peor
     # que no detectar: llena la checklist de mentiras y la da por completa.
-    if RANGO.search(n) and len(lineas) >= 3:
-        nombre = lineas[0].strip()
-        # la 1ª línea puede ser basura del icono; nos quedamos con la primera
-        # que parezca un nombre de verdad y no un dato
-        for l in lineas[:3]:
+    if RANGO.search(n):
+        nombre = utiles[0]
+        for l in utiles[:3]:
             if 3 <= len(l) <= 40 and not re.search(r"\d", l) and not RANGO.search(norm(l)):
-                nombre = l.strip()
+                nombre = l
                 break
-        return ("habilidad", norm(nombre), nombre, texto)
+        return ("habilidad", norm(nombre), nombre, limpio)
     return None
 
 
@@ -156,28 +209,62 @@ def _lineas_con_caja(res):
     return out
 
 
-def agrupar(lineas):
-    """Agrupa líneas en bloques por cercanía vertical y solape horizontal.
-    Un tooltip es un bloque; el resto de la interfaz, otros. Así se puede leer
-    la pantalla ENTERA sin que el ruido de alrededor estropee la lectura."""
+def _fusionar_renglon(ls):
+    """El OCR parte un mismo renglón en dos cuando hay mucho espacio: '+ 182' y
+    'de fuerza' llegan como líneas distintas. Se vuelven a unir por altura."""
+    ls = sorted(ls, key=lambda l: (l["y"], l["x"]))
+    out = []
+    for l in ls:
+        if out:
+            p = out[-1]
+            alto = max(p["h"], l["h"], 1)
+            if abs(l["y"] - p["y"]) < alto * 0.5 and 0 <= l["x"] - p["x2"] < alto * 6:
+                p["texto"] = f"{p['texto']} {l['texto']}"
+                p["x2"] = max(p["x2"], l["x2"])
+                p["y2"] = max(p["y2"], l["y2"])
+                p["h"] = p["y2"] - p["y"]
+                continue
+        out.append(dict(l))
+    return out
+
+
+def agrupar(lineas, hueco_max=2.4, solape_min=0.30):
+    """Agrupa las líneas en paneles: un tooltip es un panel, y cada panel es una
+    COLUMNA en la pantalla.
+
+    La versión anterior encadenaba cada línea con la ANTERIOR en orden de altura.
+    Con dos paneles a distinta altura eso los entrelaza: en una captura real el
+    tooltip del casco quedó partido en seis trozos, con 'Raheir' y 'Aldkin' (el
+    panel de mercenarios, a 2.500 px de distancia) metidos entre medias. El
+    bloque que tenía el tipo de objeto se quedaba sin un solo afijo -> +0%.
+
+    Ahora cada línea busca un panel ABIERTO cuya columna solape con la suya. El
+    del mercenario abre el suyo y no rompe el del tooltip.
+    """
     con_caja = [l for l in lineas if l["h"] > 0]
     if not con_caja:
         return ["\n".join(l["texto"] for l in lineas)] if lineas else []
-    con_caja.sort(key=lambda l: (l["y"], l["x"]))
-    bloques, actual = [], [con_caja[0]]
-    for l in con_caja[1:]:
-        prev = actual[-1]
-        hueco = l["y"] - prev["y2"]
-        alto = max(prev["h"], l["h"], 1)
-        solapa = min(l["x2"], prev["x2"]) - max(l["x"], prev["x"])
-        ancho = min(l["x2"] - l["x"], prev["x2"] - prev["x"]) or 1
-        if hueco < alto * 1.6 and solapa > ancho * 0.25:
-            actual.append(l)
+    abiertos = []
+    for l in _fusionar_renglon(con_caja):
+        mejor, mejor_s = None, solape_min
+        for b in abiertos:
+            if l["y"] - b["y2"] > max(b["alto"], l["h"], 1) * hueco_max:
+                continue                       # ese panel ya quedó atrás
+            solapa = min(l["x2"], b["x2"]) - max(l["x"], b["x"])
+            ancho = min(l["x2"] - l["x"], b["x2"] - b["x"]) or 1
+            s = solapa / ancho
+            if s > mejor_s:
+                mejor, mejor_s = b, s
+        if mejor is None:
+            abiertos.append({"x": l["x"], "x2": l["x2"], "y2": l["y2"],
+                             "alto": l["h"], "lineas": [l]})
         else:
-            bloques.append(actual)
-            actual = [l]
-    bloques.append(actual)
-    return ["\n".join(x["texto"] for x in b) for b in bloques]
+            mejor["lineas"].append(l)
+            mejor["x"] = min(mejor["x"], l["x"])
+            mejor["x2"] = max(mejor["x2"], l["x2"])
+            mejor["y2"] = max(mejor["y2"], l["y2"])
+            mejor["alto"] = max(mejor["alto"], l["h"])
+    return ["\n".join(x["texto"] for x in b["lineas"]) for b in abiertos]
 
 
 def _lineas(res):
@@ -300,34 +387,50 @@ class Perfil:
         self.inicio = datetime.now().isoformat(timespec="seconds")
 
     def anadir(self, clase, clave, nombre, texto):
-        """Devuelve True si es algo NUEVO."""
-        if clase == "objeto":
-            if clave == "Anillo":                      # dos anillos: por nombre
-                ya = [k for k in self.objetos if k.startswith("Anillo")]
-                if any(self.objetos[k]["nombre"] == nombre for k in ya):
-                    return False
-                if len(ya) >= 2:
-                    return False
-                clave = f"Anillo {len(ya) + 1}"
-            if clave in self.objetos and self.objetos[clave]["nombre"] == nombre:
+        """Devuelve True si es nuevo, "mejor" si mejora lo que ya había."""
+        if clase != "objeto":
+            if clave in self.habilidades or len(self.habilidades) >= N_HABILIDADES:
                 return False
-            nuevo = clave not in self.objetos
-            afijos, total = V.analizar(texto, CAT)
-            self.objetos[clave] = {
-                "nombre": nombre, "texto": texto, "aporte": round(total, 1),
+            self.habilidades[clave] = {"nombre": nombre, "texto": texto}
+            return True
+
+        if clave == "Anillo":                          # dos anillos: por nombre
+            ya = [k for k in self.objetos if k.startswith("Anillo")]
+            igual = next((k for k in ya if self.objetos[k]["nombre"] == nombre), None)
+            if igual:
+                clave = igual
+            elif len(ya) >= 2:
+                return False
+            else:
+                clave = f"Anillo {len(ya) + 1}"
+
+        afijos, total = V.analizar(texto, CAT)
+        # Menos de 3 afijos en una pieza de nivel 70 no es una pieza pobre: es
+        # una LECTURA pobre (tapada por otro panel, o a medio desplazar). Se
+        # marca, porque dar un +0% por bueno es peor que decir que no lo sabes.
+        dato = {"nombre": nombre, "texto": texto, "aporte": round(total, 1),
+                "parcial": len(afijos) < 3,
                 "afijos": [{"grupo": a.get("grupo_real") or a["grupo"],
                             "valor": a["valor"], "mult": bool(a.get("mult")),
                             "pct": round(a["pct"], 1) if a.get("pct") is not None else None,
                             "tipo": a.get("tipo"), "muerto": a.get("muerto")}
                            for a in afijos]}
-            return nuevo
-        else:
-            if clave in self.habilidades:
+        # La misma pieza se lee muchas veces mientras pasas el ratón, y algunas
+        # salen tapadas por otro panel o a medio desplazar. Nos quedamos con la
+        # lectura MÁS COMPLETA, no con la primera ni con la última.
+        ya = self.objetos.get(clave)
+        if ya is not None:
+            # El nombre se elige APARTE de los afijos: la lectura más completa
+            # no tiene por qué ser la que leyó mejor el nombre, ni al revés.
+            mejor_n = max((nombre, ya.get("nombre") or ""), key=calidad_nombre)
+            ya["nombre"] = mejor_n
+            if len(afijos) <= len(ya.get("afijos") or []):
                 return False
-            if len(self.habilidades) >= N_HABILIDADES:
-                return False
-            self.habilidades[clave] = {"nombre": nombre, "texto": texto}
-            return True
+            dato["nombre"] = mejor_n
+            self.objetos[clave] = dato
+            return "mejor"
+        self.objetos[clave] = dato
+        return True
 
     def faltan(self):
         f = [h for h in HUECOS if h not in self.objetos]
@@ -563,7 +666,11 @@ class App(tk.Tk if tk else object):
             afijos = [{"grupo": x["grupo"], "valor": x["valor"], "mult": x["mult"],
                        "pct": x["pct"], "tipo": x["tipo"], "muerto": x["muerto"]}
                       for x in d["afijos"]]
-            self._log(f"  ✓ {nombre}  —  {V.resumen_linea(afijos, d['aporte'])}")
+            if d.get("parcial"):
+                self._log(f"  ◐ {nombre}  —  solo he leído {len(afijos)} afijo(s); "
+                          "el tooltip estaba tapado. Vuelve a pasar el ratón.")
+            else:
+                self._log(f"  ✓ {nombre}  —  {V.resumen_linea(afijos, d['aporte'])}")
             self._contra_referencia(k, d)
         else:
             self._log(f"  ✓ {nombre}")
@@ -594,14 +701,17 @@ class App(tk.Tk if tk else object):
         fila = self.filas.get(clave)
         if not fila:
             return
-        fila["marca"].config(text="●", fg="#4a9d68")
+        d = self.perfil.objetos.get(clave) if self.perfil else None
+        parcial = bool(d and d.get("parcial"))
+        fila["marca"].config(text="◐" if parcial else "●",
+                             fg="#c9a227" if parcial else "#4a9d68")
         fila["nombre"].config(fg="#e8e2da")
         extra = ""
-        if self.perfil:
-            d = self.perfil.objetos.get(clave)
-            if d and d.get("aporte") is not None:
-                extra = f"   +{d['aporte']:.0f}%"
-        fila["valor"].config(text=(texto[:38] + extra), fg="#c9c0b4")
+        if d and d.get("aporte") is not None:
+            extra = ("   lectura a medias — vuelve a pasar el ratón"
+                     if parcial else f"   +{d['aporte']:.0f}%")
+        fila["valor"].config(text=(texto[:34] + extra),
+                             fg="#c9a227" if parcial else "#c9c0b4")
 
     def leer_ficha(self):
         """Captura la hoja de personaje y actualiza los grupos del valorador.

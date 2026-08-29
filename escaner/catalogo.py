@@ -8,6 +8,7 @@ el catálogo extraído del juego en 14 idiomas. Aquí solo se cargan y se indexa
     datos/ItemTypes.esES.json   432 tipos de objeto -> hueco canónico
     datos/Affixes.esES.json     891 afijos con DescriptionClean ya limpio
     datos/Aspects.esES.json     524 aspectos legendarios con su descripción
+    datos/Uniques.esES.json     nombres canónicos de los objetos únicos
 
 Por qué importa: la línea de tipo de un tooltip ("Escudo único ancestral") es
 literalmente una entrada del catálogo. Emparejar contra una lista cerrada de
@@ -29,7 +30,7 @@ DATOS = Path(__file__).with_name("datos")
 IDIOMA = "esES"
 BASE_URL = ("https://raw.githubusercontent.com/josdemmers/Diablo4Companion"
             "/master/D4Companion/Data")
-FICHEROS = ["ItemTypes", "Affixes", "Aspects"]
+FICHEROS = ["ItemTypes", "Affixes", "Aspects", "Uniques"]
 
 # Tipo canónico del catálogo -> hueco de nuestra ficha
 HUECO_DE_TIPO = {
@@ -54,6 +55,7 @@ class Catalogo:
         self.tipos = {}      # nombre normalizado -> hueco
         self.afijos = {}     # descripcion normalizada -> texto original
         self.aspectos = {}   # nombre normalizado -> {nombre, descripcion}
+        self.unicos = {}     # nombre normalizado -> nombre canónico
         self._cargar()
 
     # ------------------------------------------------------------ carga
@@ -83,6 +85,15 @@ class Catalogo:
                 self.aspectos[norm(n)] = {"nombre": n,
                                           "descripcion": (x.get("Description") or "").strip()}
 
+        try:
+            for x in self._leer("Uniques"):
+                n = (x.get("Name") or "").strip()
+                if n:
+                    self.unicos[norm(n)] = n
+        except FileNotFoundError:
+            pass                      # catálogo viejo sin únicos: se sigue igual
+
+        self._unicos_k = list(self.unicos)
         self._tipos_k = list(self.tipos)
         self._afijos_k = list(self.afijos)
         self._aspectos_k = list(self.aspectos)
@@ -125,10 +136,23 @@ class Catalogo:
         cerca = difflib.get_close_matches(n, self._aspectos_k, n=1, cutoff=umbral)
         return self.aspectos[cerca[0]] if cerca else None
 
+    def unico(self, texto, umbral=0.72):
+        """Nombre de objeto leído por OCR -> nombre canónico del único, o None.
+        Mismo truco que con los afijos: la lista es cerrada, así que
+        'mANT0 DE. LOS GRISES' empareja solo con 'Manto de los Grises'."""
+        n = norm(texto)
+        if not n or len(n) < 5:
+            return None
+        if n in self.unicos:
+            return self.unicos[n]
+        cerca = difflib.get_close_matches(n, self._unicos_k, n=1, cutoff=umbral)
+        return self.unicos[cerca[0]] if cerca else None
+
     def resumen(self):
         equipo = sum(1 for v in self.tipos.values() if v)
         return (f"{len(self.tipos)} tipos ({equipo} de equipo) · "
-                f"{len(self.afijos)} afijos · {len(self.aspectos)} aspectos")
+                f"{len(self.afijos)} afijos · {len(self.aspectos)} aspectos · "
+                f"{len(self.unicos)} únicos")
 
 
 # ---------------------------------------------------------------- actualizar
