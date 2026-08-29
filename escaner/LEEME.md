@@ -38,8 +38,19 @@ python tracker.py
 4. Si ya tienes guardado el otro perfil, te compara **hueco a hueco al vuelo**
 5. Termina cuando lo ha visto todo (10 huecos + 6 habilidades) y guarda el perfil
 
-**Botón Zona:** marca una vez el recuadro donde te salen los tooltips. Leer solo
-esa zona en vez de toda la pantalla es más rápido y bastante más preciso.
+**Botón Zona:** casi nunca hace falta — la app separa los paneles de una
+pantalla entera ella sola. Solo sirve para acelerar en pantallas muy grandes, y
+**una zona mal puesta hace que no vea media pantalla**. «Zona ✕» la quita.
+
+Si algo va raro, lo primero:
+
+```
+python revisar.py
+```
+
+Mide la pantalla dos veces, antes y después de declararse consciente del DPI.
+Si los dos números no coinciden, Windows está escalando (125%, 150%…) y la
+diferencia es exactamente lo que se estaba perdiendo.
 
 Los perfiles se guardan en `perfiles/yo_*.json` y `perfiles/rival_*.json`, con el
 texto completo de cada pieza.
@@ -51,6 +62,8 @@ texto completo de cada pieza.
 | `catalogo.py` | Carga el catálogo canónico en español |
 | `valorar.py` | Calcula el aporte real de cada afijo y compara piezas |
 | `tracker.py` | Captura, checklist en vivo y perfiles |
+| `capturador.py` | Recorta los tooltips para que los lea Claude |
+| `revisar.py` | Diagnóstico de pantalla, DPI y zona |
 
 ### El catálogo no es mío
 
@@ -110,12 +123,18 @@ En `valorar.py` está además `MUERTOS`: afijos que no aportan nada a esta build
 ## Comprobar que funciona sin abrir el juego
 
 ```
-python catalogo.py     # 14/14 tipos y 7/7 afijos, con ruido de OCR metido a mano
-python valorar.py      # valoración, comparación y control contra sí mismo
-python tracker.py --test   # identificación + sesión simulada de principio a fin
+python catalogo.py               # 14/14 tipos y 7/7 afijos, con ruido metido a mano
+python valorar.py                # valoración, comparación y control contra sí mismo
+python tracker.py --test         # identificación + sesión simulada
+python pruebas/test_bloques.py   # 162 capturas REALES de una partida
+python pruebas/test_capturador.py  # el capturador, ejecutado, a cuatro resoluciones
 ```
 
-Si eso pasa, la lógica está bien y cualquier fallo es del OCR o de la zona.
+Las dos últimas son las que valen. `test_bloques` corre sobre capturas de verdad
+—con el panel de mercenarios estorbando y tooltips tapados a medias— y exige
+0 nombres basura y ≥3 líneas de afijo por objeto. `test_capturador` lo **ejecuta**
+con el OCR simulado: el capturador se publicó una vez usando un atributo que no
+existía, compilaba de maravilla y reventaba en el primer ciclo.
 
 ## Lo que NO está verificado
 

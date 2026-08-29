@@ -25,6 +25,33 @@ import threading
 from pathlib import Path
 from datetime import datetime
 
+def _dpi_consciente():
+    """Windows MIENTE sobre el tamaño de la pantalla a los procesos que no se
+    declaran conscientes del DPI. A 125% de escalado, un monitor de 2560x1440
+    se reporta como 2048x1152: la captura sale más pequeña y borrosa, y las
+    coordenadas de tk dejan de coincidir con las de la captura.
+
+    Hay que llamarlo ANTES de crear ninguna ventana y antes de capturar nada,
+    por eso vive aquí arriba y no dentro de la clase. Devuelve el escalado
+    declarado en Windows, para agrandar la interfaz en consecuencia."""
+    if sys.platform != "win32":
+        return 1.0
+    import ctypes
+    for llamada in (lambda: ctypes.windll.shcore.SetProcessDpiAwareness(2),
+                    lambda: ctypes.windll.user32.SetProcessDPIAware()):
+        try:
+            llamada()
+            break
+        except Exception:
+            continue
+    try:
+        return max(1.0, ctypes.windll.user32.GetDpiForSystem() / 96.0)
+    except Exception:
+        return 1.0
+
+
+ESCALADO = _dpi_consciente()
+
 try:
     import tkinter as tk
     from tkinter import ttk, simpledialog
@@ -169,6 +196,17 @@ def identificar(texto):
 
 
 # ---------------------------------------------------------------- captura + OCR
+def pantalla():
+    """Tamaño real de la pantalla que se captura, en píxeles físicos."""
+    try:
+        import mss
+        with mss.mss() as sct:
+            m = sct.monitors[1]
+            return m["width"], m["height"]
+    except Exception:
+        return 0, 0
+
+
 def capturar(region=None):
     import mss
     from PIL import Image
@@ -282,6 +320,24 @@ def _lineas(res):
     return [getattr(res, "text", "") or ""]
 
 
+ANCHO_OCR = 4000    # ancho al que se lleva la imagen para leerla
+
+
+def escalar_para_ocr(img):
+    """Sube la imagen a un ancho fijo en vez de multiplicar por 2 a ciegas.
+
+    El x2 fijo estaba calibrado sobre capturas de 2036 px (-> 4072). En una
+    pantalla de 2560 daba 5120x2880: el triple de píxeles que procesar cada
+    0,7 s, sin leer mejor. Con un ancho objetivo el texto queda del mismo
+    tamaño en píxeles vengas de la resolución que vengas."""
+    from PIL import Image
+    g = img.convert("L")
+    k = ANCHO_OCR / max(g.width, 1)
+    if k <= 1.02:
+        return g
+    return g.resize((int(g.width * k), int(g.height * k)), Image.LANCZOS)
+
+
 def preparar(img, escala=2):
     """Los tooltips son texto claro sobre fondo oscuro SEMITRANSPARENTE, que es
     justo lo que peor lee un OCR. Escalar, subir contraste y binarizar ayuda
@@ -338,7 +394,8 @@ def ocr_bloques(img, guardar=None):
     Cada tooltip acaba en su propio bloque, así no hace falta fijar zona."""
     import winocr
     try:
-        versiones = [("escalada", preparar(img, escala=2)[0][1]), ("cruda", img)]
+        # solo la que se usa: preparar() construía cuatro y tiraba tres
+        versiones = [("escalada", escalar_para_ocr(img)), ("cruda", img)]
     except Exception:
         versiones = [("cruda", img)]
     mejor, mejor_bloques, mejor_n = "cruda", [], -1
@@ -469,7 +526,16 @@ class App(tk.Tk if tk else object):
         self.attributes("-topmost", True)
         self.perfil = None
         self.grabando = False
-        self.region = self._cfg().get("region")
+        self._pendiente = None
+        self._geom = None
+        self._aviso_borrado = False
+        self._factor = None
+        self.region = self._zona_valida()
+        if ESCALADO > 1.05:
+            # con DPI awareness la ventana sale a tamaño físico, o sea diminuta
+            # en una pantalla escalada. Se compensa aquí.
+            self.tk.call("tk", "scaling", 1.3333 * ESCALADO)
+            self.geometry(f"{int(640 * ESCALADO)}x{int(760 * ESCALADO)}+40+40")
         self.vistos_txt = set()
         self.ciclos = 0
         self.sin_nada = 0
@@ -484,6 +550,8 @@ class App(tk.Tk if tk else object):
         self.btn.pack(side="left", padx=6)
         tk.Button(cab, text="Zona", command=self.elegir_region, bg="#232019",
                   fg="#e8e2da", relief="flat", padx=10).pack(side="left")
+        tk.Button(cab, text="Zona ✕", command=self.quitar_region, bg="#232019",
+                  fg="#9a9088", relief="flat", padx=8).pack(side="left", padx=3)
         tk.Button(cab, text="Ficha", command=self.leer_ficha, bg="#232019",
                   fg="#e8e2da", relief="flat", padx=10).pack(side="left", padx=4)
         self.estado = tk.Label(cab, text="parado", bg="#1c1917", fg="#9a9088",
@@ -498,30 +566,82 @@ class App(tk.Tk if tk else object):
         self.log = tk.Text(self, height=7, bg="#0f0d0c", fg="#9a9088", relief="flat",
                            font=("Consolas", 9), padx=10, pady=6, wrap="word")
         self.log.pack(fill="x", padx=14, pady=(0, 12))
+        a, b = pantalla()
+        try:
+            self._factor = a / max(self.winfo_screenwidth(), 1) if a else 1.0
+        except Exception:
+            self._factor = 1.0
+        self._vigilar_geometria()
+        self._log(f"Capturando {a}×{b} px"
+                  + (f" · escalado de Windows {ESCALADO:.0%}" if ESCALADO > 1.05 else "")
+                  + (f" · ZONA {self.region[2]}×{self.region[3]}" if self.region else ""))
+        if self._pendiente:
+            self._log(self._pendiente)
         self._log("Dale a Trackear. Luego pasa el ratón por cada objeto y cada "
                   "habilidad; la checklist se va marcando sola.")
 
+    def _vigilar_geometria(self):
+        """Guarda dónde está esta ventana, DESDE EL HILO PRINCIPAL.
+
+        _captura_limpia corre en el hilo de captura, y tkinter no es seguro
+        fuera del suyo: winfo_rootx() allí lanza excepción. Como iba dentro de
+        un try/except mudo, el borrado de la propia ventana no llegó a
+        ejecutarse NUNCA y el tracker se seguía leyendo a sí mismo."""
+        try:
+            self._geom = (self.winfo_rootx(), self.winfo_rooty(),
+                          self.winfo_width(), self.winfo_height())
+        except Exception:
+            pass
+        self.after(250, self._vigilar_geometria)
+
     def _captura_limpia(self):
         """Captura y BORRA de la imagen el rectángulo de esta misma ventana.
-        Sin esto el tracker se lee a sí mismo ('Tracker de builds — Diablo IV').
         Se pinta encima en vez de ocultar la ventana para no dar tirones cada
         0,7 s."""
         img = capturar(self.region)
+        g = self._geom
+        if not g:
+            return img
         try:
             from PIL import ImageDraw
-            self.update_idletasks()
-            wx, wy = self.winfo_rootx(), self.winfo_rooty()
-            ww, wh = self.winfo_width(), self.winfo_height()
+            wx, wy, ww, wh = g
+            k = self._factor or 1.0            # tk -> píxeles de la captura
             ox, oy = (self.region[0], self.region[1]) if self.region else (0, 0)
-            x1, y1 = wx - ox, wy - oy
-            if x1 < img.width and y1 < img.height:
-                ImageDraw.Draw(img).rectangle(
-                    [max(0, x1 - 4), max(0, y1 - 30),
-                     min(img.width, x1 + ww + 4), min(img.height, y1 + wh + 4)],
-                    fill=(0, 0, 0))
-        except Exception:
-            pass
+            x1, y1 = (wx - ox) * k, (wy - oy) * k
+            barra = 34 * ESCALADO * k          # la barra de título va por encima
+            caja = [int(max(0, min(x1 - 4 * k, img.width))),
+                    int(max(0, min(y1 - barra, img.height))),
+                    int(max(0, min(x1 + (ww + 4) * k, img.width))),
+                    int(max(0, min(y1 + (wh + 4) * k, img.height)))]
+            if caja[2] > caja[0] and caja[3] > caja[1]:
+                ImageDraw.Draw(img).rectangle(caja, fill=(0, 0, 0))
+        except Exception as e:
+            if not self._aviso_borrado:
+                self._aviso_borrado = True
+                self.after(0, self._log, f"  (no puedo taparme a mí mismo: {e})")
         return img
+
+    def _zona_valida(self):
+        """Una zona dibujada en otra pantalla (u otro escalado) recorta mal: sus
+        números son píxeles de una pantalla que ya no existe. Se descarta en vez
+        de aplicarse a ciegas — era la causa de 'no coge toda la pantalla'."""
+        cfg = self._cfg()
+        z = cfg.get("region")
+        if not z:
+            return None
+        ancho, alto = pantalla()
+        antes = cfg.get("pantalla")
+        if antes and list(antes) != [ancho, alto]:
+            self._pendiente = (f"Ignoro la zona guardada: se dibujó en una "
+                               f"pantalla de {antes[0]}×{antes[1]} y ahora tienes "
+                               f"{ancho}×{alto}.")
+            return None
+        if z[2] * z[3] < ancho * alto * 0.92:
+            self._pendiente = (f"⚠ Tienes una ZONA fijada de {z[2]}×{z[3]}: solo "
+                               f"el {z[2]*z[3]/(ancho*alto):.0%} de la pantalla. "
+                               f"Todo lo de fuera es invisible. Pulsa «Zona ✕» "
+                               f"para quitarla.")
+        return z
 
     def _cfg(self):
         try:
@@ -725,8 +845,11 @@ class App(tk.Tk if tk else object):
         self.update()
         try:
             self.withdraw()
+            self.update()
             time.sleep(0.25)
-            img = capturar(self.region)
+            # Pantalla entera a propósito: la hoja de personaje ocupa media
+            # pantalla y no cabe en la zona marcada para los tooltips.
+            img = capturar()
             self.deiconify()
             txt = ocr(img, guardar=True)
         except Exception as e:
@@ -736,7 +859,7 @@ class App(tk.Tk if tk else object):
         vals = V.leer_ficha(txt)
         if not vals:
             self._log("  No he reconocido ninguna estadística. Abre la hoja de "
-                      "personaje y marca la Zona sobre la lista de estadísticas.")
+                      "personaje (tecla C) y vuelve a darle a Ficha.")
             return
         V.guardar_ficha(vals)
         self._log(f"  ✓ {len(vals)} estadísticas actualizadas:")
@@ -753,35 +876,83 @@ class App(tk.Tk if tk else object):
         self._log("─" * 46)
 
     # ---------------------------------------------------------------- zona
+    def quitar_region(self):
+        """Sin esto no había forma de volver a mirar la pantalla entera."""
+        self.region = None
+        try:
+            CONFIG.unlink()
+        except FileNotFoundError:
+            pass
+        a, b = pantalla()
+        self._log(f"Zona quitada. Vuelvo a mirar la pantalla entera ({a}×{b}).")
+
     def elegir_region(self):
+        """Marca a mano el recuadro donde salen los tooltips.
+
+        Casi nunca hace falta: agrupar() separa los paneles de una pantalla
+        entera. Sirve para pantallas muy grandes, donde limitar el área acelera
+        cada ciclo."""
+        if self.grabando:
+            self._log("Para el trackeo antes de marcar la zona.")
+            return
         self.withdraw()
+        self.update()
         time.sleep(0.25)
         sel = tk.Toplevel()
         sel.attributes("-fullscreen", True, "-alpha", 0.25)
         sel.configure(bg="black")
         cv = tk.Canvas(sel, cursor="cross", bg="black", highlightthickness=0)
         cv.pack(fill="both", expand=True)
+        tk.Label(sel, text="Arrastra sobre la zona de los tooltips  ·  Esc para cancelar",
+                 bg="#c14a4a", fg="white", font=("Segoe UI", 11, "bold"),
+                 padx=14, pady=6).place(relx=0.5, y=30, anchor="n")
         est = {}
 
+        def cerrar(msg=None):
+            try:
+                sel.destroy()
+            except Exception:
+                pass
+            self.deiconify()
+            if msg:
+                self._log(msg)
+
         def down(e):
-            est["x"], est["y"] = e.x, e.y
-            est["r"] = cv.create_rectangle(e.x, e.y, e.x, e.y, outline="#c14a4a", width=2)
+            # x_root/y_root son coordenadas del ESCRITORIO VIRTUAL, que es lo
+            # que entiende mss. e.x/e.y son del canvas: en multimonitor apuntan
+            # a otro sitio.
+            est["x"], est["y"] = e.x_root, e.y_root
+            est["cx"], est["cy"] = e.x, e.y
+            est["r"] = cv.create_rectangle(e.x, e.y, e.x, e.y,
+                                           outline="#c14a4a", width=2)
 
         def move(e):
             if "r" in est:
-                cv.coords(est["r"], est["x"], est["y"], e.x, e.y)
+                cv.coords(est["r"], est["cx"], est["cy"], e.x, e.y)
 
         def up(e):
-            self.region = [min(est["x"], e.x), min(est["y"], e.y),
-                           abs(e.x - est["x"]), abs(e.y - est["y"])]
-            CONFIG.write_text(json.dumps({"region": self.region}))
-            sel.destroy()
-            self.deiconify()
-            self._log(f"Zona fijada: {self.region[2]}×{self.region[3]} px")
+            if "x" not in est:
+                return
+            an, al = abs(e.x_root - est["x"]), abs(e.y_root - est["y"])
+            # Un clic sin arrastrar guardaba una zona de 0x0 y dejaba la app
+            # inservible para siempre, sin forma de deshacerlo.
+            if an < 80 or al < 80:
+                cerrar(f"Zona descartada: {an}×{al} px es demasiado pequeño. "
+                       "Sigo mirando la pantalla entera.")
+                return
+            self.region = [min(est["x"], e.x_root), min(est["y"], e.y_root), an, al]
+            CONFIG.write_text(json.dumps({"region": self.region,
+                                          "pantalla": list(pantalla())}))
+            a, b = pantalla()
+            pct = an * al / max(a * b, 1)
+            cerrar(f"Zona fijada: {an}×{al} px ({pct:.0%} de la pantalla). "
+                   "«Zona ✕» para volver a la pantalla entera.")
 
         cv.bind("<ButtonPress-1>", down)
         cv.bind("<B1-Motion>", move)
         cv.bind("<ButtonRelease-1>", up)
+        sel.bind("<Escape>", lambda e: cerrar("Zona sin cambios."))
+        sel.focus_force()
 
 
 class Dialogo(tk.Toplevel if tk else object):

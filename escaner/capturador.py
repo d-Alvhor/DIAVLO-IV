@@ -20,11 +20,12 @@ import hashlib
 from pathlib import Path
 from datetime import datetime
 
+from PIL import Image
+
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import tracker as T
 
 SESION = Path(__file__).with_name("sesion")
-ESCALA = 2          # el OCR encuentra mejor los paneles con la imagen al doble
 MARGEN = 14         # píxeles de aire alrededor del recorte
 ANCHO_MAX = 1150    # se reduce el recorte a esto: de sobra para leerlo
 
@@ -32,9 +33,14 @@ ANCHO_MAX = 1150    # se reduce el recorte a esto: de sobra para leerlo
 def paneles_interesantes(img):
     """Devuelve los recortes que parecen un tooltip de objeto o de habilidad."""
     import winocr
-    g = img.convert("L")
-    g = g.resize((g.width * ESCALA, g.height * ESCALA), T.Image.LANCZOS)
-    res = winocr.recognize_pil_sync(g, "es-ES")
+    g = T.escalar_para_ocr(img)
+    escala = g.width / max(img.width, 1)      # el factor REAL, no una constante
+    try:
+        res = winocr.recognize_pil_sync(g, "es-ES")
+    except Exception as e:
+        # una lectura fallida no puede tumbar la sesión entera
+        print(f"  (lectura saltada: {type(e).__name__})")
+        return []
     out = []
     for b in T.agrupar(T._lineas_con_caja(res), cajas=True):
         texto = b["texto"]
@@ -49,9 +55,9 @@ def paneles_interesantes(img):
         numericas = sum(1 for l in lineas if re.search(r"\d", l))
         if not r and numericas < 4:
             continue
-        caja = [max(0, b["x"] // ESCALA - MARGEN), max(0, b["y"] // ESCALA - MARGEN),
-                min(img.width, b["x2"] // ESCALA + MARGEN),
-                min(img.height, b["y2"] // ESCALA + MARGEN)]
+        caja = [max(0, b["x"] / escala - MARGEN), max(0, b["y"] / escala - MARGEN),
+                min(img.width, b["x2"] / escala + MARGEN),
+                min(img.height, b["y2"] / escala + MARGEN)]
         if caja[2] - caja[0] < 120 or caja[3] - caja[1] < 120:
             continue
         out.append({"caja": [int(c) for c in caja], "texto": texto,
@@ -75,13 +81,28 @@ def main():
     for viejo in SESION.glob("*"):
         viejo.unlink()
     vistas, n, manifiesto = set(), 0, []
+    a, b = T.pantalla()
+    aviso = ""
+    if T.ESCALADO > 1.05:
+        aviso = f" · escalado de Windows {T.ESCALADO:.0%}"
+    print(f"Pantalla: {a}×{b} px{aviso}")
+    if a and a < 2000:
+        print("  ⚠ Eso parece poco para tu monitor. Ejecuta  python revisar.py")
     print(f"Capturando cada {cada:g} s. Pasa el ratón por cada objeto y cada "
           f"habilidad.\nSi un objeto no cabe, hazle scroll y espera un momento: "
           f"se guardan los dos trozos.\nCtrl+C para parar.\n")
     try:
         while True:
-            img = T.capturar()
-            for pan in paneles_interesantes(img):
+            try:
+                img = T.capturar()
+                encontrados = paneles_interesantes(img)
+            except KeyboardInterrupt:
+                raise
+            except Exception as e:
+                print(f"  (ciclo saltado: {type(e).__name__}: {e})")
+                time.sleep(cada)
+                continue
+            for pan in encontrados:
                 f = firma(pan["texto"])
                 if f in vistas:
                     continue
@@ -90,7 +111,7 @@ def main():
                 rec = img.crop(pan["caja"])
                 if rec.width > ANCHO_MAX:
                     alto = int(rec.height * ANCHO_MAX / rec.width)
-                    rec = rec.resize((ANCHO_MAX, alto), T.Image.LANCZOS)
+                    rec = rec.resize((ANCHO_MAX, alto), Image.LANCZOS)
                 nom = f"{n:03d}-{pan['hueco'] or pan['clase']}.png"
                 nom = re.sub(r"[^\w\-.]", "_", nom)
                 rec.save(SESION / nom)
