@@ -908,32 +908,52 @@ class App(tk.Tk if tk else object):
                              fg="#c9a227" if parcial else "#c9c0b4")
 
     def leer_ficha(self):
-        """Captura la hoja de personaje y actualiza los grupos del valorador.
-        Son la base de todo el cálculo: desfasados, las respuestas mienten."""
-        self._log("\nLeyendo la ficha de personaje…")
+        """Lee la hoja de personaje mientras la desplazas.
+
+        No cabe en una sola captura: son ~49 filas en cuatro secciones. Lee
+        durante unos segundos y va acumulando, así que basta con abrir la ficha
+        (tecla C) y bajar despacio."""
+        if self.grabando:
+            self._log("Para el trackeo antes de leer la ficha.")
+            return
+        self._log("\nLeyendo la ficha 12 s: abre la hoja de personaje (C) y "
+                  "baja despacio por las estadísticas…")
         self.update()
-        try:
-            self.withdraw()
-            self.update()
-            time.sleep(0.25)
-            # Pantalla entera a propósito: la hoja de personaje ocupa media
-            # pantalla y no cabe en la zona marcada para los tooltips.
-            img = capturar()
-            self.deiconify()
-            txt = ocr(img, guardar=True)
-        except Exception as e:
-            self.deiconify()
-            self._log(f"✗ {e}")
-            return
-        vals = V.leer_ficha(txt)
-        if not vals:
+        threading.Thread(target=self._bucle_ficha, daemon=True).start()
+
+    def _bucle_ficha(self, segundos=12.0):
+        vistas, fin, ciclos = {}, time.time() + segundos, 0
+        while time.time() < fin:
+            try:
+                img = self._captura_limpia()
+                for trozo in ocr_bloques(img, guardar=True):
+                    nuevas = V.leer_ficha(reflujo(trozo))
+                    for k, v in nuevas.items():
+                        if k not in vistas:
+                            self.after(0, self._log, f"      {k}: {v:g}")
+                        vistas[k] = v
+                ciclos += 1
+            except Exception as e:
+                self.after(0, self._log, f"  (lectura saltada: {type(e).__name__})")
+            self.after(0, self.estado.config,
+                       {"text": f"ficha: {len(vistas)} estadísticas"})
+            time.sleep(0.6)
+        self.after(0, self._fin_ficha, vistas, ciclos)
+
+    def _fin_ficha(self, vistas, ciclos):
+        if not vistas:
             self._log("  No he reconocido ninguna estadística. Abre la hoja de "
-                      "personaje (tecla C) y vuelve a darle a Ficha.")
+                      "personaje con C y vuelve a darle a Ficha.")
+            self.estado.config(text="ficha vacía")
             return
-        V.guardar_ficha(vals)
-        self._log(f"  ✓ {len(vals)} estadísticas actualizadas:")
-        for k, v in sorted(vals.items()):
-            self._log(f"      {k}: {v:g}")
+        V.guardar_ficha(vistas)
+        faltan = [f for f in V.FICHA if V.norm(f) not in {V.norm(k) for k in vistas}]
+        self._log(f"  ✓ {len(vistas)} estadísticas guardadas en {ciclos} lecturas.")
+        if faltan:
+            self._log(f"  Sin leer ({len(faltan)}): {', '.join(faltan[:6])}"
+                      + ("…" if len(faltan) > 6 else "")
+                      + "\n  Vuelve a darle a Ficha y desplázate por esa parte.")
+        self.estado.config(text=f"ficha: {len(vistas)} estadísticas")
 
     def _informe(self):
         if not self.perfil:

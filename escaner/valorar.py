@@ -20,6 +20,7 @@ que es lo que corrige el ruido del OCR.
 
 import re
 import json
+import difflib
 import unicodedata
 from pathlib import Path
 
@@ -47,7 +48,45 @@ GRUPOS_DEF = {
 }
 # Cantidades planas: el marginal es sobre el total, no sobre 100+total.
 PLANOS = {"espinas", "vida máxima", "vida por golpe", "armadura", "fuerza",
-          "resolución máxima"}
+          "resolución máxima", "inteligencia", "voluntad", "destreza", "dureza",
+          "daño base de arma", "máximo de fe", "resistencia física",
+          "resistencia al fuego", "resistencia a los rayos", "resistencia al frío",
+          "resistencia al veneno", "resistencia a la sombra"}
+
+# La hoja de personaje del juego, tal cual la escribe (es-ES). Es vocabulario
+# CERRADO: por eso una lectura sucia empareja sola con la buena, igual que con
+# los 891 afijos. Sacado de la ficha real de un Paladín a nivel 70.
+FICHA = (
+    "Nivel", "Fuerza", "Inteligencia", "Voluntad", "Destreza",
+    "Dureza", "Armadura", "Resistencia física", "Resistencia al fuego",
+    "Resistencia a los rayos", "Resistencia al frío", "Resistencia al veneno",
+    "Resistencia a la sombra",
+    "Daño base de arma", "Velocidad de arma", "Probabilidad de golpe crítico",
+    "Daño de golpe crítico", "Daño por vulnerabilidad", "Todo el daño",
+    "Daño físico", "Daño con fuego", "Daño con rayos", "Daño con frío",
+    "Daño sagrado", "Daño con veneno", "Daño con sombra",
+    "Daño contra enemigos cercanos", "Daño contra enemigos de élite",
+    "Espinas", "Probabilidad de Castigo",
+    "Vida máxima", "Capacidad de pociones", "Curación recibida", "Vida por golpe",
+    "Probabilidad de bloqueo", "Reducción de bloqueo", "Reducción de todo el daño",
+    "Bonus de barrera", "Probabilidad de esquivar",
+    "Máximo de Fe", "Regeneración de fe", "Velocidad de movimiento",
+    "Reducción de tiempo de reutilización", "Bonus de probabilidad de golpe de suerte",
+    "Ralentización por golpe de suerte", "Aturdimiento por golpe de suerte",
+    "Bonus de experiencia", "Resolución máxima", "Reducción de daño",
+)
+
+# La hoja y los afijos NO llaman igual a lo mismo: la ficha dice "Daño contra
+# enemigos cercanos" y el objeto dice "daño a enemigos cercanos". Sin esto, el
+# valor de la ficha no alimentaba su propio grupo.
+ALIAS_FICHA = {
+    "dano contra enemigos cercanos": "daño a enemigos cercanos",
+}   # las claves van SIN tildes: se consultan con norm(), que las quita
+
+# Filas de la ficha que no son un grupo donde nada se diluya.
+NO_GRUPO = {"nivel", "capacidad de pociones", "bonus de experiencia",
+            "velocidad de arma", "regeneración de fe", "reducción de daño",
+            "bonus de probabilidad de golpe de suerte"}
 
 # Afijos que no aportan NADA a una build de espinas físicas directas.
 MUERTOS = {
@@ -251,28 +290,43 @@ def resumen_linea(afijos, total):
 
 
 # ---------------------------------------------------------------- ficha
+def _canon_ficha(etiqueta):
+    """Etiqueta leída por OCR -> nombre canónico de la ficha, o None.
+    Lista cerrada de ~49 filas: 'Reducciön de blogueo' empareja sola."""
+    e = norm(etiqueta)
+    if not e or len(e) < 4:
+        return None
+    for f in FICHA:
+        if norm(f) == e:
+            return f
+    cerca = difflib.get_close_matches(e, [norm(f) for f in FICHA], n=1, cutoff=0.80)
+    if not cerca:
+        return None
+    return next(f for f in FICHA if norm(f) == cerca[0])
+
+
 def leer_ficha(texto):
-    """Ficha de personaje -> {grupo: valor}. Así los grupos se mantienen al día
-    sin editar código: son la base del cálculo y desfasados mienten."""
+    """Ficha de personaje -> {stat canónico: valor}. TODAS las filas, no solo
+    las que ya conocíamos: son la base del cálculo, y cuantas más haya, más
+    afijos encuentran su grupo en vez de quedarse en 'desconocido'.
+
+    El texto se pasa por reflujo() antes: la ficha parte las etiquetas largas
+    en dos renglones ('Daño por' / 'vulnerabilidad 321,6 %') y sueltas no
+    casan con nada."""
     out = {}
     for linea in str(texto).splitlines():
-        l = linea.strip()
+        l = linea.strip().replace("|", " ")
         if not l:
             continue
-        m = re.match(r"^(.+?)\s+([\d.,]+)\s*%?\s*$", l)
+        m = re.match(r"^(.+?)\s+([\d][\d.,]*)\s*%?\s*$", l)
         if not m:
             continue
-        etiqueta, bruto = limpiar(m.group(1)), num(m.group(2))
-        if bruto is None or len(etiqueta) < 4:
+        v = num(m.group(2))
+        if v is None:
             continue
-        # limpiar() quita el "de" tras "daño", así que hay que aplicarlo a las
-        # dos partes o "daño de golpe crítico" nunca casa con su propia clave.
-        e = limpiar(etiqueta)
-        for k in GRUPOS_DEF:
-            kk = limpiar(k)
-            if kk == e or kk in e or e in kk:
-                out[k] = bruto
-                break
+        canon = _canon_ficha(m.group(1))
+        if canon:
+            out[ALIAS_FICHA.get(norm(canon), canon.lower())] = v
     return out
 
 
@@ -286,7 +340,9 @@ def guardar_ficha(valores):
     actual.update(valores)
     PERFIL_STATS.write_text(json.dumps(actual, ensure_ascii=False, indent=2),
                             encoding="utf-8")
-    GRUPOS.update(valores)
+    # Nivel o capacidad de pociones no son grupos donde nada se diluya: se
+    # guardan, pero no entran en el reparto.
+    GRUPOS.update({k: v for k, v in valores.items() if norm(k) not in NO_GRUPO})
     return len(valores)
 
 
