@@ -207,7 +207,7 @@ def parsear(texto, cat=None):
         if not linea:
             continue
 
-        m = re.search(r"multiplicador de (.+?)\s*x\s*(\d[\d.,]*)\s*%", linea, re.I)
+        m = re.search(r"multiplicador de (.+?)\s*x\s*(\d[\d.,]*)\s*%?", linea, re.I)
         if m:
             v, g = num(m.group(2)), limpiar(m.group(1))
             if v is not None and len(g) > 2:
@@ -238,10 +238,25 @@ def parsear(texto, cat=None):
     if cat:                                   # corregir contra el catálogo
         for a in out:
             canon = cat.afijo("de " + a["grupo"]) or cat.afijo(a["grupo"])
-            if canon and _compatible(a["grupo"], canon):
+            if canon and _compatible(a["grupo"], canon) and _mismo_afijo(a["grupo"], canon):
                 a["canonico"] = canon
                 a["grupo"] = limpiar(canon)
     return out
+
+
+def _mismo_afijo(grupo, canonico):
+    """¿El canónico corrige ESTE afijo, o es otro que venía pegado detrás?
+
+    El emparejamiento difuso existe para arreglar el ruido del OCR
+    ('velocidd de ataqe' -> 'velocidad de ataque'). Pero con dos afijos pegados
+    —'3.506 de armadura de fuerza'— casaba con el segundo y le daba el valor
+    del primero. Se acepta si se parecen ENTEROS, o si el canónico está al
+    principio; no si aparece al final."""
+    g = norm(grupo)
+    c = norm(re.sub(r"^de\s+", "", canonico))
+    if difflib.SequenceMatcher(None, g, c).ratio() >= 0.70:
+        return True
+    return c in g and g.index(c) <= 3
 
 
 def _compatible(original, canonico):
@@ -258,15 +273,28 @@ def _compatible(original, canonico):
 
 
 # ---------------------------------------------------------------- valoración
-def casar(grupo):
+def casar(grupo, con_pos=False):
+    """Grupo leído -> clave de GRUPOS. Si dos afijos se pegaron por un fallo de
+    lectura ("3.506 de armadura de fuerza"), el valor es del que va PEGADO al
+    número: o sea el que aparece antes en el texto."""
     g = norm(grupo)
+    if not g:
+        return (None, 99) if con_pos else None
     for k in GRUPOS:
         if norm(k) == g:
-            return k
+            return (k, 0) if con_pos else k
+    mejor = None
     for k in GRUPOS:
-        if g in norm(k) or norm(k) in g:
-            return k
-    return None
+        nk = norm(k)
+        if nk and nk in g:
+            pos = g.index(nk)
+            if mejor is None or (pos, -len(nk)) < (mejor[1], -len(norm(mejor[0]))):
+                mejor = (k, pos)
+        elif g in nk and mejor is None:
+            mejor = (k, 0)
+    if mejor is None:
+        return (None, 99) if con_pos else None
+    return mejor if con_pos else mejor[0]
 
 
 def muerto(grupo):
@@ -284,9 +312,14 @@ def valorar(a):
     if a.get("mult"):
         return {**a, "grupo_real": casar(a["grupo"]) or a["grupo"],
                 "pct": a["valor"], "tipo": "multiplica"}
-    k = casar(a["grupo"])
+    k, pos = casar(a["grupo"], con_pos=True)
     if not k:
         return {**a, "pct": None, "tipo": "desconocido"}
+    if pos > 3:
+        # El afijo casa, pero lejos del número: delante hay otra cosa, así que
+        # ese número no es suyo. "216 a todas las resistencias de probabilidad
+        # de golpe crítico" daba un 216% de crítico que no existe.
+        return {**a, "pct": None, "tipo": "pegado a otro afijo"}
     base = GRUPOS[k]
     if k in PLANOS:
         pct = (a["valor"] / base) * 100 if base else 0.0

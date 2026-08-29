@@ -156,7 +156,14 @@ def es_propia(texto):
 # golpe" / "crítico x30% [13-25]%". Cada mitad por separado no parsea, así que
 # el valorador se comía los multiplicadores enteros y daba +5% a un arma con
 # x30% de crítico. Se vuelven a juntar antes de valorar.
-CORTADA = re.compile(r"(?:\b[a-záéíóúñ]{2,}|\bx)\s*$", re.I)
+# Una línea está CORTADA si acaba en conector ("...de tiempo de"), acaba en la
+# 'x' de un multiplicador, o no tiene ni un número. Una que ya trae número y
+# acaba en sustantivo está COMPLETA: "216 a todas las resistencias" es un afijo
+# entero, y pegarle la línea de abajo inventaba "216 ... de probabilidad de
+# golpe crítico" — un 216% de crítico que no existe.
+CONECTOR = re.compile(r"\b(?:de|del|la|el|los|las|un|una|por|con|a|en|y|más|"
+                      r"al|sus|tus|su|tu|que|se)\s*$", re.I)
+CORTADA = re.compile(r"\bx\s*$", re.I)
 SIGUE = re.compile(r"^\s*(?:[a-záéíóúñ]|x\s*\d)")
 # el OCR escribe el símbolo % como '0/0' o '9/0': x300/0 es x30%
 PORCIENTO = re.compile(r"(\d+)[09]\s*/\s*0")
@@ -169,7 +176,14 @@ def reflujo(texto):
         l = PORCIENTO.sub(r"\1%", l.strip())
         if not l:
             continue
-        if out and CORTADA.search(out[-1]) and SIGUE.match(l):
+        prev = out[-1] if out else ""
+        cortada = bool(prev) and (CONECTOR.search(prev) or CORTADA.search(prev)
+                                  or not re.search(r"\d", prev))
+        # si la anterior acaba en la 'x' del multiplicador, lo que sigue es su
+        # número: "Multiplicador de daño de Físico x" + "22% [7 - 10]%"
+        sigue = bool(SIGUE.match(l)) or (bool(prev) and CORTADA.search(prev)
+                                         and re.match(r"^\s*\d", l))
+        if cortada and sigue:
             out[-1] = f"{out[-1]} {l}"
         else:
             out.append(l)
