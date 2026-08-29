@@ -26,6 +26,11 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import tracker as T
 
 SESION = Path(__file__).with_name("sesion")
+VALOR = re.compile(r"[+\-]?\s*[\d][\d.,]*\s*%?")
+# Una fila de la hoja de personaje: etiqueta y número, sin '+' delante y sin
+# corchetes de rango. Es lo que la distingue de un afijo de objeto.
+FILA_FICHA = re.compile(r"^[A-Za-zÁÉÍÓÚÑáéíóúñ][\w áéíóúñÁÉÍÓÚÑ]{3,42}"
+                        r"\s+[\d][\d.,]*\s*%?$")
 MARGEN = 14         # píxeles de aire alrededor del recorte
 ANCHO_MAX = 1150    # se reduce el recorte a esto: de sobra para leerlo
 
@@ -50,18 +55,26 @@ def paneles_interesantes(img):
         if len(lineas) < 5:
             continue
         r = T.identificar(texto)
-        # también valen los que el OCR no supo clasificar pero tienen pinta:
-        # si hay varias líneas con números, es una ficha de algo
-        numericas = sum(1 for l in lineas if re.search(r"\d", l))
-        if not r and numericas < 4:
-            continue
+        clase = r[0] if r else None
+        # La hoja de personaje: muchas filas que son SOLO un número. No es un
+        # objeto ni una habilidad, pero es justo lo que hay que leer, y leerlo
+        # como imagen evita todo el problema de emparejar etiqueta con valor.
+        filas = sum(1 for l in lineas
+                    if VALOR.fullmatch(l.strip()) or FILA_FICHA.match(l.strip()))
+        if not r and filas >= 6:
+            clase = "ficha"
+        elif not r:
+            numericas = sum(1 for l in lineas if re.search(r"\d", l))
+            if numericas < 4:
+                continue
+            clase = "?"
         caja = [max(0, b["x"] / escala - MARGEN), max(0, b["y"] / escala - MARGEN),
                 min(img.width, b["x2"] / escala + MARGEN),
                 min(img.height, b["y2"] / escala + MARGEN)]
         if caja[2] - caja[0] < 120 or caja[3] - caja[1] < 120:
             continue
         out.append({"caja": [int(c) for c in caja], "texto": texto,
-                    "clase": r[0] if r else "?", "hueco": r[1] if r else None,
+                    "clase": clase, "hueco": r[1] if r else None,
                     "nombre": r[2] if r else None})
     return out
 
@@ -89,9 +102,18 @@ def main():
         print("  " + str(len(ms)) + " monitores: "
               + ", ".join(f"{m['width']}×{m['height']}" for m in ms)
               + " — capturo donde esté el ratón, así que déjalo en el del juego.")
-    print(f"Capturando cada {cada:g} s. Pasa el ratón por cada objeto y cada "
-          f"habilidad.\nSi un objeto no cabe, hazle scroll y espera un momento: "
-          f"se guardan los dos trozos.\nCtrl+C para parar.\n")
+    print(f"""
+Capturando cada {cada:g} s. Haz esto, sin prisa:
+
+  1. Abre la hoja de personaje (C) y entra en «Estadísticas y materiales».
+     Baja despacio por toda la lista.
+  2. Vuelve al equipo y pasa el ratón por las 10 piezas.
+     Lo que no quepa: scroll y espera un segundo.
+  3. Pasa el ratón por las 6 habilidades.
+
+No tienes que hacer ni una captura: esto recorta solo lo que hace falta.
+Ctrl+C para parar.
+""")
     try:
         while True:
             try:
