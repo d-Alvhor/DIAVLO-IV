@@ -105,7 +105,11 @@ Un afijo que **multiplica** (los que llevan `x`) se aplica entero y no se diluye
 
 ## Mantener tus datos al día
 
-**`mis_stats.json`** (créalo al lado de `valorar.py`) sobrescribe los grupos sin
+Con el botón **Ficha**: abre la hoja de personaje (tecla **C**), pulsa Ficha y
+baja despacio durante 12 s. Lee las ~49 filas acumulando, y al terminar te dice
+cuáles no ha visto. Se guardan en `mis_stats.json`.
+
+**`mis_stats.json`** también se puede escribir a mano: sobrescribe los grupos sin
 tocar el código. Son **la base de todo el cálculo**: si están desfasados, las
 respuestas también.
 
@@ -126,8 +130,10 @@ En `valorar.py` está además `MUERTOS`: afijos que no aportan nada a esta build
 python catalogo.py               # 14/14 tipos y 7/7 afijos, con ruido metido a mano
 python valorar.py                # valoración, comparación y control contra sí mismo
 python tracker.py --test         # identificación + sesión simulada
-python pruebas/test_bloques.py   # 162 capturas REALES de una partida
+python pruebas/test_bloques.py     # 162 capturas REALES de una partida
 python pruebas/test_capturador.py  # el capturador, ejecutado, a cuatro resoluciones
+python pruebas/test_ficha.py       # la hoja de personaje entera, con ruido
+python pruebas/test_nombres.py     # ningun metodo llama a algo que no existe
 ```
 
 Las dos últimas son las que valen. `test_bloques` corre sobre capturas de verdad
