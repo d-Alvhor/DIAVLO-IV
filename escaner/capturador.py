@@ -82,12 +82,13 @@ def main():
         viejo.unlink()
     vistas, n, manifiesto = set(), 0, []
     a, b = T.pantalla()
-    aviso = ""
-    if T.ESCALADO > 1.05:
-        aviso = f" · escalado de Windows {T.ESCALADO:.0%}"
-    print(f"Pantalla: {a}×{b} px{aviso}")
-    if a and a < 2000:
-        print("  ⚠ Eso parece poco para tu monitor. Ejecuta  python revisar.py")
+    aviso = f" · escalado de Windows {T.ESCALADO:.0%}" if T.ESCALADO > 1.05 else ""
+    print(f"Pantalla donde está el ratón: {a}×{b} px{aviso}")
+    ms = T.monitores()[1:]
+    if len(ms) > 1:
+        print("  " + str(len(ms)) + " monitores: "
+              + ", ".join(f"{m['width']}×{m['height']}" for m in ms)
+              + " — capturo donde esté el ratón, así que déjalo en el del juego.")
     print(f"Capturando cada {cada:g} s. Pasa el ratón por cada objeto y cada "
           f"habilidad.\nSi un objeto no cabe, hazle scroll y espera un momento: "
           f"se guardan los dos trozos.\nCtrl+C para parar.\n")

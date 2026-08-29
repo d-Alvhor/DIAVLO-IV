@@ -22,6 +22,7 @@ import json
 import time
 import unicodedata
 import threading
+import ctypes.wintypes
 from pathlib import Path
 from datetime import datetime
 
@@ -196,27 +197,61 @@ def identificar(texto):
 
 
 # ---------------------------------------------------------------- captura + OCR
-def pantalla():
-    """Tamaño real de la pantalla que se captura, en píxeles físicos."""
+def monitores():
     try:
         import mss
         with mss.mss() as sct:
-            m = sct.monitors[1]
-            return m["width"], m["height"]
+            return [dict(m) for m in sct.monitors]
     except Exception:
-        return 0, 0
+        return []
 
 
-def capturar(region=None):
-    import mss
+def monitor_activo():
+    """El monitor donde está el RATÓN.
+
+    Antes se capturaba `monitors[1]`, el primario. Pero el primario no tiene por
+    qué ser donde juegas: aquí era un monitor vertical de 1200x1920 con la
+    consola abierta, así que la app estaba leyendo una terminal de PowerShell
+    mientras el juego corría en el 2K de al lado. El ratón sí está donde juegas,
+    porque es con el ratón con lo que enseñas los objetos."""
+    mons = monitores()[1:]
+    if not mons:
+        return None
+    if len(mons) == 1:
+        return mons[0]
+    try:
+        import ctypes
+        pt = ctypes.wintypes.POINT()
+        ctypes.windll.user32.GetCursorPos(ctypes.byref(pt))
+        for m in mons:
+            if (m["left"] <= pt.x < m["left"] + m["width"]
+                    and m["top"] <= pt.y < m["top"] + m["height"]):
+                return m
+    except Exception:
+        pass
+    return max(mons, key=lambda m: m["width"] * m["height"])
+
+
+def pantalla():
+    """Tamaño del área que se captura ahora mismo, en píxeles físicos."""
+    m = monitor_activo()
+    return (m["width"], m["height"]) if m else (0, 0)
+
+
+def capturar(region=None, con_origen=False):
     from PIL import Image
-    MSS = mss.MSS if hasattr(mss, "MSS") else mss.mss
-    with MSS() as sct:
-        mon = region if isinstance(region, dict) else (
-            {"left": region[0], "top": region[1], "width": region[2], "height": region[3]}
-            if region else sct.monitors[1])
+    import mss
+    with mss.mss() as sct:
+        if isinstance(region, dict):
+            mon = region
+        elif region:
+            mon = {"left": region[0], "top": region[1],
+                   "width": region[2], "height": region[3]}
+        else:
+            mon = monitor_activo() or sct.monitors[1]
         shot = sct.grab(mon)
-        return Image.frombytes("RGB", shot.size, shot.bgra, "raw", "BGRX")
+        img = Image.frombytes("RGB", shot.size, shot.bgra, "raw", "BGRX")
+        return (img, (mon["left"], mon["top"])) if con_origen else img
 
 
 def _lineas_con_caja(res):
@@ -575,6 +610,12 @@ class App(tk.Tk if tk else object):
         self._log(f"Capturando {a}×{b} px"
                   + (f" · escalado de Windows {ESCALADO:.0%}" if ESCALADO > 1.05 else "")
                   + (f" · ZONA {self.region[2]}×{self.region[3]}" if self.region else ""))
+        ms = monitores()[1:]
+        if len(ms) > 1:
+            self._log(f"  Tienes {len(ms)} monitores: "
+                      + ", ".join(f"{m['width']}×{m['height']}" for m in ms)
+                      + ". Miro donde esté el ratón, así que ten el ratón "
+                      "en la pantalla del juego.")
         if self._pendiente:
             self._log(self._pendiente)
         self._log("Dale a Trackear. Luego pasa el ratón por cada objeto y cada "
@@ -598,7 +639,7 @@ class App(tk.Tk if tk else object):
         """Captura y BORRA de la imagen el rectángulo de esta misma ventana.
         Se pinta encima en vez de ocultar la ventana para no dar tirones cada
         0,7 s."""
-        img = capturar(self.region)
+        img, (ox, oy) = capturar(self.region, con_origen=True)
         g = self._geom
         if not g:
             return img
@@ -606,7 +647,6 @@ class App(tk.Tk if tk else object):
             from PIL import ImageDraw
             wx, wy, ww, wh = g
             k = self._factor or 1.0            # tk -> píxeles de la captura
-            ox, oy = (self.region[0], self.region[1]) if self.region else (0, 0)
             x1, y1 = (wx - ox) * k, (wy - oy) * k
             barra = 34 * ESCALADO * k          # la barra de título va por encima
             caja = [int(max(0, min(x1 - 4 * k, img.width))),
