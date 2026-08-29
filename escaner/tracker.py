@@ -71,9 +71,23 @@ def norm(s):
     return re.sub(r"\s+", " ", s).strip().lower()
 
 
+# Palabras que solo salen en NUESTRA ventana. Si aparecen, el bloque es la
+# propia interfaz del tracker: se descarta. (Cinturón, además del borrado del
+# rectángulo: 564 capturas de una sesión real eran todas de sí mismo.)
+PROPIAS = ("tracker de builds", "habilidad 1", "habilidad 2", "faltan",
+           "trackear", "equipo\nhabilidades")
+
+
+def es_propia(texto):
+    n = norm(texto)
+    return sum(1 for p in PROPIAS if p in n) >= 2
+
+
 def identificar(texto):
     """Del texto de un tooltip saca (clase, hueco_o_nombre, nombre, texto).
     clase: 'objeto' | 'habilidad' | None."""
+    if es_propia(texto):
+        return None
     lineas = [l.strip() for l in texto.splitlines() if l.strip()]
     if len(lineas) < 3:          # un tooltip real nunca son dos líneas sueltas
         return None
@@ -379,6 +393,28 @@ class App(tk.Tk if tk else object):
         self._log("Dale a Trackear. Luego pasa el ratón por cada objeto y cada "
                   "habilidad; la checklist se va marcando sola.")
 
+    def _captura_limpia(self):
+        """Captura y BORRA de la imagen el rectángulo de esta misma ventana.
+        Sin esto el tracker se lee a sí mismo ('Tracker de builds — Diablo IV').
+        Se pinta encima en vez de ocultar la ventana para no dar tirones cada
+        0,7 s."""
+        img = capturar(self.region)
+        try:
+            from PIL import ImageDraw
+            self.update_idletasks()
+            wx, wy = self.winfo_rootx(), self.winfo_rooty()
+            ww, wh = self.winfo_width(), self.winfo_height()
+            ox, oy = (self.region[0], self.region[1]) if self.region else (0, 0)
+            x1, y1 = wx - ox, wy - oy
+            if x1 < img.width and y1 < img.height:
+                ImageDraw.Draw(img).rectangle(
+                    [max(0, x1 - 4), max(0, y1 - 30),
+                     min(img.width, x1 + ww + 4), min(img.height, y1 + wh + 4)],
+                    fill=(0, 0, 0))
+        except Exception:
+            pass
+        return img
+
     def _cfg(self):
         try:
             return json.loads(CONFIG.read_text())
@@ -473,11 +509,8 @@ class App(tk.Tk if tk else object):
         fallos = 0
         while self.grabando:
             try:
-                img = capturar(self.region)
-                if self.region:
-                    trozos = [ocr(img, guardar=True)]
-                else:
-                    trozos = ocr_bloques(img, guardar=True)
+                img = self._captura_limpia()
+                trozos = ocr_bloques(img, guardar=True)
                 fallos = 0
             except Exception as e:
                 fallos += 1
@@ -503,10 +536,12 @@ class App(tk.Tk if tk else object):
             else:
                 self.sin_nada += 1
                 if self.sin_nada in (8, 25, 60):
+                    mayor = max(trozos, key=len) if trozos else ""
+                    muestra = " / ".join(mayor.splitlines()[:3])[:80]
                     self.after(0, self._log,
-                               f"  … {self.ciclos} lecturas, {len(trozos)} bloques en la "
-                               f"última. Ninguno es un tooltip: pon el ratón ENCIMA de "
-                               f"un objeto y espera 2 s.")
+                               f"  … {self.ciclos} lecturas · {len(trozos)} bloques · "
+                               f"el mayor tiene {len(mayor.splitlines())} líneas\n"
+                               f"     lo que leo ahí: {muestra}")
             time.sleep(self.INTERVALO)
 
     def _visto(self, clase, clave, nombre, texto):
