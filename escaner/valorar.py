@@ -111,7 +111,11 @@ def cargar_grupos():
     return dict(GRUPOS_DEF)
 
 
-GRUPOS = cargar_grupos()
+GRUPOS = {k: v for k, v in cargar_grupos().items()
+          if re.sub(r"\s+", " ", str(k)).strip().lower() not in
+          {"nivel", "capacidad de pociones", "bonus de experiencia",
+           "velocidad de arma", "regeneración de fe", "reducción de daño",
+           "bonus de probabilidad de golpe de suerte"}}
 
 
 def norm(s):
@@ -307,6 +311,28 @@ def _canon_ficha(etiqueta):
     return next(f for f in FICHA if norm(f) == cerca[0])
 
 
+# Rango plausible de cada fila. Un valor fuera de aquí no es una estadística
+# rara: es que se emparejó la etiqueta con el número de otra columna. Sin esto
+# se guardó "velocidad de arma: 543.046" y "máximo de fe: 4.728".
+RANGOS = {
+    "nivel": (1, 100), "velocidad de arma": (0.5, 5.0),
+    "capacidad de pociones": (1, 12), "máximo de fe": (30, 400),
+    "regeneración de fe": (0.1, 50), "resolución máxima": (1, 60),
+    "probabilidad de golpe crítico": (0, 100), "probabilidad de bloqueo": (0, 100),
+    "probabilidad de esquivar": (0, 100), "reducción de bloqueo": (0, 100),
+    "reducción de todo el daño": (0, 100), "curación recibida": (0, 500),
+    "velocidad de movimiento": (0, 400), "capacidad": (1, 12),
+    "reducción de tiempo de reutilización": (0, 90),
+    "bonus de barrera": (0, 500), "vida máxima": (1000, 200000),
+    "armadura": (100, 500000), "dureza": (1000, 100000000),
+}
+
+
+def _plausible(clave, valor):
+    r = RANGOS.get(norm(clave)) or RANGOS.get(clave)
+    return not r or (r[0] <= valor <= r[1])
+
+
 def _es_valor(t):
     return bool(re.fullmatch(r"[+\-]?\s*[\d][\d.,]*\s*%?", t.strip()))
 
@@ -328,21 +354,33 @@ def leer_ficha_cajas(lineas):
     for v in valores:
         cy = (v["y"] + v["y2"]) / 2
         alto = max(v["y2"] - v["y"], 1)
+        n = num(v["texto"])
+        if n is None:
+            continue
+        # A la izquierda, a su altura, y CERCA: sin el tope de distancia se
+        # emparejaba con la etiqueta de otra columna de la pantalla (así salió
+        # "reducción de todo el daño: 757", que es el valor de Destreza).
         cerca = [e for e in etiquetas
-                 if e["x2"] <= v["x"] + alto                    # a su izquierda
+                 if e["x2"] <= v["x"] + alto
+                 and v["x"] - e["x2"] < alto * 14
                  and abs((e["y"] + e["y2"]) / 2 - cy) < alto * 1.15]
         if not cerca:
             continue
+        # solo la etiqueta más pegada, y su continuación en el renglón de abajo
+        borde = max(e["x2"] for e in cerca)
+        cerca = [e for e in cerca if borde - e["x2"] < alto * 12]
         cerca.sort(key=lambda e: (e["y"], e["x"]))
-        canon = _canon_ficha(" ".join(e["texto"] for e in cerca))
-        if not canon:                       # con dos renglones no casó: prueba uno
-            for e in sorted(cerca, key=lambda e: abs((e["y"] + e["y2"]) / 2 - cy)):
-                canon = _canon_ficha(e["texto"])
-                if canon:
-                    break
-        n = num(v["texto"])
-        if canon and n is not None:
-            out[ALIAS_FICHA.get(norm(canon), canon.lower())] = n
+        candidatos = [" ".join(e["texto"] for e in cerca)]
+        candidatos += [e["texto"] for e in
+                       sorted(cerca, key=lambda e: abs((e["y"] + e["y2"]) / 2 - cy))]
+        for c in candidatos:
+            canon = _canon_ficha(c)
+            if not canon:
+                continue
+            clave = ALIAS_FICHA.get(norm(canon), canon.lower())
+            if _plausible(clave, n):
+                out[clave] = n
+            break
     return out
 
 

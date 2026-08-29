@@ -20,6 +20,7 @@ import re
 import sys
 import json
 import time
+import difflib
 import unicodedata
 import threading
 import ctypes.wintypes
@@ -130,8 +131,11 @@ def es_chrome(linea):
         return True
     # el OCR pega un icono delante ("-L Desplazar hacia arriba"): se tolera
     # basura corta al principio, pero solo en líneas cortas de interfaz
-    return any(n == c or n.startswith(c) or (len(n) < 46 and c in n)
-               for c in CHROME_N)
+    if any(n == c or n.startswith(c) or (len(n) < 46 and c in n) for c in CHROME_N):
+        return True
+    # el OCR destroza las etiquetas de interfaz ("Estadísticas" -> "Estacusúcas"):
+    # con lista cerrada y línea corta, el parecido basta
+    return bool(len(n) < 30 and difflib.get_close_matches(n, CHROME_N, n=1, cutoff=0.78))
 
 
 def es_propia(texto):
@@ -320,7 +324,12 @@ def _fusionar_renglon(ls):
         if out:
             p = out[-1]
             alto = max(p["h"], l["h"], 1)
-            if abs(l["y"] - p["y"]) < alto * 0.5 and 0 <= l["x"] - p["x2"] < alto * 6:
+            # El hueco tolerado era alto*6: a 200% de escalado eso son ~300 px,
+            # suficiente para saltar de un panel al de al lado. Así se pegó
+            # "543.046" (la Dureza de la hoja) a un afijo del tooltip, y el
+            # amuleto salió valorado en +474.179%. Un renglón partido de verdad
+            # deja un hueco de pocos caracteres.
+            if abs(l["y"] - p["y"]) < alto * 0.5 and 0 <= l["x"] - p["x2"] < alto * 1.6:
                 p["texto"] = f"{p['texto']} {l['texto']}"
                 p["x2"] = max(p["x2"], l["x2"])
                 p["y2"] = max(p["y2"], l["y2"])
