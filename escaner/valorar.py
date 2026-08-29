@@ -505,14 +505,15 @@ def _coherentes(nuevos, previos):
     llega 20 veces por debajo de la mediana no es una debilidad: es que el OCR
     leyó otro número. Pasó con 'resistencia a los rayos: 198' cuando eran 6.829,
     y una lectura mala pisaba la buena."""
-    todas = {**previos, **nuevos}
-    res = {k: v for k, v in todas.items() if norm(k).startswith("resistencia") and v}
-    if len(res) < 4:
+    # La mediana se calcula SOLO con lo que ya había: si se mete el valor nuevo,
+    # él mismo tira la mediana hacia abajo y se autoaprueba.
+    res = [v for k, v in previos.items()
+           if norm(k).startswith("resistencia") and isinstance(v, (int, float)) and v]
+    if len(res) < 3:
         return nuevos
-    orden = sorted(res.values())
-    mediana = orden[len(orden) // 2]
+    mediana = sorted(res)[len(res) // 2]
     return {k: v for k, v in nuevos.items()
-            if not (norm(k).startswith("resistencia") and v * 20 < mediana)}
+            if not (norm(k).startswith("resistencia") and v * 8 < mediana)}
 
 
 def guardar_ficha(valores):
