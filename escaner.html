@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Escáner de objetos — Códice</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<style>
+:root{--bg:#141210;--fg:#e8e2da;--mut:#9a9088;--bd:#2e2926;--pa:#c14a4a;--sur:#1c1917;--sur2:#232019;--ok:#4a9d68;--az:#7aa8cc;--am:#d0a63c;--na:#e08a4a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 ui-sans-serif,system-ui,-apple-system,sans-serif;padding:0 0 4rem}
+header{position:sticky;top:0;z-index:10;background:var(--sur);border-bottom:1px solid var(--bd);padding:.7rem 1rem;display:flex;gap:.6rem;align-items:baseline}
+h1{margin:0;font:600 .95rem/1 ui-serif,Georgia,serif;letter-spacing:.1em;text-transform:uppercase;color:var(--pa)}
+header span{font-size:.72rem;color:var(--mut)}
+main{max-width:760px;margin:0 auto;padding:1rem}
+textarea{width:100%;min-height:190px;background:var(--sur);color:var(--fg);border:1px solid var(--bd);border-radius:8px;padding:.8rem;font:14px/1.5 ui-monospace,Menlo,monospace;resize:vertical}
+textarea:focus{outline:none;border-color:var(--pa)}
+.fila{display:flex;gap:.5rem;margin:.7rem 0;flex-wrap:wrap}
+button{background:var(--pa);color:#fff;border:0;border-radius:7px;padding:.65rem 1.1rem;font:600 .9rem ui-sans-serif,system-ui,sans-serif;cursor:pointer}
+button.sec{background:var(--sur2);color:var(--fg);border:1px solid var(--bd)}
+select{background:var(--sur2);color:var(--fg);border:1px solid var(--bd);border-radius:7px;padding:.6rem .7rem;font:inherit;font-size:.9rem}
+.veredicto{margin:1.1rem 0;padding:1rem;border-radius:9px;border-left:4px solid var(--mut);background:var(--sur)}
+.v-gana{border-left-color:var(--ok)}
+.v-pierde{border-left-color:var(--pa)}
+.v-igual{border-left-color:var(--am)}
+.v-tit{font:700 1.15rem/1.3 ui-serif,Georgia,serif;margin-bottom:.3rem}
+.v-gana .v-tit{color:var(--ok)} .v-pierde .v-tit{color:var(--pa)} .v-igual .v-tit{color:var(--am)}
+table{border-collapse:collapse;width:100%;margin:.9rem 0;font-size:.86rem}
+th,td{padding:.45rem .55rem;text-align:left;border-bottom:1px solid var(--bd);vertical-align:top}
+th{background:var(--sur2);font-weight:600;font-size:.72rem;text-transform:uppercase;letter-spacing:.05em;color:var(--mut)}
+td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.tag{display:inline-block;font-size:.65rem;padding:.1rem .38rem;border-radius:3px;border:1px solid var(--bd);color:var(--mut);margin-left:.3rem}
+.mult{color:var(--az);border-color:var(--az)}
+.suma{color:var(--am);border-color:var(--am)}
+.muerto{color:var(--pa);border-color:var(--pa)}
+.gr{color:var(--na);border-color:var(--na)}
+.nota{font-size:.82rem;color:var(--mut);margin:.5rem 0}
+h2{font:600 1rem ui-serif,Georgia,serif;color:var(--pa);margin:1.6rem 0 .5rem;border-bottom:1px solid var(--bd);padding-bottom:.25rem}
+.grupos{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:.45rem;margin:.7rem 0}
+.g{background:var(--sur);border:1px solid var(--bd);border-radius:7px;padding:.45rem .6rem}
+.g-n{font-size:.68rem;color:var(--mut);text-transform:uppercase;letter-spacing:.04em}
+.g-v{font:600 1.05rem ui-monospace,monospace;font-variant-numeric:tabular-nums}
+.g.vacio{border-color:var(--ok)}.g.vacio .g-v{color:var(--ok)}
+.g.lleno .g-v{color:var(--mut)}
+details{margin:.8rem 0;background:var(--sur);border:1px solid var(--bd);border-radius:8px;padding:.6rem .8rem}
+summary{cursor:pointer;font-size:.86rem;color:var(--mut)}
+code{background:var(--sur2);padding:.08rem .3rem;border-radius:3px;font-size:.86em}
+</style>
+</head>
+<body>
+<header><h1>Escáner</h1><span>Paladín · Shield Charge · parche 3.1.3</span></header>
+<main>
+
+<p class="nota">Pega el texto del objeto (con Live Text del móvil: foto → mantén pulsado el texto → Copiar). Te dice si gana al que llevas y <strong>por qué</strong>.</p>
+
+<textarea id="txt" placeholder="Pega aquí el tooltip completo…
+Ejemplo:
++225 de fuerza +[150 - 180]
++2.750 de vida máxima [1.831 - 2.200]
+Multiplicador de daño por vulnerabilidad x49% [16 - 28]%
++60,0% de daño a enemigos cercanos"></textarea>
+
+<div class="fila">
+  <button onclick="analizar()">Analizar</button>
+  <select id="hueco">
+    <option value="">— comparar con el hueco… —</option>
+  </select>
+  <button class="sec" onclick="document.getElementById('txt').value='';document.getElementById('out').innerHTML=''">Limpiar</button>
+</div>
+
+<div id="out"></div>
+
+<h2>Tus grupos de daño</h2>
+<p class="nota">Verde = grupo vacío, ahí cada punto rinde muchísimo. Gris = saturado, ahí sumar casi no hace nada.</p>
+<div class="grupos" id="grupos"></div>
+
+<details>
+  <summary>Cómo decide (la regla que gobierna todo)</summary>
+  <p style="font-size:.86rem">Los afijos que <strong>suman</strong> entran en un grupo compartido. Su valor real depende de <em>cuánto tienes ya en ese grupo</em>: sumar 50 a un grupo de 4.000 es un 1,2%; sumar 40 a un grupo de 11 es un 347%.</p>
+  <p style="font-size:.86rem">Los afijos <strong>multiplicativos</strong> (los que ponen <code>x</code>) se aplican enteros sobre todo lo demás, así que su valor no se diluye.</p>
+  <p style="font-size:.86rem"><strong>Regla: templa en el grupo más vacío, no en el más grande.</strong></p>
+</details>
+
+<script>
+const NORM = s => s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/\s+/g,' ').trim();
+const NUM  = s => parseFloat(String(s).replace(/\./g,'').replace(',','.'));
+
+// ---------------------------------------------------------------- estado
+// Grupos aditivos actuales, leídos de la ficha de personaje.
+// Actualízalos cuando cambies equipo (botón de abajo).
+const GRUPOS_DEF = {
+  'daño de golpe crítico':      4047.5,
+  'daño por vulnerabilidad':     321.6,
+  'todo el daño':                176.5,
+  'daño físico':                 266.9,
+  'daño contra enemigos de élite':159.0,
+  'daño a enemigos cercanos':     75.5,
+  'probabilidad de golpe crítico':49.4,
+  'espinas':                    8035,
+  'vida máxima':               13100,
+  'vida por golpe':             1495,
+  'armadura':                  43943,
+  'reducción de tiempo de reutilización':23.4,
+  'resolución máxima':            19,
+  'fuerza':                     4896,
+};
+let GRUPOS = JSON.parse(localStorage.getItem('d4grupos') || 'null') || {...GRUPOS_DEF};
+
+// Lo que llevas puesto, por hueco. Solo lo que pesa en la comparación.
+const EQUIPADO = {
+  'Casco':      [['fuerza',182],['vida máxima',1728],['espinas',1635],['reducción de tiempo de reutilización',7.5],['resolución máxima',6]],
+  'Peto':       [['fuerza',157],['vida máxima',1885],['espinas',1984],['resolución máxima',5]],
+  'Guantes':    [['fuerza',243],['vida máxima',2970],['daño por vulnerabilidad',52,'x'],['daño físico',32,'x'],['daño a enemigos cercanos',64]],
+  'Pantalones': [['fuerza',151],['vida máxima',1813],['espinas',1908],['resolución máxima',6]],
+  'Botas':      [['fuerza',182],['vida máxima',1629],['armadura',1837]],
+  'Arma':       [['fuerza',223],['vida por golpe',369],['daño de golpe crítico',30,'x'],['daño físico',13,'x'],['probabilidad de golpe crítico',7.5]],
+  'Escudo':     [['fuerza',225],['vida por golpe',790],['espinas',1908],['probabilidad de golpe crítico',8.8]],
+  'Amuleto':    [['fuerza',225],['todo el daño',25,'x'],['probabilidad de golpe crítico',10.6],['daño de golpe crítico',88,'x'],['daño de golpe crítico',63]],
+  'Anillo 1':   [['probabilidad de golpe crítico',6.4],['daño de golpe crítico',27,'x'],['daño por vulnerabilidad',23,'x'],['daño físico',13,'x'],['vida por golpe',336]],
+  'Anillo 2':   [['daño de golpe crítico',28,'x'],['daño por vulnerabilidad',23,'x'],['daño físico',11,'x'],['daño por vulnerabilidad',50]],
+};
+
+// Afijos que NO sirven a esta build. Si aparecen, se marcan muertos.
+const MUERTOS = [
+  ['daño en el tiempo','tu daño de espinas es directo, no periódico'],
+  ['daño de frío','eres físico'],
+  ['daño con frío','eres físico'],
+  ['daño de fuego','eres físico'],
+  ['daño sagrado','eres físico'],
+  ['daño de veneno','eres físico'],
+  ['daño de sombra','eres físico'],
+  ['daño a enemigos lejanos','eres cuerpo a cuerpo, siempre estás pegado'],
+  ['espinas',null], // sí sirve; se filtra abajo
+];
+
+
+// ---------------------------------------------------------------- parser
+function parsear(texto){
+  const out = [];
+  for (let linea of texto.split('\n')){
+    linea = linea.trim();
+    if (!linea) continue;
+
+    // multiplicativo:  "Multiplicador de daño de X x49% [16 - 28]%"
+    let m = linea.match(/multiplicador de (.+?)\s*x\s*([\d.,]+)\s*%/i);
+    if (m){ out.push({grupo:limpiar(m[1]), valor:NUM(m[2]), mult:true, crudo:linea}); continue; }
+
+    // "Tus ataques infligen del 1% al 390%"  (Puños del Destino)
+    m = linea.match(/del\s*1\s*%\s*al\s*([\d.,]+)\s*%/i);
+    if (m){ const max=NUM(m[1]); out.push({grupo:'aleatorio 1%–'+max+'%', valor:(1+max)/2-100, mult:true, nota:'media de '+((1+max)/2).toFixed(1)+'%', crudo:linea}); continue; }
+
+    // aditivo con %:  "+64,0% de daño a enemigos cercanos"
+    m = linea.match(/^\+?\s*([\d.,]+)\s*%\s*(?:de\s+)?(.+?)(?:\s*\[|$)/i);
+    if (m && !/^\s*\+?\s*[\d.,]+\s*$/.test(m[2])){
+      out.push({grupo:limpiar(m[2]), valor:NUM(m[1]), mult:false, crudo:linea}); continue;
+    }
+
+    // aditivo plano:  "+2.750 de vida máxima [1.831 - 2.200]"
+    m = linea.match(/^\+?\s*([\d.,]+)\s+(?:de\s+)?(.+?)(?:\s*\+?\[|$)/i);
+    if (m){ out.push({grupo:limpiar(m[2]), valor:NUM(m[1]), mult:false, crudo:linea}); continue; }
+  }
+  return out;
+}
+
+function limpiar(s){
+  return NORM(s)
+    .replace(/^de\s+/,'').replace(/^daño de /,'daño ')
+    .replace(/\s*\[.*$/,'')
+    .replace(/\s*\(.*$/,'')
+    .replace(/[.%]+$/,'')
+    .replace(/^dano/,'daño')
+    .replace(/\bdano\b/g,'daño').replace(/\bfisico\b/g,'físico').replace(/\bcritico\b/g,'crítico').replace(/\bmaxima\b/g,'máxima')
+    .trim();
+}
+
+function casarGrupo(g){
+  const gn = NORM(g);
+  for (const k of Object.keys(GRUPOS)) if (NORM(k) === gn) return k;
+  for (const k of Object.keys(GRUPOS)) if (gn.includes(NORM(k)) || NORM(k).includes(gn)) return k;
+  return null;
+}
+
+function esMuerto(g){
+  const gn = NORM(g);
+  for (const [pat, motivo] of MUERTOS){
+    if (motivo && gn.includes(NORM(pat))) return motivo;
+  }
+  return null;
+}
+
+// ---------------------------------------------------------------- valoración
+// Valor marginal de un afijo = cuánto sube el daño/estadística total.
+function valorar(a){
+  const muerto = esMuerto(a.grupo);
+  if (muerto) return {...a, pct:0, muerto};
+  if (a.mult) return {...a, pct:a.valor, tipo:'multiplicativo'};
+  const k = casarGrupo(a.grupo);
+  if (!k) return {...a, pct:null, tipo:'desconocido'};
+  const base = GRUPOS[k];
+  const pct = base > 0 ? (a.valor / (100 + base)) * 100 : a.valor;
+  // para grupos que no son porcentajes (vida, espinas, armadura) el marginal es sobre el total
+  const planos = ['espinas','vida máxima','vida por golpe','armadura','resolución máxima','fuerza'];
+  const esPlano = planos.some(p => NORM(k) === NORM(p));
+  return {...a, grupoReal:k, base, pct: esPlano ? (a.valor/base)*100 : pct, tipo: esPlano?'plano':'aditivo'};
+}
+
+// ---------------------------------------------------------------- render
+function analizar(){
+  const txt = document.getElementById('txt').value;
+  const hueco = document.getElementById('hueco').value;
+  const afijos = parsear(txt).map(valorar);
+  const out = document.getElementById('out');
+  if (!afijos.length){ out.innerHTML = '<div class="veredicto"><div class="v-tit">No he leído nada</div><p class="nota">Pega el tooltip con una línea por afijo.</p></div>'; return; }
+
+  let ganancia = 1;
+  for (const a of afijos) if (a.pct) ganancia *= (1 + a.pct/100);
+  const totalPct = (ganancia - 1) * 100;
+
+  let html = '';
+
+  if (hueco && EQUIPADO[hueco]){
+    let g2 = 1;
+    for (const [grupo, valor, mult] of EQUIPADO[hueco]){
+      const v = valorar({grupo, valor, mult: mult === 'x'});
+      if (v.pct) g2 *= (1 + v.pct/100);
+    }
+    const dif = ((ganancia/g2) - 1) * 100;
+    const cls = dif > 3 ? 'v-gana' : dif < -3 ? 'v-pierde' : 'v-igual';
+    const tit = dif > 3 ? 'GANA a tu ' + hueco : dif < -3 ? 'PIERDE contra tu ' + hueco : 'EMPATA con tu ' + hueco;
+    html += `<div class="veredicto ${cls}"><div class="v-tit">${tit}</div>
+      <p style="margin:.2rem 0"><strong>${dif>0?'+':''}${dif.toFixed(1)}%</strong> frente a lo que llevas puesto.</p>
+      <p class="nota">Nuevo: +${totalPct.toFixed(1)}% · Equipado: +${((g2-1)*100).toFixed(1)}%</p></div>`;
+  } else {
+    html += `<div class="veredicto"><div class="v-tit">+${totalPct.toFixed(1)}% de aporte</div>
+      <p class="nota">Elige un hueco arriba para compararlo con lo que llevas.</p></div>`;
+  }
+
+  html += '<table><thead><tr><th>Afijo</th><th class="num">Valor</th><th class="num">Aporte real</th></tr></thead><tbody>';
+  for (const a of [...afijos].sort((x,y)=>(y.pct||0)-(x.pct||0))){
+    let etiq = '', det = '';
+    if (a.muerto){ etiq = '<span class="tag muerto">no te sirve</span>'; det = a.muerto; }
+    else if (a.tipo === 'multiplicativo'){ etiq = '<span class="tag mult">multiplica</span>'; det = a.nota || 'no se diluye'; }
+    else if (a.tipo === 'aditivo'){ etiq = '<span class="tag suma">suma</span>'; det = `tu grupo ya está en ${a.base}%`; }
+    else if (a.tipo === 'plano'){ etiq = '<span class="tag suma">suma</span>'; det = `sobre tus ${a.base.toLocaleString('es')}`; }
+    else { etiq = '<span class="tag">grupo nuevo</span>'; det = 'no lo tengo mapeado'; }
+    const pct = a.pct === null ? '—' : (a.pct === 0 ? '0%' : '+' + a.pct.toFixed(1) + '%');
+    html += `<tr><td>${a.grupoReal||a.grupo}${etiq}<div class="nota" style="margin:.1rem 0 0">${det}</div></td>
+      <td class="num">${a.valor}${a.mult?'x':''}</td><td class="num"><strong>${pct}</strong></td></tr>`;
+  }
+  html += '</tbody></table>';
+
+  const mejor = afijos.filter(a=>a.pct>0).sort((a,b)=>b.pct-a.pct)[0];
+  if (mejor) html += `<p class="nota">Lo que más aporta de esta pieza: <strong>${mejor.grupoReal||mejor.grupo}</strong> (+${mejor.pct.toFixed(1)}%).</p>`;
+  const muertos = afijos.filter(a=>a.muerto);
+  if (muertos.length) html += `<p class="nota" style="color:var(--pa)">⚠ ${muertos.length} afijo(s) no te sirven de nada: ${muertos.map(m=>m.grupo).join(', ')}.</p>`;
+
+  out.innerHTML = html;
+}
+
+function pintarGrupos(){
+  const cont = document.getElementById('grupos');
+  const pct = ['daño de golpe crítico','daño por vulnerabilidad','todo el daño','daño físico','daño contra enemigos de élite','daño a enemigos cercanos','probabilidad de golpe crítico'];
+  cont.innerHTML = pct.map(k=>{
+    const v = GRUPOS[k];
+    const vacio = v < 100;
+    return `<div class="g ${vacio?'vacio':'lleno'}"><div class="g-n">${k.replace('daño ','')}</div><div class="g-v">${v}%</div></div>`;
+  }).join('');
+}
+
+document.getElementById('hueco').innerHTML = '<option value="">— comparar con el hueco… —</option>' +
+  Object.keys(EQUIPADO).map(h=>`<option value="${h}">${h}</option>`).join('');
+pintarGrupos();
+</script>
+</main>
+</body>
+</html>
