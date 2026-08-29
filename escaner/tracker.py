@@ -121,10 +121,13 @@ PROPIAS = ("tracker de builds", "habilidad 1", "habilidad 2", "faltan",
 CHROME = ("EQUIPADO", "Casilla de", "Quitar", "Desmarcar objeto", "Marcar objeto",
           "Desplazar hacia abajo", "Desplazar hacia arriba", "Requiere nivel",
           "Comparar", "Soltar", "Equipación de la armería", "Guardar en el alijo",
-          "Mejorar", "Bloqueado", "Estadísticas y materiales", "Transfigurado")
+          "Mejorar", "Bloqueado", "Estadísticas y materiales")
 # Etiquetas de una sola palabra: SOLO si la línea es exactamente eso. Como
 # subcadena se comerían nombres de objeto ("Mano" está dentro de un montón).
-CHROME_EXACTO = ("mano", "mayus", "alt", "ctrl", "transfigurado", "equipado",
+# OJO: "Transfigurado" NO va aquí. Es una propiedad del objeto —un objeto
+# transfigurado no se puede editar—, no un adorno de la interfaz. Filtrarlo
+# perdía justo el dato que decide si una pieza se puede retemplar o no.
+CHROME_EXACTO = ("mano", "mayus", "alt", "ctrl", "equipado",
                  "cuello", "mano izquierda", "mano derecha", "mano izquierda,",
                  "vinculado a cuenta", "enlazar", "pado", "anillo", "amuleto")
 # El OCR parte EQUIPADO en trozos ("EQUI PADO", "PADO"): se reconoce con hueco
@@ -578,6 +581,7 @@ class Perfil:
         # marca, porque dar un +0% por bueno es peor que decir que no lo sabes.
         dato = {"nombre": nombre, "texto": texto, "aporte": round(total, 1),
                 "parcial": len(afijos) < 3,
+                "transfigurado": "transfigurado" in norm(texto),
                 "afijos": [{"grupo": a.get("grupo_real") or a["grupo"],
                             "valor": a["valor"], "mult": bool(a.get("mult")),
                             "pct": round(a["pct"], 1) if a.get("pct") is not None else None,
@@ -951,6 +955,8 @@ class App(tk.Tk if tk else object):
         if d and d.get("aporte") is not None:
             extra = ("   lectura a medias — vuelve a pasar el ratón"
                      if parcial else f"   +{d['aporte']:.0f}%")
+        if d and d.get("transfigurado"):
+            extra += "  ⛭"                 # transfigurado: no se puede editar
         fila["valor"].config(text=(texto[:34] + extra),
                              fg="#c9a227" if parcial else "#c9c0b4")
 
