@@ -498,6 +498,23 @@ def leer_ficha(texto):
     return out
 
 
+def _coherentes(nuevos, previos):
+    """Descarta una resistencia que se desploma respecto a sus hermanas.
+
+    Las seis resistencias van siempre en el mismo orden de magnitud. Una que
+    llega 20 veces por debajo de la mediana no es una debilidad: es que el OCR
+    leyó otro número. Pasó con 'resistencia a los rayos: 198' cuando eran 6.829,
+    y una lectura mala pisaba la buena."""
+    todas = {**previos, **nuevos}
+    res = {k: v for k, v in todas.items() if norm(k).startswith("resistencia") and v}
+    if len(res) < 4:
+        return nuevos
+    orden = sorted(res.values())
+    mediana = orden[len(orden) // 2]
+    return {k: v for k, v in nuevos.items()
+            if not (norm(k).startswith("resistencia") and v * 20 < mediana)}
+
+
 def guardar_ficha(valores):
     actual = {}
     if PERFIL_STATS.exists():
@@ -505,6 +522,7 @@ def guardar_ficha(valores):
             actual = json.loads(PERFIL_STATS.read_text(encoding="utf-8"))
         except Exception:
             pass
+    valores = _coherentes(valores, actual)
     actual.update(valores)
     PERFIL_STATS.write_text(json.dumps(actual, ensure_ascii=False, indent=2),
                             encoding="utf-8")
