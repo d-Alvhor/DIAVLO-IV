@@ -100,6 +100,12 @@ MUERTOS = {
 }
 
 
+def norm(s):
+    s = unicodedata.normalize("NFD", str(s))
+    s = "".join(c for c in s if unicodedata.category(c) != "Mn")
+    return re.sub(r"\s+", " ", s).strip().lower()
+
+
 def cargar_grupos():
     if PERFIL_STATS.exists():
         try:
@@ -123,11 +129,35 @@ def cargar_combate():
 
     Este fichero lo escribe el jugador y la lectura de ficha NUNCA lo pisa."""
     try:
-        return {k: float(v) for k, v in
-                json.loads(EN_COMBATE.read_text(encoding="utf-8")).items()
-                if not str(k).startswith("_")}
+        crudo = json.loads(EN_COMBATE.read_text(encoding="utf-8"))
     except Exception:
         return {}
+    out, sueltas = {}, []
+    conocidas = list(GRUPOS_DEF) + [f.lower() for f in FICHA]
+    for k, v in crudo.items():
+        if str(k).startswith("_"):
+            continue
+        try:
+            v = float(v)
+        except (TypeError, ValueError):
+            sueltas.append(k)
+            continue
+        # Lo escribe una persona a mano: un acento o una letra de más no puede
+        # hacer que la línea se ignore en silencio.
+        n = norm(k)
+        casa = next((c for c in conocidas if norm(c) == n), None)
+        if casa is None:
+            cerca = difflib.get_close_matches(n, [norm(c) for c in conocidas],
+                                              n=1, cutoff=0.82)
+            casa = next((c for c in conocidas if norm(c) == cerca[0]), None) if cerca else None
+        if casa is None:
+            sueltas.append(k)
+            continue
+        out[ALIAS_FICHA.get(norm(casa), casa)] = v
+    if sueltas:
+        print(f"  ⚠ en_combate.json: no reconozco {sueltas}. "
+              f"Se ignoran. Mira los nombres en valorar.py (FICHA).")
+    return out
 
 
 COMBATE = cargar_combate()
@@ -138,11 +168,6 @@ GRUPOS = {k: v for k, v in cargar_grupos().items()
            "bonus de probabilidad de golpe de suerte"}}
 GRUPOS.update(COMBATE)                    # lo de combate manda sobre la ficha
 
-
-def norm(s):
-    s = unicodedata.normalize("NFD", str(s))
-    s = "".join(c for c in s if unicodedata.category(c) != "Mn")
-    return re.sub(r"\s+", " ", s).strip().lower()
 
 
 def num(s):

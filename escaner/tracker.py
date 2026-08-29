@@ -978,8 +978,10 @@ class App(tk.Tk if tk else object):
         except Exception:
             pass
         tengo = {V.norm(k) for k in todo}
-        faltan = [f for f in V.FICHA if V.norm(f) not in tengo
-                  and V.norm(V.ALIAS_FICHA.get(V.norm(f), f)) not in tengo]
+        faltan = [f for f in V.FICHA
+                  if V.norm(f) not in tengo
+                  and V.norm(V.ALIAS_FICHA.get(V.norm(f), f)) not in tengo
+                  and V.norm(f) not in V.NO_GRUPO]   # no insistir con las que no pintan
         self._log(f"  ✓ {len(vistas)} nuevas en {ciclos} lecturas · "
                   f"{len(todo)} acumuladas en total.")
         if faltan:
