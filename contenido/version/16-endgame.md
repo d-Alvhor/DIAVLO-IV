@@ -3,7 +3,7 @@ titulo: El bucle de endgame
 capa: version
 parche: "3.1.3"
 temporada: 14
-estado: vivo
+estado: archivado
 entitlement: base
 verificado: 2026-08-19
 revisar_despues: 2026-10-15
