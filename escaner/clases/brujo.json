@@ -1,0 +1,16 @@
+{
+  "clase": "Brujo",
+  "parche": "3.2.1",
+  "temporada": 15,
+  "nota": "Personaje nuevo. Dos recursos: Ira (las Básicas generan 10, las Principales gastan 30-35) y Dominio (no se genera pegando; lo gastan las Archifiendo y las invocaciones). Entrar en Forma demónica cambia qué recurso paga la barra.",
+  "grupos": {},
+  "combate": {},
+  "muertos": {},
+  "_por_que_muertos_vacio": "No se ha jugado un Brujo todavía. Marcar un afijo como muerto es una afirmación; afirmar sin evidencia es el fallo que este proyecto existe para no cometer. Se rellena cuando haya evidencia, no antes.",
+  "huecos": {
+    "máximo de ira": "La variante Pecado lo sube un 50%. ¿Sobre qué base? Ninguna fuente lo publica.",
+    "máximo de dominio": "Igual que la Ira.",
+    "enfriamiento de metamorfosis": "DISPUTA entre fuentes preferentes: Icy Veins dice 5 s, Wowhead dice 15 s. Con el recorte de 2 s por habilidad de Invocación, la diferencia lo cambia todo.",
+    "drenaje de dominio en forma demónica": "1/s por Demonio Mayor cercano según una guía de la S14. Sin verificar en 3.2.1."
+  }
+}

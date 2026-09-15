@@ -140,6 +140,26 @@ class Catalogo:
         cerca = difflib.get_close_matches(n, self._aspectos_k, n=1, cutoff=umbral)
         return self.aspectos[cerca[0]] if cerca else None
 
+    @staticmethod
+    def _misma_palabra_clave(leido, candidato, minimo=0.49):
+        """¿Difieren solo en el ruido, o en la palabra que los identifica?
+
+        El parecido global no sirve para nombres de objeto: "Piedra de Jordan"
+        contra "Piedra de dolmen" da 0,75, MÁS que "HERALD .ZAKARls" contra
+        "Heraldo de Zakarum" (0,73), que sí es la misma pieza. Ningún umbral
+        global los separa.
+
+        Palabra a palabra sí: dos objetos distintos comparten lo común
+        ("piedra", "de") y difieren justo en lo que los distingue
+        (jordan/dolmen = 0,33). Se mira el PEOR emparejamiento."""
+        pa = [w for w in norm(leido).split() if len(w) > 3]
+        pb = [w for w in norm(candidato).split() if len(w) > 3]
+        if not pa or not pb:
+            return True
+        peor = min(max(difflib.SequenceMatcher(None, w, x).ratio() for x in pb)
+                   for w in pa)
+        return peor >= minimo
+
     def unico(self, texto, umbral=0.72):
         """Nombre de objeto leído por OCR -> nombre canónico del único, o None.
         Mismo truco que con los afijos: la lista es cerrada, así que
@@ -150,7 +170,15 @@ class Catalogo:
         if n in self.unicos:
             return self.unicos[n]
         cerca = difflib.get_close_matches(n, self._unicos_k, n=1, cutoff=umbral)
-        return self.unicos[cerca[0]] if cerca else None
+        if not cerca or not self._misma_palabra_clave(n, cerca[0]):
+            return None
+        return self.unicos[cerca[0]]
+
+    def version(self):
+        try:
+            return json.loads((self.carpeta / "version.json").read_text(encoding="utf-8"))
+        except Exception:
+            return {}
 
     def resumen(self):
         equipo = sum(1 for v in self.tipos.values() if v)
@@ -160,8 +188,15 @@ class Catalogo:
 
 
 # ---------------------------------------------------------------- actualizar
-def actualizar():
+def actualizar(parche=None):
+    """Baja el catálogo y anota CON QUÉ PARCHE se bajó.
+
+    El upstream (Diablo4Companion) publica sus datos DESPUÉS de que salga el
+    parche, no antes. Sin esta marca no hay forma de saber que el catálogo que
+    tienes es de la versión anterior, y un catálogo viejo no falla ruidosamente:
+    simplemente no reconoce lo nuevo."""
     import urllib.request
+    from datetime import date
     DATOS.mkdir(exist_ok=True)
     for f in FICHEROS:
         nombre = f"{f}.{IDIOMA}.json"
@@ -170,6 +205,11 @@ def actualizar():
         with urllib.request.urlopen(url, timeout=30) as r:
             (DATOS / nombre).write_bytes(r.read())
         print(f"{(DATOS / nombre).stat().st_size // 1024} KB")
+    (DATOS / "version.json").write_text(json.dumps({
+        "bajado": date.today().isoformat(),
+        "parche_declarado": parche or "desconocido",
+        "origen": BASE_URL,
+    }, ensure_ascii=False, indent=2), encoding="utf-8")
     print("\n" + Catalogo().resumen())
 
 
@@ -215,12 +255,42 @@ def autotest():
         print(f"  {'ok ' if r else 'MAL'}  {a:<34} -> {r}")
     print(f"\n  afijos: {ok2}/{len(afx)}")
 
-    asp = c.aspecto("Imprimido: Aspecto de Interdicción")
-    print(f"\n  aspecto de ejemplo: {asp['nombre'] if asp else 'no encontrado'}")
+    # Objetos que NO estan en el catalogo no pueden casar con otro parecido.
+    # El catalogo va por detras del parche: el upstream publica DESPUES de que
+    # salga. Con los nueve unicos legado de la S15 sin llegar todavia, "Piedra
+    # de Jordan" casaba con "Piedra de dolmen" (ratio 0,75, mas alto que un
+    # acierto real) y el tracker habria valorado otro objeto.
+    print("\n  falsos positivos (objetos que NO estan en el catalogo):")
+    ok3 = 0
+    for n in ("Piedra de Jordan", "Corona de Leoric", "Segador de Messerschmidt",
+              "Anillo de la Gran Majestuosidad"):
+        r = c.unico(n)
+        ok3 += r is None
+        print(f"  {'ok ' if r is None else 'MAL'}  {n:<34} -> {r}")
+    print(f"\n  rechazados: {ok3}/4")
+
+    v = c.version()
+    if v:
+        print(f"\n  catalogo bajado el {v.get('bajado')} "
+              f"(parche declarado: {v.get('parche_declarado')})")
+    else:
+        print("\n  ⚠ catalogo SIN version: no se sabe de que parche es. "
+              "Ejecuta  python catalogo.py --actualizar")
+
+    # El aspecto va en el NOMBRE del objeto ("CIRCULO DE ECOS DE ESCRITURA DE
+    # LAPA"), no en la linea "Imprimido:", que es su EFECTO. Buscarlo en la
+    # linea equivocada devolvia None y parecia que el catalogo estaba roto.
+    print("\n  aspectos, leidos del nombre del objeto:")
+    for n in ("CÍRCULO DE ECOS DE ESCRITURA DE LAPA",
+              "LÍmlTE LÍmBlco DE FUERZA REDIRIGIDA"):
+        a = c.aspecto(n)
+        print(f"  {'ok ' if a else 'MAL'}  {n[:38]:<40} -> {a['nombre'] if a else None}")
 
 
 if __name__ == "__main__":
     if "--actualizar" in sys.argv:
-        actualizar()
+        i = sys.argv.index("--actualizar")
+        parche = sys.argv[i + 1] if len(sys.argv) > i + 1 else None
+        actualizar(parche)
     else:
         autotest()

@@ -298,6 +298,43 @@ def monitor_activo():
     return max(mons, key=lambda m: m["width"] * m["height"])
 
 
+FRACCION_CAJA = 0.55     # del ancho del monitor; el alto va entero
+QUIETO = 0.22            # segundos parado antes de leer
+REPASO = 1.2             # segundos entre relecturas con el ratón quieto
+FALLOS_PANTALLA = 10     # ciclos sin reconocer nada -> vuelve a pantalla entera
+
+
+def posicion_raton():
+    """Dónde está el cursor, en coordenadas del escritorio virtual."""
+    if sys.platform != "win32":
+        return None
+    try:
+        import ctypes
+        pt = ctypes.wintypes.POINT()
+        if not ctypes.windll.user32.GetCursorPos(ctypes.byref(pt)):
+            return None
+        return (pt.x, pt.y)
+    except Exception:
+        return None
+
+
+def caja_cursor(pos, mon, fraccion=FRACCION_CAJA):
+    """Recuadro centrado en el cursor: TODO el alto del monitor y una fracción
+    del ancho.
+
+    Medido sobre los tooltips reales del jugador: el más grande ocupa el 23%
+    del ancho de la pantalla pero el 94% del ALTO. Y como puede salir tanto a
+    la izquierda como a la derecha del cursor, hace falta el doble de su ancho.
+    Recortar solo en horizontal quita el 55% de los píxeles sin perder nada;
+    recortar en vertical cortaría el tooltip por la mitad."""
+    if not pos or not mon:
+        return None
+    an = max(int(mon["width"] * fraccion), 400)
+    x = int(pos[0] - an / 2)
+    x = max(mon["left"], min(x, mon["left"] + mon["width"] - an))
+    return [x, mon["top"], an, mon["height"]]
+
+
 def pantalla():
     """Tamaño del área que se captura ahora mismo, en píxeles físicos."""
     m = monitor_activo()
@@ -614,11 +651,15 @@ class Perfil:
         return not f and n == 0
 
     def guardar(self):
-        PERFILES.mkdir(exist_ok=True)
+        # Una carpeta por clase: la build de un Paladín y la de un Brujo no
+        # tienen nada que ver y compararlas por accidente no significa nada.
+        carpeta = PERFILES / (V.CLASE or "sin_clase")
+        carpeta.mkdir(parents=True, exist_ok=True)
         seguro = re.sub(r"[^\w\-. ]", "_", self.nombre).strip() or "sin_nombre"
-        ruta = PERFILES / f"{self.tipo}_{seguro}.json"
+        ruta = carpeta / f"{self.tipo}_{seguro}.json"
         ruta.write_text(json.dumps({
             "nombre": self.nombre, "tipo": self.tipo, "inicio": self.inicio,
+            "clase": V.CLASE,
             "objetos": self.objetos, "habilidades": self.habilidades,
         }, ensure_ascii=False, indent=2), encoding="utf-8")
         return ruta
@@ -658,6 +699,9 @@ class App(tk.Tk if tk else object):
                              bg="#c14a4a", fg="white", relief="flat", padx=14, pady=3,
                              font=("Segoe UI", 10, "bold"))
         self.btn.pack(side="left", padx=6)
+        self.btn_clase = tk.Button(cab, text="…", command=self.elegir_clase,
+                                   bg="#232019", fg="#c9a227", relief="flat", padx=10)
+        self.btn_clase.pack(side="left", padx=3)
         tk.Button(cab, text="Zona", command=self.elegir_region, bg="#232019",
                   fg="#e8e2da", relief="flat", padx=10).pack(side="left")
         tk.Button(cab, text="Zona ✕", command=self.quitar_region, bg="#232019",
@@ -676,6 +720,7 @@ class App(tk.Tk if tk else object):
         self.log = tk.Text(self, height=7, bg="#0f0d0c", fg="#9a9088", relief="flat",
                            font=("Consolas", 9), padx=10, pady=6, wrap="word")
         self.log.pack(fill="x", padx=14, pady=(0, 12))
+        self._refrescar_clase()
         a, b = pantalla()
         try:
             self._factor = a / max(self.winfo_screenwidth(), 1) if a else 1.0
@@ -693,8 +738,12 @@ class App(tk.Tk if tk else object):
                       "en la pantalla del juego.")
         if self._pendiente:
             self._log(self._pendiente)
+        d = V.perfil_clase(V.CLASE) or {}
+        self._log(f"Clase: {d.get('clase', '?')} (pulsa el botón para cambiarla)."
+                  + ("  ⚠ sin estadísticas: dale a Ficha primero." if not V.GRUPOS else ""))
         self._log("Dale a Trackear. Luego pasa el ratón por cada objeto y cada "
-                  "habilidad; la checklist se va marcando sola.")
+                  "habilidad; la checklist se va marcando sola. Leo cuando paras "
+                  "el ratón, no todo el rato.")
 
     def _vigilar_geometria(self):
         """Guarda dónde está esta ventana, DESDE EL HILO PRINCIPAL.
@@ -710,11 +759,11 @@ class App(tk.Tk if tk else object):
             pass
         self.after(250, self._vigilar_geometria)
 
-    def _captura_limpia(self):
+    def _captura_limpia(self, region=None):
         """Captura y BORRA de la imagen el rectángulo de esta misma ventana.
         Se pinta encima en vez de ocultar la ventana para no dar tirones cada
         0,7 s."""
-        img, (ox, oy) = capturar(self.region, con_origen=True)
+        img, (ox, oy) = capturar(region or self.region, con_origen=True)
         g = self._geom
         if not g:
             return img
@@ -854,10 +903,37 @@ class App(tk.Tk if tk else object):
                 self._informe()
 
     def _bucle(self):
+        """Lee cuando el ratón se PARA, no cada 0,7 s.
+
+        El tooltip sale pegado al cursor y solo aparece cuando dejas el ratón
+        quieto encima de algo. Sondear la pantalla entera a intervalo fijo leía
+        constantemente mientras te mueves —cuando no hay nada que leer— y
+        tardaba hasta 0,7 s en reaccionar cuando sí lo había."""
         fallos = 0
+        pos_ant, quieto_desde, leido_en = None, 0.0, None
+        usa_cursor = True
         while self.grabando:
+            pos = posicion_raton()
+            ahora = time.time()
+
+            if pos is not None:
+                if pos != pos_ant:                     # moviéndose: no hay tooltip
+                    pos_ant, quieto_desde, leido_en = pos, ahora, None
+                    time.sleep(0.04)
+                    continue
+                if ahora - quieto_desde < QUIETO:      # aún no ha cuajado
+                    time.sleep(0.04)
+                    continue
+                if leido_en and ahora - leido_en < REPASO:
+                    time.sleep(0.04)                   # ya leído; se repasa por si hay scroll
+                    continue
+                leido_en = ahora
+
+            region = None
+            if pos is not None and usa_cursor and not self.region:
+                region = caja_cursor(pos, monitor_activo())
             try:
-                img = self._captura_limpia()
+                img = self._captura_limpia(region)
                 trozos = ocr_bloques(img, guardar=True)
                 fallos = 0
             except Exception as e:
@@ -868,6 +944,7 @@ class App(tk.Tk if tk else object):
                     return
                 time.sleep(1)
                 continue
+
             reconocidos = 0
             for txt in trozos:
                 if not txt or txt in self.vistos_txt:
@@ -877,12 +954,21 @@ class App(tk.Tk if tk else object):
                 if r:
                     reconocidos += 1
                     self.after(0, self._visto, *r)
-            # Sin esto no se distingue "no captura" de "captura pero no reconoce".
+
             self.ciclos += 1
             if reconocidos:
                 self.sin_nada = 0
+                usa_cursor = True
             else:
                 self.sin_nada += 1
+                # Red de seguridad: si el recuadro del cursor no encuentra nada
+                # en varios intentos, el tooltip sale donde no lo esperamos.
+                # Se vuelve a pantalla entera en vez de dejarlo colgado.
+                if usa_cursor and region and self.sin_nada >= FALLOS_PANTALLA:
+                    usa_cursor = False
+                    self.after(0, self._log,
+                               "  (no encuentro nada junto al cursor; vuelvo a "
+                               "leer la pantalla entera)")
                 if self.sin_nada in (8, 25, 60):
                     mayor = max(trozos, key=len) if trozos else ""
                     muestra = " / ".join(mayor.splitlines()[:3])[:80]
@@ -890,7 +976,8 @@ class App(tk.Tk if tk else object):
                                f"  … {self.ciclos} lecturas · {len(trozos)} bloques · "
                                f"el mayor tiene {len(mayor.splitlines())} líneas\n"
                                f"     lo que leo ahí: {muestra}")
-            time.sleep(self.INTERVALO)
+            if pos is None:
+                time.sleep(self.INTERVALO)             # sin ratón, al modo viejo
 
     def _visto(self, clase, clave, nombre, texto):
         if not self.perfil or not self.perfil.anadir(clase, clave, nombre, texto):
@@ -929,7 +1016,8 @@ class App(tk.Tk if tk else object):
     def _contra_referencia(self, hueco, dato):
         """Si hay un perfil guardado del otro lado, compara ese hueco al vuelo."""
         otro = "rival" if self.perfil.tipo == "yo" else "yo"
-        for ruta in sorted(PERFILES.glob(f"{otro}_*.json")) if PERFILES.exists() else []:
+        carpeta = PERFILES / (V.CLASE or "sin_clase")
+        for ruta in sorted(carpeta.glob(f"{otro}_*.json")) if carpeta.exists() else []:
             try:
                 p = json.loads(ruta.read_text(encoding="utf-8"))
             except Exception:
@@ -1046,6 +1134,33 @@ class App(tk.Tk if tk else object):
         self._log("─" * 46)
 
     # ---------------------------------------------------------------- zona
+    def elegir_clase(self):
+        """Cambia la clase activa. Lo que cuenta como afijo muerto, qué grupos
+        hay y qué vale distinto en combate depende de la clase: con la
+        equivocada el valorador miente sin avisar."""
+        cs = V.clases_disponibles()
+        if not cs:
+            self._log("No hay perfiles en clases/.")
+            return
+        i = (cs.index(V.CLASE) + 1) % len(cs) if V.CLASE in cs else 0
+        d = V.cargar_clase(cs[i], recordar=True)
+        self._refrescar_clase()
+        self._log(f"\nClase activa: {d['clase']} · {len(V.GRUPOS)} estadísticas · "
+                  f"{len(V.MUERTOS)} afijos marcados como inútiles")
+        if V.HUECOS:
+            self._log(f"  ⚠ {len(V.HUECOS)} cifras SIN VERIFICAR para esta clase:")
+            for k, v in V.HUECOS.items():
+                self._log(f"      {k}: {v[:66]}")
+        if not V.GRUPOS:
+            self._log("  Sin estadísticas todavía: dale a Ficha antes de trackear, "
+                      "o los porcentajes no significarán nada.")
+
+    def _refrescar_clase(self):
+        d = V.perfil_clase(V.CLASE) or {}
+        aviso = " ⚠" if not V.GRUPOS else ""
+        self.btn_clase.config(text=f"{d.get('clase', V.CLASE or '?')}{aviso}",
+                              fg="#c9a227" if aviso else "#e8e2da")
+
     def quitar_region(self):
         """Sin esto no había forma de volver a mirar la pantalla entera."""
         self.region = None

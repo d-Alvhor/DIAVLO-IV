@@ -24,8 +24,17 @@ import difflib
 import unicodedata
 from pathlib import Path
 
-PERFIL_STATS = Path(__file__).with_name("mis_stats.json")
-EN_COMBATE = Path(__file__).with_name("en_combate.json")
+PERFIL_STATS = Path(__file__).with_name("mis_stats.json")     # legado
+EN_COMBATE = Path(__file__).with_name("en_combate.json")      # legado
+CLASES = Path(__file__).with_name("clases")
+
+# Qué afijos NO aportan nada, qué grupos hay y qué vale distinto en combate
+# depende de LA CLASE Y DE LA BUILD. Tenerlo escrito a mano en este fichero
+# hacía que el valorador mintiera al cambiar de personaje: a un Brujo de fuego
+# le decía que el daño de fuego no le servía, porque la lista era la de un
+# Paladín de espinas. Ahora vive en clases/<clase>.json.
+CLASE = None          # nombre del perfil cargado
+HUECOS = {}           # cifras que sabemos que NO sabemos, para no calcular sobre ellas
 
 # ---------------------------------------------------------------- tu ficha
 # Grupos aditivos, leídos de la ficha de personaje. Son la BASE de todo el
@@ -160,13 +169,67 @@ def cargar_combate():
     return out
 
 
-COMBATE = cargar_combate()
+COMBATE = dict(cargar_combate())
+def perfil_clase(nombre=None):
+    """Lee clases/<nombre>.json. Sin nombre, el que diga clases/activa."""
+    if nombre is None:
+        try:
+            nombre = (CLASES / "activa").read_text(encoding="utf-8").strip()
+        except Exception:
+            nombre = "paladin"
+    try:
+        d = json.loads((CLASES / f"{nombre}.json").read_text(encoding="utf-8"))
+    except Exception:
+        return None
+    d["_nombre"] = nombre
+    return d
+
+
+def cargar_clase(nombre=None, recordar=False):
+    """Cambia la clase activa EN CALIENTE: reescribe GRUPOS, MUERTOS, COMBATE y
+    HUECOS con los del perfil. Devuelve el perfil, o None si no existe.
+
+    recordar=True escribe la eleccion en clases/activa. Por defecto NO: si
+    cualquier script que mira otra clase de pasada dejara el fichero cambiado,
+    la siguiente ejecucion arrancaria con la clase equivocada sin avisar."""
+    global CLASE, COMBATE, HUECOS
+    d = perfil_clase(nombre)
+    if not d:
+        return None
+    CLASE = d["_nombre"]
+    GRUPOS.clear()
+    GRUPOS.update({k: float(v) for k, v in (d.get("grupos") or {}).items()
+                   if norm(k) not in NO_GRUPO})
+    COMBATE.clear()
+    COMBATE.update({k: float(v) for k, v in (d.get("combate") or {}).items()})
+    GRUPOS.update(COMBATE)
+    MUERTOS.clear()
+    MUERTOS.update(d.get("muertos") or {})
+    HUECOS = dict(d.get("huecos") or {})
+    if recordar:
+        try:
+            (CLASES / "activa").write_text(CLASE + "\n", encoding="utf-8")
+        except Exception:
+            pass
+    return d
+
+
+def clases_disponibles():
+    if not CLASES.exists():
+        return []
+    return sorted(f.stem for f in CLASES.glob("*.json"))
+
+
 GRUPOS = {k: v for k, v in cargar_grupos().items()
           if re.sub(r"\s+", " ", str(k)).strip().lower() not in
           {"nivel", "capacidad de pociones", "bonus de experiencia",
            "velocidad de arma", "regeneración de fe", "reducción de daño",
            "bonus de probabilidad de golpe de suerte"}}
 GRUPOS.update(COMBATE)                    # lo de combate manda sobre la ficha
+
+# Si hay perfiles de clase, mandan sobre los valores por defecto de arriba.
+if CLASES.exists() and perfil_clase() is not None:
+    cargar_clase()
 
 
 
@@ -298,9 +361,17 @@ def casar(grupo, con_pos=False):
 
 
 def muerto(grupo):
-    g = norm(grupo)
+    """¿Este afijo no aporta nada a la build activa?
+
+    OJO con la normalización: limpiar() convierte "daño de fuego" en
+    "dano fuego" al pasar por el catálogo, pero las claves de MUERTOS las
+    escribe una persona con el "de" dentro. Comparando con norm() a secas nunca
+    casaban, así que la regla del Paladín ("eres físico, el fuego no te sirve")
+    no llegó a dispararse NUNCA. Se comparan los dos lados por limpiar()."""
+    g, gn = limpiar(grupo), norm(grupo)
     for pat, motivo in MUERTOS.items():
-        if norm(pat) in g:
+        pl, pn = limpiar(pat), norm(pat)
+        if (pl and pl in g) or (pn and pn in gn):
             return motivo
     return None
 
@@ -517,6 +588,18 @@ def _coherentes(nuevos, previos):
 
 
 def guardar_ficha(valores):
+    # Con perfil de clase activo, la ficha va a SU fichero: si no, al cambiar de
+    # personaje las estadisticas de uno contaminarian el calculo del otro.
+    if CLASE:
+        d = perfil_clase(CLASE) or {}
+        valores = _coherentes(valores, d.get("grupos") or {})
+        d.setdefault("grupos", {}).update(valores)
+        d.pop("_nombre", None)
+        (CLASES / f"{CLASE}.json").write_text(
+            json.dumps(d, ensure_ascii=False, indent=2), encoding="utf-8")
+        GRUPOS.update({k: v for k, v in valores.items() if norm(k) not in NO_GRUPO})
+        GRUPOS.update(COMBATE)
+        return len(valores)
     actual = {}
     if PERFIL_STATS.exists():
         try:
