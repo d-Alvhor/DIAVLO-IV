@@ -260,14 +260,27 @@ def autotest():
     # salga. Con los nueve unicos legado de la S15 sin llegar todavia, "Piedra
     # de Jordan" casaba con "Piedra de dolmen" (ratio 0,75, mas alto que un
     # acierto real) y el tracker habria valorado otro objeto.
-    print("\n  falsos positivos (objetos que NO estan en el catalogo):")
+    # Nombres INVENTADOS que comparten las palabras comunes con objetos reales
+    # ("Piedra de…", "Corona de…") pero no la que los identifica. No pueden
+    # casar con nada. Antes esta prueba usaba los unicos legado de la S15
+    # cuando aun no habian llegado al catalogo; ahora ya estan, asi que se
+    # comprueban aparte: los reales tienen que casar, los inventados no.
+    print("\n  falsos positivos (nombres inventados):")
     ok3 = 0
-    for n in ("Piedra de Jordan", "Corona de Leoric", "Segador de Messerschmidt",
+    for n in ("Piedra de Glorbax", "Corona de Pepito", "Segador de Nadie",
               "Anillo de la Gran Majestuosidad"):
         r = c.unico(n)
         ok3 += r is None
         print(f"  {'ok ' if r is None else 'MAL'}  {n:<34} -> {r}")
     print(f"\n  rechazados: {ok3}/4")
+
+    print("\n  unicos legado de la S15 (tienen que casar):")
+    for leido, esperado in (("Piedra de Jordan", "Piedra de Jordán"),
+                            ("Corona de Leoric", "Corona de Leoric"),
+                            ("ELEGIA", "Elegía"),
+                            ("EL IDOLO OCTUPLE", "El ídolo óctuple")):
+        r = c.unico(leido)
+        print(f"  {'ok ' if r == esperado else 'MAL'}  {leido:<34} -> {r}")
 
     v = c.version()
     if v:
